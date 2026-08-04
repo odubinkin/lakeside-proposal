@@ -1,10 +1,12 @@
 ---
 id: "202608040747-J8PYN7"
 title: "Incremental UI polish batch"
-status: "DOING"
+result_summary: "Completed and verified proposal studio UI polish batch"
+risk_level: "low"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 24
+revision: 28
 origin:
   system: "manual"
 depends_on: []
@@ -19,9 +21,9 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T09:07:45.043Z"
+  updated_at: "2026-08-04T09:08:23.809Z"
   updated_by: "CODER"
-  note: "verified-202608040747-J8PYN7"
+  note: "Repository-wide lint, TypeScript, diff integrity, workflow health, quality review, and user smoke testing passed."
   attempts: 0
 quality_review:
   state: "pass"
@@ -42,11 +44,19 @@ quality_review:
     - "user-confirmed smoke test"
   findings:
     - "All user-requested UI increments are represented in the reviewed implementation commit, including the updated villa image and transient-artifact ignore rules."
-commit: null
+commit:
+  hash: "d1823e38e0b0e19a7767f505d0644a219cddd206"
+  message: "🚧 J8PYN7 task: record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608040747-J8PYN7. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    author: "CODER"
+    body: "Verified: completed all requested proposal studio UI refinements, included the updated villa image, and added transient Playwright and macOS artifact ignore rules."
 events:
   -
     type: "status"
@@ -67,8 +77,34 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608040747-J8PYN7"
+  -
+    type: "verify"
+    at: "2026-08-04T09:08:08.980Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608040747-J8PYN7"
+  -
+    type: "status"
+    at: "2026-08-04T09:08:09.193Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608040747-J8PYN7. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    type: "verify"
+    at: "2026-08-04T09:08:23.809Z"
+    author: "CODER"
+    state: "ok"
+    note: "Repository-wide lint, TypeScript, diff integrity, workflow health, quality review, and user smoke testing passed."
+  -
+    type: "status"
+    at: "2026-08-04T09:08:56.681Z"
+    author: "CODER"
+    from: "DONE"
+    to: "DONE"
+    note: "Verified: completed all requested proposal studio UI refinements, included the updated villa image, and added transient Playwright and macOS artifact ignore rules."
 doc_version: 3
-doc_updated_at: "2026-08-04T09:07:45.129Z"
+doc_updated_at: "2026-08-04T09:08:56.683Z"
 doc_updated_by: "CODER"
 description: "Umbrella task for the sequence of small UI changes requested by the user. Keep the task open until the user explicitly asks to close it."
 sections:
@@ -189,6 +225,66 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-04T09:08:08.980Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608040747-J8PYN7
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:07:45.129Z, excerpt_hash=sha256:5d26845f814ce6fb71168fb2fc8d31250b5092769112433654855b8ea6d4f564
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json
+    - old_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+    - current_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608040747-J8PYN7
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608040747-J8PYN7 --result verified-202608040747-J8PYN7 --commit d1823e38e0b0e19a7767f505d0644a219cddd206
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-04T09:08:23.809Z — VERIFY — ok
+
+    By: CODER
+
+    Note: Repository-wide lint, TypeScript, diff integrity, workflow health, quality review, and user smoke testing passed.
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:08:09.193Z, excerpt_hash=sha256:5d26845f814ce6fb71168fb2fc8d31250b5092769112433654855b8ea6d4f564
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json
+    - old_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+    - current_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608040747-J8PYN7
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane commit 202608040747-J8PYN7 --close --unstage-others
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert only the commits or hunks associated with this UI batch.
@@ -215,6 +311,10 @@ sections:
     - Included the user-specified updated villa image public/villas/villa-lagoon.png.
 
     Residual issues: none reported. The recurring missing favicon development-console request and Next image LCP advice are pre-existing and outside this UI batch.
+extensions:
+  implementation_commit:
+    hash: "3bfad9d75cb47ca4493b435cb92ac00d8fdf04bd"
+    message: "🚧 J8PYN7 task: polish proposal studio UI"
 id_source: "generated"
 ---
 ## Summary
@@ -337,6 +437,66 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608040747-J8PYN7 --result verified-202608040747-J8PYN7 --commit 3bfad9d75cb47ca4493b435cb92ac00d8fdf04bd
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T09:08:08.980Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608040747-J8PYN7
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:07:45.129Z, excerpt_hash=sha256:5d26845f814ce6fb71168fb2fc8d31250b5092769112433654855b8ea6d4f564
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json
+- old_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+- current_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608040747-J8PYN7
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608040747-J8PYN7 --result verified-202608040747-J8PYN7 --commit d1823e38e0b0e19a7767f505d0644a219cddd206
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T09:08:23.809Z — VERIFY — ok
+
+By: CODER
+
+Note: Repository-wide lint, TypeScript, diff integrity, workflow health, quality review, and user smoke testing passed.
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:08:09.193Z, excerpt_hash=sha256:5d26845f814ce6fb71168fb2fc8d31250b5092769112433654855b8ea6d4f564
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json
+- old_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+- current_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608040747-J8PYN7
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane commit 202608040747-J8PYN7 --close --unstage-others
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
