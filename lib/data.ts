@@ -1,3 +1,5 @@
+import villaCatalog from '@/data/villas.json'
+
 export type Villa = {
   id: string
   name: string
@@ -30,80 +32,7 @@ export type Proposal = {
   createdAt: string
 }
 
-export const villas: Villa[] = [
-  {
-    id: 'lagoon-6',
-    name: 'Lagoon Residence 6',
-    description:
-      'A serene four-bedroom sanctuary wrapped in floor-to-ceiling glass, opening onto a mirror-still infinity pool and mature palm gardens.',
-    price: 42500000,
-    area: 520,
-    bedrooms: 4,
-    bathrooms: 5,
-    location: 'Bang Tao, Phuket',
-    image: '/villas/villa-lagoon.png',
-  },
-  {
-    id: 'canopy-hill',
-    name: 'Canopy Hill Villa',
-    description:
-      'Perched on the hillside with a cantilevered terrace, this residence frames uninterrupted Andaman Sea views from every room.',
-    price: 58900000,
-    area: 610,
-    bedrooms: 5,
-    bathrooms: 6,
-    location: 'Kamala, Phuket',
-    image: '/villas/villa-canopy.png',
-  },
-  {
-    id: 'palm-shore',
-    name: 'Palm Shore Pavilion',
-    description:
-      'A beachfront pavilion where open-plan living dissolves into a turquoise horizon, complete with a private sea-facing pool.',
-    price: 74200000,
-    area: 680,
-    bedrooms: 5,
-    bathrooms: 6,
-    location: 'Layan Beach, Phuket',
-    image: '/villas/villa-palm.png',
-  },
-  {
-    id: 'orchid-court',
-    name: 'Orchid Courtyard',
-    description:
-      'A tranquil courtyard home built around a reflecting pool and lush tropical garden, blending minimalist stone with warm light.',
-    price: 36800000,
-    area: 445,
-    bedrooms: 3,
-    bathrooms: 4,
-    location: 'Cherng Talay, Phuket',
-    image: '/villas/villa-orchid.png',
-  },
-  {
-    id: 'horizon-cliff',
-    name: 'Horizon Cliff Estate',
-    description:
-      'A dramatic clifftop estate with a panoramic infinity pool that appears to spill straight into the sea below.',
-    price: 89500000,
-    area: 740,
-    bedrooms: 6,
-    bathrooms: 7,
-    location: 'Kata Noi, Phuket',
-    image: '/villas/villa-horizon.png',
-  },
-  {
-    id: 'teak-canopy',
-    name: 'Teak Rainforest Villa',
-    description:
-      'Nestled within private rainforest, this warm teak-clad retreat offers a plunge pool and complete seclusion in the canopy.',
-    price: 31200000,
-    area: 380,
-    bedrooms: 3,
-    bathrooms: 3,
-    location: 'Rawai, Phuket',
-    image: '/villas/villa-teak.png',
-  },
-]
+export const villas: Villa[] = villaCatalog
 
 export const addOns: AddOn[] = [
   {
