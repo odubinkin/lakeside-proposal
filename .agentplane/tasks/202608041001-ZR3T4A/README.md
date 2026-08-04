@@ -1,10 +1,11 @@
 ---
 id: "202608041001-ZR3T4A"
 title: "Show add-on pricing mode in proposal editor"
-status: "DOING"
+result_summary: "Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged."
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 8
+revision: 10
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T10:04:59.849Z"
+  updated_at: "2026-08-04T10:05:27.843Z"
   updated_by: "CODER"
   note: "Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged."
   attempts: 0
@@ -39,11 +40,16 @@ quality_review:
     - "npm run lint; npm run build; node .agentplane/policy/check-routing.mjs; ap doctor; git diff --check"
   findings:
     - "components/proposal-form.tsx appends fixed or percentage mode labels; components/proposal-view.tsx is unchanged."
-commit: null
+commit:
+  hash: "28b51d34a21b4faf52c0b276c7a74312444c5021"
+  message: "✅ ZR3T4A task: Record pricing mode verification"
 comments:
   -
     author: "CODER"
     body: "Start: implement approved add-on pricing mode labels in the proposal editor."
+  -
+    author: "CODER"
+    body: "Verified: Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged."
 events:
   -
     type: "status"
@@ -70,8 +76,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged."
+  -
+    type: "verify"
+    at: "2026-08-04T10:05:27.843Z"
+    author: "CODER"
+    state: "ok"
+    note: "Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged."
+  -
+    type: "status"
+    at: "2026-08-04T10:05:57.685Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged."
 doc_version: 3
-doc_updated_at: "2026-08-04T10:04:59.932Z"
+doc_updated_at: "2026-08-04T10:05:57.686Z"
 doc_updated_by: "CODER"
 description: |-
   Summary
@@ -220,11 +239,45 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-04T10:05:27.843Z — VERIFY — ok
+
+    By: CODER
+
+    Note: Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged.
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T10:04:59.932Z, excerpt_hash=sha256:4067e6c0d2671944bbb825f93b0ba7363aab826f8b2f3d8fbcbd2a2e4f1204c6
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041001-ZR3T4A/blueprint/resolved-snapshot.json
+    - old_digest: 81ae321e4d04cd1fe4b7b185d83aa27517a668c1b4ff7dae8e5d40699361599d
+    - current_digest: 81ae321e4d04cd1fe4b7b185d83aa27517a668c1b4ff7dae8e5d40699361599d
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608041001-ZR3T4A
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608041001-ZR3T4A --result verified-202608041001-ZR3T4A --commit 28b51d34a21b4faf52c0b276c7a74312444c5021
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert task-related commit(s).
     - Re-run required checks to confirm rollback safety.
   Findings: ""
+extensions:
+  implementation_commit:
+    hash: "3f041a0c59b8c39a8395b8d382c490413775484b"
+    message: "✅ ZR3T4A task: Show add-on pricing mode in proposal editor"
 id_source: "generated"
 ---
 ## Summary
@@ -355,6 +408,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608041001-ZR3T4A --result verified-202608041001-ZR3T4A --commit 3f041a0c59b8c39a8395b8d382c490413775484b
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T10:05:27.843Z — VERIFY — ok
+
+By: CODER
+
+Note: Add-on prices in the proposal editor now show (fixed) or (XX%), while the proposal view remains unchanged.
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T10:04:59.932Z, excerpt_hash=sha256:4067e6c0d2671944bbb825f93b0ba7363aab826f8b2f3d8fbcbd2a2e4f1204c6
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041001-ZR3T4A/blueprint/resolved-snapshot.json
+- old_digest: 81ae321e4d04cd1fe4b7b185d83aa27517a668c1b4ff7dae8e5d40699361599d
+- current_digest: 81ae321e4d04cd1fe4b7b185d83aa27517a668c1b4ff7dae8e5d40699361599d
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608041001-ZR3T4A
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608041001-ZR3T4A --result verified-202608041001-ZR3T4A --commit 28b51d34a21b4faf52c0b276c7a74312444c5021
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
