@@ -4,7 +4,7 @@ title: "Use a dedicated proposal edit URL"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 12
+revision: 14
 origin:
   system: "manual"
 depends_on: []
@@ -19,10 +19,28 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T09:19:01.741Z"
+  updated_at: "2026-08-04T09:20:41.634Z"
   updated_by: "CODER"
-  note: "URL checks, pnpm lint, and pnpm build pass; build output includes /proposals/edit and /proposals/new."
+  note: "verified-202608040917-D149KT"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-04T09:20:24.057Z"
+  updated_by: "EVALUATOR"
+  note: "Dedicated edit route is implemented and all declared checks pass."
+  evaluated_sha: "e73be96a9b11816dac411bc5047b83eeb833683e"
+  blueprint_digest: "1e0f5c932fe4ab9afec1c836e4c5202cfb91c95b9110410d20199797a3eb26b5"
+  evidence_refs:
+    - ".agentplane/tasks/202608040917-D149KT/README.md"
+    - ".agentplane/tasks/202608040917-D149KT/quality/20260804-092024057-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608040917-D149KT/quality/20260804-092024057-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608040917-D149KT/quality/20260804-092024057-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608040917-D149KT/blueprint/resolved-snapshot.json"
+    - "pnpm lint"
+    - "pnpm build"
+    - "node .agentplane/policy/check-routing.mjs"
+  findings:
+    - "Old edit URL references were removed; the new route parses proposal IDs and is present in the production route manifest."
 commit: null
 comments:
   -
@@ -42,8 +60,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "URL checks, pnpm lint, and pnpm build pass; build output includes /proposals/edit and /proposals/new."
+  -
+    type: "verify"
+    at: "2026-08-04T09:20:41.634Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608040917-D149KT"
 doc_version: 3
-doc_updated_at: "2026-08-04T09:19:01.818Z"
+doc_updated_at: "2026-08-04T09:20:41.712Z"
 doc_updated_by: "CODER"
 description: "Move proposal editing from /proposals/new?edit=<id> to /proposals/edit?proposal=<id> while preserving the existing new-proposal route."
 sections:
@@ -78,6 +102,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608040917-D149KT
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-04T09:20:41.634Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608040917-D149KT
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:19:01.818Z, excerpt_hash=sha256:b433c5414684824151c38bea9f66f8ffcaca883c32c799950734270b3142756b
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040917-D149KT/blueprint/resolved-snapshot.json
+    - old_digest: 1e0f5c932fe4ab9afec1c836e4c5202cfb91c95b9110410d20199797a3eb26b5
+    - current_digest: 1e0f5c932fe4ab9afec1c836e4c5202cfb91c95b9110410d20199797a3eb26b5
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608040917-D149KT
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608040917-D149KT --result verified-202608040917-D149KT --commit e73be96a9b11816dac411bc5047b83eeb833683e
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -134,6 +188,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608040917-D149KT
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T09:20:41.634Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608040917-D149KT
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:19:01.818Z, excerpt_hash=sha256:b433c5414684824151c38bea9f66f8ffcaca883c32c799950734270b3142756b
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040917-D149KT/blueprint/resolved-snapshot.json
+- old_digest: 1e0f5c932fe4ab9afec1c836e4c5202cfb91c95b9110410d20199797a3eb26b5
+- current_digest: 1e0f5c932fe4ab9afec1c836e4c5202cfb91c95b9110410d20199797a3eb26b5
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608040917-D149KT
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608040917-D149KT --result verified-202608040917-D149KT --commit e73be96a9b11816dac411bc5047b83eeb833683e
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040917-D149KT",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T09:20:24.057Z",
+  "verdict": "pass",
+  "summary": "Dedicated edit route is implemented and all declared checks pass.",
+  "evaluated_sha": "e73be96a9b11816dac411bc5047b83eeb833683e",
+  "blueprint_digest": "1e0f5c932fe4ab9afec1c836e4c5202cfb91c95b9110410d20199797a3eb26b5",
+  "findings": [
+    "Old edit URL references were removed; the new route parses proposal IDs and is present in the production route manifest."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040917-D149KT/README.md",
+    "pnpm lint",
+    "pnpm build",
+    "node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
