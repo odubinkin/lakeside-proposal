@@ -26,6 +26,7 @@ export function ProposalTextSection({
       </div>
       <Textarea
         id="proposalText"
+        aria-label="Proposal text"
         value={value}
         required
         aria-invalid={Boolean(error)}

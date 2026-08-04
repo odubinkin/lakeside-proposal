@@ -29,4 +29,7 @@ next-env.d.ts
 tsconfig.tsbuildinfo
 .playwright/
 .playwright-cli/
+coverage/
+playwright-report/
+test-results/
 .DS_Store

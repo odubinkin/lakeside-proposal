@@ -30,7 +30,11 @@ export function TopNav() {
           className="flex h-full shrink-0 items-center"
           aria-label="Redwood Lakeside home"
         >
-          <BrandLogo size={64} wordmarkClassName="text-xl" />
+          <BrandLogo
+            size={64}
+            className="gap-0 [&>span]:hidden sm:gap-2.5 sm:[&>span]:flex"
+            wordmarkClassName="text-xl"
+          />
         </Link>
 
         <nav className="flex items-center gap-1" aria-label="Main navigation">
