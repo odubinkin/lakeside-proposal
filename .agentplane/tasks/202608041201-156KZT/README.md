@@ -1,10 +1,11 @@
 ---
 id: "202608041201-156KZT"
 title: "Allow Android LAN origin for Next.js dev resources"
-status: "DOING"
+result_summary: "verified-202608041201-156KZT"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 8
+revision: 10
 origin:
   system: "manual"
 depends_on: []
@@ -20,7 +21,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T12:04:13.960Z"
+  updated_at: "2026-08-04T12:04:33.916Z"
   updated_by: "CODER"
   note: "verified-202608041201-156KZT"
   attempts: 0
@@ -40,11 +41,16 @@ quality_review:
     - "next.config.mjs; npm run lint; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs"
   findings:
     - "next.config.mjs allows the reported Android LAN origin; lint, build, diff, doctor, and routing checks pass."
-commit: null
+commit:
+  hash: "5c7b64d9ad1b65b2fb599e86688a8a6cfa3d7691"
+  message: "✅ 156KZT task: record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: add the reported Android LAN origin to Next.js allowedDevOrigins in next.config.mjs; preserve unrelated working-tree changes and run the approved verification checks."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608041201-156KZT. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -71,8 +77,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608041201-156KZT"
+  -
+    type: "verify"
+    at: "2026-08-04T12:04:33.916Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608041201-156KZT"
+  -
+    type: "status"
+    at: "2026-08-04T12:04:34.108Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608041201-156KZT. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-04T12:04:14.043Z"
+doc_updated_at: "2026-08-04T12:04:34.109Z"
 doc_updated_by: "CODER"
 description: "Fix infinite loading on the Android /proposals route when the dev server is accessed from 192.168.1.100 by allowing that LAN origin in Next.js development configuration. Preserve unrelated working-tree changes."
 sections:
@@ -182,6 +201,36 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-04T12:04:33.916Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608041201-156KZT
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T12:04:14.043Z, excerpt_hash=sha256:4067e6c0d2671944bbb825f93b0ba7363aab826f8b2f3d8fbcbd2a2e4f1204c6
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041201-156KZT/blueprint/resolved-snapshot.json
+    - old_digest: 6ed9cc2f678ea8d604c135d51d02263fab75ab3fd0acabc8340fc31293473257
+    - current_digest: 6ed9cc2f678ea8d604c135d51d02263fab75ab3fd0acabc8340fc31293473257
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608041201-156KZT
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608041201-156KZT --result verified-202608041201-156KZT --commit 5c7b64d9ad1b65b2fb599e86688a8a6cfa3d7691
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert task-related commit(s).
@@ -190,6 +239,10 @@ sections:
     - Observation: Command: npm run lint; Result: pass; Evidence: ESLint exited 0. Scope: repository lint.
       Impact: Command: npm run build; Result: pass; Evidence: Next.js compiled successfully and generated /proposals, /proposals/edit, /proposals/new, and /proposals/view. Scope: production configuration compatibility and route generation.
       Resolution: The reported LAN origin is explicitly allowed in next.config.mjs; restart the development server before retesting from Android.
+extensions:
+  implementation_commit:
+    hash: "65996cafcafdd33e5f39e5214172f319f98e30ba"
+    message: "✅ 156KZT task: allow Android LAN origin for Next.js dev resources"
 id_source: "generated"
 ---
 ## Summary
@@ -301,6 +354,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608041201-156KZT --result verified-202608041201-156KZT --commit 65996cafcafdd33e5f39e5214172f319f98e30ba
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T12:04:33.916Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608041201-156KZT
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T12:04:14.043Z, excerpt_hash=sha256:4067e6c0d2671944bbb825f93b0ba7363aab826f8b2f3d8fbcbd2a2e4f1204c6
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041201-156KZT/blueprint/resolved-snapshot.json
+- old_digest: 6ed9cc2f678ea8d604c135d51d02263fab75ab3fd0acabc8340fc31293473257
+- current_digest: 6ed9cc2f678ea8d604c135d51d02263fab75ab3fd0acabc8340fc31293473257
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608041201-156KZT
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608041201-156KZT --result verified-202608041201-156KZT --commit 5c7b64d9ad1b65b2fb599e86688a8a6cfa3d7691
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
