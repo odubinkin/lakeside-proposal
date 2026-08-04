@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040934-8X0SES",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T09:37:00.097Z",
+  "verdict": "pass",
+  "summary": "Static JSON catalog preserves the typed data API and passes all declared checks.",
+  "evaluated_sha": "5470dc83bfa732668846457423529805d676be63",
+  "blueprint_digest": "5ddafc6fe4ba8661f12bd4dd45a4e7a673be8056ed9cd101734b466904727254",
+  "findings": [
+    "All six villa records moved intact to one JSON source; lib/data.ts now performs a build-time import typed as Villa[]."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040934-8X0SES/README.md",
+    "commit 5470dc8: data/villas.json and lib/data.ts",
+    "npm run lint; npm run build; ./node_modules/.bin/tsc --noEmit; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "JSON shape is validated at TypeScript build time, not by a runtime schema; acceptable for repository-controlled static data."
+  ]
+}
