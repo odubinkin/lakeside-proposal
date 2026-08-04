@@ -273,6 +273,8 @@ function ProposalEditor({
               {addOns.map((addOn) => {
                 const Icon = addOnIcons[addOn.id] ?? Home
                 const active = selected.has(addOn.id)
+                const priceMode =
+                  addOn.price.mode === 'fixed' ? 'fixed' : `${addOn.price.value}%`
                 return (
                   <button
                     key={addOn.id}
@@ -306,7 +308,7 @@ function ProposalEditor({
                         {addOn.description}
                       </span>
                       <span className="mt-1 text-sm font-semibold text-primary">
-                        + {formatTHB(getAddOnPrice(addOn, villa.price))}
+                        + {formatTHB(getAddOnPrice(addOn, villa.price))} ({priceMode})
                       </span>
                     </span>
                   </button>
