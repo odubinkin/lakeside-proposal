@@ -42,7 +42,7 @@ const addOnIcons: Record<string, React.ComponentType<{ className?: string }>> = 
 
 export function ProposalForm() {
   const params = useSearchParams()
-  const editId = params.get('proposal')
+  const editId = params.get('id')
   const editing = editId ? proposals.find((p) => p.id === editId) : undefined
   const villaParam = params.get('villa') ?? editing?.villaId ?? villas[0].id
 
@@ -98,7 +98,7 @@ export function ProposalForm() {
     sp.set('manager', manager)
     if (comment) sp.set('comment', comment)
     if (proposalText) sp.set('proposalText', proposalText)
-    return `/proposal/view?${sp.toString()}`
+    return `/proposals/view?${sp.toString()}`
   }
 
   function handleGenerate(e: React.FormEvent) {
