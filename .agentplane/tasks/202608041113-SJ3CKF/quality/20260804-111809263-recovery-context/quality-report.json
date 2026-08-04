@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041113-SJ3CKF",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T11:18:09.263Z",
+  "verdict": "pass",
+  "summary": "JSDoc coverage is complete and behavior-preserving at commit ede4bf0.",
+  "evaluated_sha": "ede4bf0084878943379c83b1966466f43afbfbc1",
+  "blueprint_digest": "e212e3cb04d7d991520d01f86a29195dac6a72cbacffcd16047e1ab2161a1ac0",
+  "findings": [
+    "All 27 handwritten TypeScript and TSX files have file-purpose documentation, and every declared function or React component has purpose, parameter/prop, and return documentation.",
+    "The implementation diff is additive comments only; generated next-env.d.ts is unchanged, and lint plus production build pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041113-SJ3CKF/README.md",
+    "local TypeScript AST JSDoc audit: audited_files=27, pass",
+    "npm run lint: pass",
+    "npm run build: pass",
+    "git diff --numstat: zero deleted lines across source files"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
