@@ -1,7 +1,19 @@
+/**
+ * @file Defines the shared styled input control used throughout project forms.
+ */
+
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
+/**
+ * Renders a native input with consistent project styling and state treatments.
+ *
+ * @param props - Native input properties.
+ * @param props.className - Additional classes merged with the default input styles.
+ * @param props.type - Native HTML input type forwarded to the rendered control.
+ * @returns The styled input element.
+ */
 function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
   return (
     <input

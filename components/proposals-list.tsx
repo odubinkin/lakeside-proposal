@@ -1,3 +1,7 @@
+/**
+ * @file Provides searchable proposal management, calculated totals, and deletion confirmation.
+ */
+
 'use client'
 
 import * as React from 'react'
@@ -40,6 +44,11 @@ const proposalDateFormatter = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 })
 
+/**
+ * Renders browser-stored proposals with search, view, edit, and delete actions.
+ *
+ * @returns The synchronized proposal list, an empty/loading state, and deletion modal.
+ */
 export function ProposalsList() {
   const snapshot = React.useSyncExternalStore(
     subscribeProposals,
@@ -69,6 +78,11 @@ export function ProposalsList() {
     })
   }, [items, query])
 
+  /**
+   * Permanently removes the proposal currently selected in the confirmation modal.
+   *
+   * @returns Nothing.
+   */
   function confirmDelete() {
     if (!pendingDelete) return
     deleteProposal(pendingDelete.id)

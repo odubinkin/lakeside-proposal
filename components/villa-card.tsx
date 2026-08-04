@@ -1,9 +1,20 @@
+/**
+ * @file Presents one villa's imagery, specifications, price, and proposal action.
+ */
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { BedDouble, Bath, Maximize, MapPin, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatTHB, type Villa } from '@/lib/data'
 
+/**
+ * Renders a catalog card for a villa and links to a preselected proposal form.
+ *
+ * @param props - Villa card properties.
+ * @param props.villa - Villa record whose image, details, and price are displayed.
+ * @returns A responsive villa summary card.
+ */
 export function VillaCard({ villa }: { villa: Villa }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">

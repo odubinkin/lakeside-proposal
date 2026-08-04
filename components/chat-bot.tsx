@@ -1,3 +1,7 @@
+/**
+ * @file Implements the mock sales assistant dialog with predefined replies and form autofill integration.
+ */
+
 'use client'
 
 import * as React from 'react'
@@ -18,6 +22,16 @@ const suggestions = [
 
 let idCounter = 100
 
+/**
+ * Renders the Willow assistant launcher and conversational modal.
+ *
+ * The assistant uses local keyword matching and timed predefined responses; it does not
+ * call an external AI service.
+ *
+ * @param props - Assistant integration properties.
+ * @param props.onAutofill - Callback that fills the parent proposal form with demo data.
+ * @returns The floating assistant trigger and its modal conversation interface.
+ */
 export function ChatBot({ onAutofill }: { onAutofill: () => void }) {
   const [open, setOpen] = React.useState(false)
   const [input, setInput] = React.useState('')
@@ -35,6 +49,12 @@ export function ChatBot({ onAutofill }: { onAutofill: () => void }) {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, open])
 
+  /**
+   * Appends a text response from the mock assistant to the conversation.
+   *
+   * @param text - Reply text to display as a bot message.
+   * @returns Nothing.
+   */
   function pushBotReply(text: string) {
     setMessages((prev) => [
       ...prev,
@@ -42,6 +62,12 @@ export function ChatBot({ onAutofill }: { onAutofill: () => void }) {
     ])
   }
 
+  /**
+   * Submits a typed or suggested prompt and schedules the matching predefined response.
+   *
+   * @param raw - Optional suggestion text; when omitted, the current input value is used.
+   * @returns Nothing.
+   */
   function handleSend(raw?: string) {
     const value = (raw ?? input).trim()
     if (!value) return
@@ -231,6 +257,13 @@ export function ChatBot({ onAutofill }: { onAutofill: () => void }) {
   )
 }
 
+/**
+ * Displays progress or completion feedback while the assistant fills the proposal form.
+ *
+ * @param props - Status presentation properties.
+ * @param props.status - Current mock autofill phase.
+ * @returns A bot-styled status message.
+ */
 function StatusBubble({ status }: { status: 'filling' | 'done' }) {
   return (
     <div className="flex justify-start gap-2.5">

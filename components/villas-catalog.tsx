@@ -1,3 +1,7 @@
+/**
+ * @file Provides the client-side searchable catalog of locally configured villas.
+ */
+
 'use client'
 
 import * as React from 'react'
@@ -5,6 +9,11 @@ import { Search, X } from 'lucide-react'
 import { VillaCard } from '@/components/villa-card'
 import { villas } from '@/lib/data'
 
+/**
+ * Renders villa search controls, result counts, empty state, and matching villa cards.
+ *
+ * @returns The interactive villa catalog.
+ */
 export function VillasCatalog() {
   const [query, setQuery] = React.useState('')
 

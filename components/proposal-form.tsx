@@ -1,3 +1,7 @@
+/**
+ * @file Implements proposal creation and editing, validation, pricing, persistence, and generation actions.
+ */
+
 'use client'
 
 import * as React from 'react'
@@ -72,6 +76,18 @@ const errorFieldsInPageOrder: Array<
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const phonePattern = /^\+?[0-9()\s.-]+$/
 
+/**
+ * Validates the required villa, client, manager, contact, and proposal-copy fields.
+ *
+ * @param input - Current values from the proposal editor.
+ * @param input.villaId - Identifier of the selected villa.
+ * @param input.clientName - Client name entered by the manager.
+ * @param input.phone - Optional phone number; required when email is absent.
+ * @param input.email - Optional email address; required when phone is absent.
+ * @param input.manager - Name of the sales manager preparing the proposal.
+ * @param input.proposalText - Introductory copy displayed in the final proposal.
+ * @returns A field-to-message map containing only validation failures.
+ */
 function validateProposalForm({
   villaId,
   clientName,
@@ -115,6 +131,14 @@ function validateProposalForm({
   return errors
 }
 
+/**
+ * Renders an accessible inline validation error when message content is present.
+ *
+ * @param props - Error presentation properties.
+ * @param props.id - DOM identifier referenced by the related field's `aria-describedby`.
+ * @param props.children - Validation message; an empty value suppresses the element.
+ * @returns The error paragraph, or `null` when there is no error.
+ */
 function FieldError({ id, children }: { id: string; children?: string }) {
   if (!children) return null
 
@@ -125,6 +149,12 @@ function FieldError({ id, children }: { id: string; children?: string }) {
   )
 }
 
+/**
+ * Scrolls the first invalid proposal field into view when it is outside the viewport.
+ *
+ * @param errors - Current validation messages keyed by form field.
+ * @returns Nothing.
+ */
 function scrollToFirstInvalidField(errors: ProposalFormErrors) {
   const firstInvalidField = errorFieldsInPageOrder.find(
     ([fieldName]) => errors[fieldName],
@@ -142,6 +172,11 @@ function scrollToFirstInvalidField(errors: ProposalFormErrors) {
   }
 }
 
+/**
+ * Resolves URL parameters and browser storage before mounting the proposal editor.
+ *
+ * @returns A loading state, a missing-proposal message, or the initialized proposal editor.
+ */
 export function ProposalForm() {
   const params = useSearchParams()
   const editId = params.get('id')
@@ -183,6 +218,15 @@ export function ProposalForm() {
   )
 }
 
+/**
+ * Renders and manages the complete proposal editor for create and edit workflows.
+ *
+ * @param props - Editor initialization properties.
+ * @param props.editId - Proposal identifier from the URL, or `null` for a new proposal.
+ * @param props.editing - Existing proposal data resolved from browser storage.
+ * @param props.villaParam - Villa identifier requested by the URL or catalog default.
+ * @returns The interactive villa, add-on, proposal-copy, client, and pricing form.
+ */
 function ProposalEditor({
   editId,
   editing,
@@ -224,6 +268,12 @@ function ProposalEditor({
     }
   }, [])
 
+  /**
+   * Adds or removes an add-on identifier from the current selection.
+   *
+   * @param id - Add-on identifier to toggle.
+   * @returns Nothing.
+   */
   function toggleAddOn(id: string) {
     setSelected((prev) => {
       const next = new Set(prev)
@@ -240,6 +290,11 @@ function ProposalEditor({
   )
   const total = villa.price + addOnsTotal
 
+  /**
+   * Populates the editor with the predefined demo client, copy, and add-on package.
+   *
+   * @returns Nothing.
+   */
   function handleAutofill() {
     setClientName('Oliver Bennett')
     setPhone('+44 7911 123456')
@@ -255,6 +310,11 @@ function ProposalEditor({
     setErrors({})
   }
 
+  /**
+   * Validates and persists the current proposal while preventing concurrent saves.
+   *
+   * @returns The saved proposal on success, otherwise `undefined`.
+   */
   function persistProposal() {
     if (isSavingRef.current) return
 
@@ -308,6 +368,12 @@ function ProposalEditor({
     }
   }
 
+  /**
+   * Saves the proposal and opens its print-friendly view in a new browser tab.
+   *
+   * @param e - Form submission event to prevent from navigating normally.
+   * @returns Nothing.
+   */
   function handleGenerate(e: React.FormEvent) {
     e.preventDefault()
     const saved = persistProposal()
@@ -320,6 +386,11 @@ function ProposalEditor({
     )
   }
 
+  /**
+   * Saves the proposal in place and temporarily displays save confirmation.
+   *
+   * @returns Nothing.
+   */
   function handleSave() {
     const saved = persistProposal()
     if (!saved) return

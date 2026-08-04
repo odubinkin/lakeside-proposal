@@ -1,3 +1,7 @@
+/**
+ * @file Provides an accessible loading indicator for proposal routes and embedded sections.
+ */
+
 import { Loader2 } from 'lucide-react'
 
 type ProposalLoadingProps = {
@@ -5,6 +9,14 @@ type ProposalLoadingProps = {
   variant?: 'page' | 'section'
 }
 
+/**
+ * Renders an animated, screen-reader-announced proposal loading state.
+ *
+ * @param props - Loading indicator options.
+ * @param props.label - Accessible status text announced by assistive technology.
+ * @param props.variant - Whether the indicator fills a page or an embedded section.
+ * @returns The accessible proposal loading indicator.
+ */
 export function ProposalLoading({
   label = 'Loading proposal',
   variant = 'page',

@@ -1,3 +1,7 @@
+/**
+ * @file Renders a saved proposal as a polished, print-friendly commercial document.
+ */
+
 'use client'
 
 import * as React from 'react'
@@ -22,6 +26,11 @@ import {
   subscribeProposals,
 } from '@/lib/proposal-storage'
 
+/**
+ * Resolves a proposal from the URL and browser store, then renders its printable offer.
+ *
+ * @returns A loading or missing state, or the complete commercial proposal document.
+ */
 export function ProposalView() {
   const params = useSearchParams()
   const proposalId = params.get('id')
@@ -243,6 +252,14 @@ export function ProposalView() {
   )
 }
 
+/**
+ * Renders one labelled value in the proposal's client-details definition list.
+ *
+ * @param props - Detail row properties.
+ * @param props.label - Human-readable field label.
+ * @param props.value - Client or manager value displayed for the field.
+ * @returns A definition-list group containing the label and value.
+ */
 function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">

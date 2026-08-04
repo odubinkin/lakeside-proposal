@@ -1,6 +1,17 @@
+/**
+ * @file Defines the shared navigation, content frame, and footer for authenticated-style application routes.
+ */
+
 import type React from 'react'
 import { TopNav } from '@/components/top-nav'
 
+/**
+ * Wraps villa and proposal pages in the common application chrome.
+ *
+ * @param props - Layout properties supplied by the Next.js App Router.
+ * @param props.children - Route content rendered between the navigation and footer.
+ * @returns The shared application layout.
+ */
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-background">

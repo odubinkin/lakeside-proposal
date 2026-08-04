@@ -1,3 +1,7 @@
+/**
+ * @file Provides the persistent application navigation and active-route highlighting.
+ */
+
 'use client'
 
 import Link from 'next/link'
@@ -10,6 +14,11 @@ const links = [
   { href: '/proposals', label: 'Proposals' },
 ]
 
+/**
+ * Renders the branded top navigation and marks the current route as active.
+ *
+ * @returns The application header with villa and proposal navigation links.
+ */
 export function TopNav() {
   const pathname = usePathname()
 

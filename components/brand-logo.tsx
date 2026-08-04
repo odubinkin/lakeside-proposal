@@ -1,6 +1,20 @@
+/**
+ * @file Provides the reusable Redwood Lakeside logo and optional wordmark component.
+ */
+
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
+/**
+ * Renders the brand mark with an optional two-line wordmark.
+ *
+ * @param props - Brand presentation options.
+ * @param props.className - Additional classes for the outer inline container.
+ * @param props.wordmarkClassName - Additional classes for the primary wordmark text.
+ * @param props.showWordmark - Whether to render the text wordmark beside the image.
+ * @param props.size - Width and height of the square logo image in pixels.
+ * @returns The configured Redwood Lakeside brand element.
+ */
 export function BrandLogo({
   className,
   wordmarkClassName,

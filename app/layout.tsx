@@ -1,3 +1,7 @@
+/**
+ * @file Configures global metadata, fonts, styling, and analytics for the Next.js application.
+ */
+
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Fraunces } from 'next/font/google'
@@ -27,6 +31,13 @@ export const viewport: Viewport = {
   themeColor: '#ffffff',
 }
 
+/**
+ * Renders the root HTML document and applies global font variables and production analytics.
+ *
+ * @param props - Root layout properties supplied by the Next.js App Router.
+ * @param props.children - Application route content rendered inside the document body.
+ * @returns The application's root HTML structure.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

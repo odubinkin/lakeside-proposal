@@ -1,7 +1,18 @@
+/**
+ * @file Defines the shared multiline text control used by proposal forms.
+ */
+
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
+/**
+ * Renders a native textarea with consistent project styling and state treatments.
+ *
+ * @param props - Native textarea properties.
+ * @param props.className - Additional classes merged with the textarea defaults.
+ * @returns The styled textarea element.
+ */
 function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
   return (
     <textarea

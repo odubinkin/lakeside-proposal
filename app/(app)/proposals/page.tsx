@@ -1,8 +1,17 @@
+/**
+ * @file Defines the proposal-management page and its entry point to the villa catalog.
+ */
+
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ProposalsList } from '@/components/proposals-list'
 
+/**
+ * Renders the saved-proposals heading, creation action, and interactive proposal list.
+ *
+ * @returns The proposal-management page.
+ */
 export default function ProposalsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
