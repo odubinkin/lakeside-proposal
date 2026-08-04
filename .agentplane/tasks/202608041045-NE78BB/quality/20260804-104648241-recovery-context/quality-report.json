@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041045-NE78BB",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:46:48.241Z",
+  "verdict": "pass",
+  "summary": "The remaining proposal loading states consistently use the shared accessible loader with appropriate page and embedded-section layouts.",
+  "evaluated_sha": "48c008f2d69c0d851b593617fa08355e70c01f82",
+  "blueprint_digest": "1f5a02ab6ccfa6683dadf472fbbf8ccbdd28565f3d889d6f6760ca4a0f5edfd1",
+  "findings": [
+    "New/edit Suspense fallbacks, proposal form hydration, and proposals list hydration now render ProposalLoading; context labels remain available to assistive technology and data/loading triggers are unchanged."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041045-NE78BB/README.md",
+    "commit 48c008f2d69c0d851b593617fa08355e70c01f82",
+    "pnpm lint; pnpm build; pnpm exec tsc --noEmit; focused rg assertion; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "Transient loading timing was validated structurally rather than with delayed browser fixtures."
+  ]
+}

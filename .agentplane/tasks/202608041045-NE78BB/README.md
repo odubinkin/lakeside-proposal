@@ -1,10 +1,12 @@
 ---
 id: "202608041045-NE78BB"
 title: "Unify remaining proposal loading states"
-status: "DOING"
+result_summary: "Remaining proposal loading states use the shared accessible animation"
+risk_level: "low"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 11
+revision: 13
 origin:
   system: "manual"
 depends_on: []
@@ -26,11 +28,33 @@ verification:
   updated_by: "CODER"
   note: "All remaining proposal loading branches now use the shared accessible animation with page or section layout as appropriate; checks pass."
   attempts: 0
-commit: null
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-04T10:46:48.241Z"
+  updated_by: "EVALUATOR"
+  note: "The remaining proposal loading states consistently use the shared accessible loader with appropriate page and embedded-section layouts."
+  evaluated_sha: "48c008f2d69c0d851b593617fa08355e70c01f82"
+  blueprint_digest: "1f5a02ab6ccfa6683dadf472fbbf8ccbdd28565f3d889d6f6760ca4a0f5edfd1"
+  evidence_refs:
+    - ".agentplane/tasks/202608041045-NE78BB/README.md"
+    - ".agentplane/tasks/202608041045-NE78BB/quality/20260804-104648241-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608041045-NE78BB/quality/20260804-104648241-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608041045-NE78BB/quality/20260804-104648241-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608041045-NE78BB/blueprint/resolved-snapshot.json"
+    - "commit 48c008f2d69c0d851b593617fa08355e70c01f82"
+    - "pnpm lint; pnpm build; pnpm exec tsc --noEmit; focused rg assertion; git diff --check"
+  findings:
+    - "New/edit Suspense fallbacks, proposal form hydration, and proposals list hydration now render ProposalLoading; context labels remain available to assistive technology and data/loading triggers are unchanged."
+commit:
+  hash: "48c008f2d69c0d851b593617fa08355e70c01f82"
+  message: "🚧 NE78BB frontend: unify proposal loading states"
 comments:
   -
     author: "CODER"
     body: "Start: replace the remaining proposal loading text states with the shared accessible loader across the approved five-file scope."
+  -
+    author: "CODER"
+    body: "Verified: all remaining proposal loading text states use the shared accessible animated loader; lint, build, TypeScript, routing, doctor, and evaluator pass."
 events:
   -
     type: "status"
@@ -45,8 +69,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "All remaining proposal loading branches now use the shared accessible animation with page or section layout as appropriate; checks pass."
+  -
+    type: "status"
+    at: "2026-08-04T10:46:54.050Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: all remaining proposal loading text states use the shared accessible animated loader; lint, build, TypeScript, routing, doctor, and evaluator pass."
 doc_version: 3
-doc_updated_at: "2026-08-04T10:46:40.431Z"
+doc_updated_at: "2026-08-04T10:46:54.051Z"
 doc_updated_by: "CODER"
 description: "Replace the remaining visible Loading proposal builder, Loading proposal, and Loading proposals text states with the existing centered accessible animated loader, using context-appropriate screen-reader labels."
 sections:
