@@ -8,6 +8,16 @@ import * as React from 'react'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+const focusableSelector = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[contenteditable="true"]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',')
+
 /**
  * Displays dialog content above a dismissible backdrop and manages Escape-key handling.
  *
@@ -17,6 +27,8 @@ import { cn } from '@/lib/utils'
  * @param props.children - Dialog content rendered inside the modal panel.
  * @param props.className - Additional classes applied to the dialog panel.
  * @param props.labelledBy - ID of the element that provides the dialog's accessible name.
+ * @param props.describedBy - ID of the element that describes the dialog.
+ * @param props.initialFocusRef - Preferred element to focus when the dialog opens.
  * @param props.showClose - Whether to render the top-right close button.
  * @returns The modal dialog when open, otherwise `null`.
  */
@@ -26,6 +38,8 @@ export function Modal({
   children,
   className,
   labelledBy,
+  describedBy,
+  initialFocusRef,
   showClose = true,
 }: {
   open: boolean
@@ -33,27 +47,87 @@ export function Modal({
   children: React.ReactNode
   className?: string
   labelledBy?: string
+  describedBy?: string
+  initialFocusRef?: React.RefObject<HTMLElement | null>
   showClose?: boolean
 }) {
+  const dialogRef = React.useRef<HTMLDivElement>(null)
+  const onCloseRef = React.useRef(onClose)
+
+  React.useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
+
   React.useEffect(() => {
     if (!open) return
+
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const previouslyFocusedElement =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null
+
+    const getFocusableElements = () =>
+      Array.from(dialog.querySelectorAll<HTMLElement>(focusableSelector))
+
+    const focusTarget = initialFocusRef?.current ?? getFocusableElements()[0] ?? dialog
+    focusTarget.focus()
+
     /**
-     * Closes the active modal when the user presses Escape.
+     * Closes the modal with Escape and keeps Tab navigation inside the dialog.
      *
      * @param e - Keyboard event dispatched by the document.
      * @returns Nothing.
      */
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onCloseRef.current()
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const focusableElements = getFocusableElements()
+      if (focusableElements.length === 0) {
+        event.preventDefault()
+        dialog.focus()
+        return
+      }
+
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+      const activeElement = document.activeElement
+
+      if (event.shiftKey) {
+        if (activeElement === firstElement || !dialog.contains(activeElement)) {
+          event.preventDefault()
+          lastElement.focus()
+        }
+        return
+      }
+
+      if (activeElement === lastElement || !dialog.contains(activeElement)) {
+        event.preventDefault()
+        firstElement.focus()
+      }
     }
+
     document.addEventListener('keydown', onKey)
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prev
+
+      if (previouslyFocusedElement?.isConnected) {
+        previouslyFocusedElement.focus()
+      }
     }
-  }, [open, onClose])
+  }, [initialFocusRef, open])
 
   if (!open) return null
 
@@ -65,9 +139,12 @@ export function Modal({
         aria-hidden="true"
       />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
+        tabIndex={-1}
         className={cn(
           'relative z-10 w-full max-w-lg rounded-2xl border border-border bg-card shadow-xl animate-in fade-in zoom-in-95',
           className,

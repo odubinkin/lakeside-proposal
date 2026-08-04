@@ -46,21 +46,33 @@ describe('proposal management and view', () => {
     expect(screen.getByText('Alice Buyer')).toBeInTheDocument()
   })
 
-  it('cancels with Escape and confirms deletion', async () => {
+  it('traps focus, restores the trigger, and supports every deletion outcome', async () => {
     const user = userEvent.setup()
     render(<ProposalsList />)
 
-    await user.click(screen.getByRole('button', { name: 'Delete' }))
-    expect(screen.getByRole('dialog', { name: 'Delete this proposal?' })).toBeInTheDocument()
+    const deleteTrigger = screen.getByRole('button', { name: 'Delete' })
+    await user.click(deleteTrigger)
+    expect(screen.getByRole('dialog', { name: 'Delete proposal?' })).toBeInTheDocument()
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+    const confirmButton = screen.getByRole('button', { name: 'Delete proposal' })
+
+    expect(cancelButton).toHaveFocus()
+    await user.tab({ shift: true })
+    expect(confirmButton).toHaveFocus()
+    await user.tab()
+    expect(cancelButton).toHaveFocus()
+
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(deleteTrigger).toHaveFocus()
 
-    await user.click(screen.getByRole('button', { name: 'Delete' }))
+    await user.click(deleteTrigger)
     await user.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(screen.getByText('Alice Buyer')).toBeInTheDocument()
+    expect(deleteTrigger).toHaveFocus()
 
-    await user.click(screen.getByRole('button', { name: 'Delete' }))
-    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+    await user.click(deleteTrigger)
+    await user.click(screen.getByRole('button', { name: 'Delete proposal' }))
     expect(screen.getByText('No proposals yet')).toBeInTheDocument()
   })
 

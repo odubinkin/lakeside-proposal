@@ -58,6 +58,7 @@ export function ProposalsList() {
   const items = React.useMemo(() => parseProposals(snapshot), [snapshot])
   const [query, setQuery] = React.useState('')
   const [pendingDelete, setPendingDelete] = React.useState<Proposal | null>(null)
+  const cancelDeleteButtonRef = React.useRef<HTMLButtonElement>(null)
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -269,41 +270,74 @@ export function ProposalsList() {
       <Modal
         open={pendingDelete !== null}
         onClose={() => setPendingDelete(null)}
-        className="max-w-md"
+        className="max-w-[460px] overflow-hidden"
         labelledBy="delete-title"
+        describedBy="delete-description"
+        initialFocusRef={cancelDeleteButtonRef}
         showClose={false}
       >
-        <div className="p-6">
-          <div className="flex items-start gap-4">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-destructive">
-              <TriangleAlert className="size-5" />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <h2 id="delete-title" className="text-lg font-semibold text-foreground">
-                Delete this proposal?
-              </h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {pendingDelete
-                  ? `Proposal ${pendingDelete.id} for ${pendingDelete.clientName} will be permanently removed. This action cannot be undone.`
-                  : ''}
-              </p>
+        <div>
+          <div className="border-b border-border bg-gradient-to-br from-destructive/[0.08] via-card to-card px-6 py-5 sm:px-7 sm:py-6">
+            <div className="flex items-start gap-4">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-destructive/20 bg-destructive/10 text-destructive shadow-sm">
+                <Trash2 className="size-5" />
+              </div>
+              <div className="flex min-w-0 flex-col gap-1.5">
+                <h2
+                  id="delete-title"
+                  className="font-serif text-xl font-semibold tracking-tight text-foreground"
+                >
+                  Delete proposal?
+                </h2>
+                <p
+                  id="delete-description"
+                  className="text-sm leading-relaxed text-muted-foreground"
+                >
+                  This proposal will be permanently removed from your saved proposals.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="mt-6 flex justify-end gap-3">
+
+          <div className="px-6 py-5 sm:px-7">
+            <div className="rounded-xl border border-border/80 bg-muted/40 px-4 py-3">
+              <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                Proposal
+              </p>
+              <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span className="font-mono text-sm font-semibold text-foreground">
+                  {pendingDelete?.id}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  {pendingDelete ? `for ${pendingDelete.clientName}` : ''}
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center gap-2 text-sm font-medium text-destructive">
+              <TriangleAlert className="size-4 shrink-0" />
+              <p>This action cannot be undone.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 border-t border-border bg-muted/20 px-6 py-4 sm:flex-row sm:justify-end sm:px-7">
             <Button
+              ref={cancelDeleteButtonRef}
               variant="outline"
               size="lg"
-              className="h-10 px-4"
+              className="h-10 w-full px-4 sm:w-auto"
               onClick={() => setPendingDelete(null)}
             >
               Cancel
             </Button>
             <Button
               size="lg"
-              className="h-10 bg-destructive px-4 text-white hover:bg-destructive/90"
+              variant="destructive"
+              className="h-10 w-full bg-destructive px-4 text-white shadow-sm hover:bg-destructive/90 sm:w-auto"
               onClick={confirmDelete}
             >
-              Confirm
+              <Trash2 />
+              Delete proposal
             </Button>
           </div>
         </div>
