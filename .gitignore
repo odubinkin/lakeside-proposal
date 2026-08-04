@@ -25,6 +25,7 @@ CLAUDE.md.bak-*
 .agentplane/policy/**/*.bak-*
 node_modules
 .next
+next-env.d.ts
 tsconfig.tsbuildinfo
 .playwright/
 .playwright-cli/
