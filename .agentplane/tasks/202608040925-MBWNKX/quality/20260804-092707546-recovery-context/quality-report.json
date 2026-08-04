@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040925-MBWNKX",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T09:27:07.546Z",
+  "verdict": "pass",
+  "summary": "Proposal routes are consistently grouped under /proposals and use id for record lookup.",
+  "evaluated_sha": "f2073087cef0915dcdeff7eac99a156ff425f5d3",
+  "blueprint_digest": "d9273e9f908fe9e8a868ef46dd114055fd8e460a73d7d0fcdff80dbf4d660046",
+  "findings": [
+    "The standalone view moved to /proposals/view, old route references were removed, edit now uses id, and the production build emitted the expected route set."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040925-MBWNKX/README.md",
+    "pnpm lint",
+    "pnpm build",
+    "node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}

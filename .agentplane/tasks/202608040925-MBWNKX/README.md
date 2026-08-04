@@ -4,7 +4,7 @@ title: "Unify proposal view and edit URLs"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 12
+revision: 13
 origin:
   system: "manual"
 depends_on: []
@@ -23,6 +23,24 @@ verification:
   updated_by: "CODER"
   note: "Route reference checks, pnpm lint, and pnpm build pass; production routes are unified under /proposals and edit uses id."
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-04T09:27:07.546Z"
+  updated_by: "EVALUATOR"
+  note: "Proposal routes are consistently grouped under /proposals and use id for record lookup."
+  evaluated_sha: "f2073087cef0915dcdeff7eac99a156ff425f5d3"
+  blueprint_digest: "d9273e9f908fe9e8a868ef46dd114055fd8e460a73d7d0fcdff80dbf4d660046"
+  evidence_refs:
+    - ".agentplane/tasks/202608040925-MBWNKX/README.md"
+    - ".agentplane/tasks/202608040925-MBWNKX/quality/20260804-092707546-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608040925-MBWNKX/quality/20260804-092707546-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608040925-MBWNKX/quality/20260804-092707546-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608040925-MBWNKX/blueprint/resolved-snapshot.json"
+    - "pnpm lint"
+    - "pnpm build"
+    - "node .agentplane/policy/check-routing.mjs"
+  findings:
+    - "The standalone view moved to /proposals/view, old route references were removed, edit now uses id, and the production build emitted the expected route set."
 commit: null
 comments:
   -
