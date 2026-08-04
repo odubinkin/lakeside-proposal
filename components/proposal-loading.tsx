@@ -1,9 +1,21 @@
 import { Loader2 } from 'lucide-react'
 
-export function ProposalLoading() {
+type ProposalLoadingProps = {
+  label?: string
+  variant?: 'page' | 'section'
+}
+
+export function ProposalLoading({
+  label = 'Loading proposal',
+  variant = 'page',
+}: ProposalLoadingProps) {
   return (
     <div
-      className="flex min-h-screen items-center justify-center bg-muted/40"
+      className={
+        variant === 'section'
+          ? 'flex min-h-80 items-center justify-center rounded-2xl border border-dashed border-border bg-muted/20'
+          : 'flex min-h-screen items-center justify-center bg-muted/40'
+      }
       role="status"
       aria-live="polite"
       aria-busy="true"
@@ -18,7 +30,7 @@ export function ProposalLoading() {
           aria-hidden="true"
         />
       </div>
-      <span className="sr-only">Loading proposal</span>
+      <span className="sr-only">{label}</span>
     </div>
   )
 }

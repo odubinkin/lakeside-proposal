@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { ChatBot } from '@/components/chat-bot'
+import { ProposalLoading } from '@/components/proposal-loading'
 import {
   villas,
   addOns,
@@ -154,11 +155,7 @@ export function ProposalForm() {
     : undefined
 
   if (snapshot === PROPOSALS_SERVER_SNAPSHOT) {
-    return (
-      <div className="mx-auto max-w-6xl px-4 py-20 text-sm text-muted-foreground sm:px-6">
-        Loading proposal…
-      </div>
-    )
+    return <ProposalLoading />
   }
 
   if (editId && !editing) {

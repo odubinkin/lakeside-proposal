@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
+import { ProposalLoading } from '@/components/proposal-loading'
 import { getVilla, formatTHB, type Proposal } from '@/lib/data'
 import {
   deleteProposal,
@@ -69,11 +70,7 @@ export function ProposalsList() {
   }
 
   if (snapshot === PROPOSALS_SERVER_SNAPSHOT) {
-    return (
-      <div className="rounded-2xl border border-dashed border-border py-20 text-center text-sm text-muted-foreground">
-        Loading proposals…
-      </div>
-    )
+    return <ProposalLoading label="Loading proposals" variant="section" />
   }
 
   if (items.length === 0) {
