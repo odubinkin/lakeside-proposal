@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041110-10JTV7",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T11:11:34.698Z",
+  "verdict": "pass",
+  "summary": "README is accurate, scoped, and ready to publish.",
+  "evaluated_sha": null,
+  "blueprint_digest": "092e633f6e249a3695dc3a96c1cef10401f350457b4931fb8e8b719799acf108",
+  "findings": [
+    "Documented features, persistence behavior, AI limitation, and npm commands agree with the repository implementation and package metadata."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041110-10JTV7/README.md",
+    "README.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
