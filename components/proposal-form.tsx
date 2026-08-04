@@ -51,7 +51,7 @@ const addOnIcons: Record<string, React.ComponentType<{ className?: string }>> = 
 
 type ProposalFormErrors = Partial<
   Record<
-    'villaId' | 'addOnIds' | 'clientName' | 'phone' | 'email' | 'manager' | 'proposalText',
+    'villaId' | 'clientName' | 'phone' | 'email' | 'manager' | 'proposalText',
     string
   >
 >
@@ -61,7 +61,6 @@ const phonePattern = /^\+?[0-9()\s.-]+$/
 
 function validateProposalForm({
   villaId,
-  addOnIds,
   clientName,
   phone,
   email,
@@ -69,7 +68,6 @@ function validateProposalForm({
   proposalText,
 }: {
   villaId: string
-  addOnIds: string[]
   clientName: string
   phone: string
   email: string
@@ -81,9 +79,6 @@ function validateProposalForm({
   const trimmedEmail = email.trim()
 
   if (!getVilla(villaId)) errors.villaId = 'Select a villa.'
-  if (addOnIds.length === 0) {
-    errors.addOnIds = 'Select at least one additional option.'
-  }
   if (!clientName.trim()) errors.clientName = 'Enter the client name.'
   if (!manager.trim()) errors.manager = 'Enter the manager name.'
   if (!proposalText.trim()) errors.proposalText = 'Enter the proposal text.'
@@ -228,7 +223,6 @@ function ProposalEditor({
     const addOnIds = Array.from(selected)
     const validationErrors = validateProposalForm({
       villaId,
-      addOnIds,
       clientName,
       phone,
       email,
@@ -365,11 +359,8 @@ function ProposalEditor({
                 Select any upgrades to include. The total updates automatically.
               </p>
             </div>
-            <fieldset
-              className="grid grid-cols-1 gap-3 sm:grid-cols-2"
-              aria-describedby={errors.addOnIds ? 'add-ons-error' : undefined}
-            >
-              <legend className="sr-only">Additional options (required)</legend>
+            <fieldset className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <legend className="sr-only">Additional options (optional)</legend>
               {addOns.map((addOn) => {
                 const Icon = addOnIcons[addOn.id] ?? Home
                 const active = selected.has(addOn.id)
@@ -379,10 +370,7 @@ function ProposalEditor({
                   <button
                     key={addOn.id}
                     type="button"
-                    onClick={() => {
-                      toggleAddOn(addOn.id)
-                      setErrors((current) => ({ ...current, addOnIds: undefined }))
-                    }}
+                    onClick={() => toggleAddOn(addOn.id)}
                     aria-pressed={active}
                     className={
                       'flex items-start gap-3 rounded-xl border p-4 text-left transition-all ' +
@@ -418,7 +406,6 @@ function ProposalEditor({
                 )
               })}
             </fieldset>
-            <FieldError id="add-ons-error">{errors.addOnIds}</FieldError>
           </section>
 
           {/* Proposal text */}
