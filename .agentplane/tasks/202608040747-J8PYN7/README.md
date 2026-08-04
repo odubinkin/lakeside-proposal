@@ -4,7 +4,7 @@ title: "Incremental UI polish batch"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 22
+revision: 24
 origin:
   system: "manual"
 depends_on: []
@@ -19,10 +19,29 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T09:06:56.652Z"
+  updated_at: "2026-08-04T09:07:45.043Z"
   updated_by: "CODER"
-  note: "Verified: repository-wide lint, TypeScript, diff integrity, Agentplane health, policy routing, ignore rules, accumulated request audit, and user-confirmed smoke test all passed."
+  note: "verified-202608040747-J8PYN7"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-04T09:07:39.200Z"
+  updated_by: "EVALUATOR"
+  note: "Accumulated UI polish is coherent, verified, and ready to close."
+  evaluated_sha: "3bfad9d75cb47ca4493b435cb92ac00d8fdf04bd"
+  blueprint_digest: "b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88"
+  evidence_refs:
+    - ".agentplane/tasks/202608040747-J8PYN7/README.md"
+    - ".agentplane/tasks/202608040747-J8PYN7/quality/20260804-090739200-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608040747-J8PYN7/quality/20260804-090739200-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608040747-J8PYN7/quality/20260804-090739200-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json"
+    - "implementation commit 3bfad9d75cb4"
+    - "pnpm lint"
+    - "pnpm exec tsc --noEmit"
+    - "user-confirmed smoke test"
+  findings:
+    - "All user-requested UI increments are represented in the reviewed implementation commit, including the updated villa image and transient-artifact ignore rules."
 commit: null
 comments:
   -
@@ -42,8 +61,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "Verified: repository-wide lint, TypeScript, diff integrity, Agentplane health, policy routing, ignore rules, accumulated request audit, and user-confirmed smoke test all passed."
+  -
+    type: "verify"
+    at: "2026-08-04T09:07:45.043Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608040747-J8PYN7"
 doc_version: 3
-doc_updated_at: "2026-08-04T09:06:56.955Z"
+doc_updated_at: "2026-08-04T09:07:45.129Z"
 doc_updated_by: "CODER"
 description: "Umbrella task for the sequence of small UI changes requested by the user. Keep the task open until the user explicitly asks to close it."
 sections:
@@ -127,6 +152,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608040747-J8PYN7
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-04T09:07:45.043Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608040747-J8PYN7
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:06:56.955Z, excerpt_hash=sha256:5d26845f814ce6fb71168fb2fc8d31250b5092769112433654855b8ea6d4f564
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json
+    - old_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+    - current_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608040747-J8PYN7
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608040747-J8PYN7 --result verified-202608040747-J8PYN7 --commit 3bfad9d75cb47ca4493b435cb92ac00d8fdf04bd
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -252,6 +307,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608040747-J8PYN7
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T09:07:45.043Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608040747-J8PYN7
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T09:06:56.955Z, excerpt_hash=sha256:5d26845f814ce6fb71168fb2fc8d31250b5092769112433654855b8ea6d4f564
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608040747-J8PYN7/blueprint/resolved-snapshot.json
+- old_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+- current_digest: b8f731b51d8ec033cc2f1d7ab06ed1ba388580802d474f0792bea8ffd3269f88
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608040747-J8PYN7
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608040747-J8PYN7 --result verified-202608040747-J8PYN7 --commit 3bfad9d75cb47ca4493b435cb92ac00d8fdf04bd
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
