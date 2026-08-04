@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040913-KEH4K7",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T09:16:33.991Z",
+  "verdict": "pass",
+  "summary": "Proposal search implementation matches the approved scope and verification contract.",
+  "evaluated_sha": "c5c1cc3f2463779f1fe3c84cde162d36cf8e0ae8",
+  "blueprint_digest": "215e9ad81327498cb2a3dab28cfa4a2482baf9db4b6a94be0c5438dc1b7056f1",
+  "findings": [
+    "Search covers proposal ID, villa name/location, client, manager, phone, and email; lint and production build pass; no unrelated source files were changed by this task."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040913-KEH4K7/README.md",
+    "components/proposals-list.tsx"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
