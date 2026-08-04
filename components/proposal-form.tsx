@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import {
   Check,
+  Save as SaveIcon,
   MapPin,
   Maximize,
   FileText,
@@ -210,8 +211,18 @@ function ProposalEditor({
   const [errors, setErrors] = React.useState<ProposalFormErrors>({})
   const [saveError, setSaveError] = React.useState('')
   const [isSaving, setIsSaving] = React.useState(false)
+  const [isSaved, setIsSaved] = React.useState(false)
   const savedProposalId = React.useRef(editId)
   const isSavingRef = React.useRef(false)
+  const savedStateTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  React.useEffect(() => {
+    return () => {
+      if (savedStateTimeout.current) {
+        clearTimeout(savedStateTimeout.current)
+      }
+    }
+  }, [])
 
   function toggleAddOn(id: string) {
     setSelected((prev) => {
@@ -244,10 +255,14 @@ function ProposalEditor({
     setErrors({})
   }
 
-  function handleGenerate(e: React.FormEvent) {
-    e.preventDefault()
+  function persistProposal() {
     if (isSavingRef.current) return
 
+    if (savedStateTimeout.current) {
+      clearTimeout(savedStateTimeout.current)
+      savedStateTimeout.current = null
+    }
+    setIsSaved(false)
     setSaveError('')
 
     const addOnIds = Array.from(selected)
@@ -282,12 +297,7 @@ function ProposalEditor({
         savedProposalId.current ?? undefined,
       )
       savedProposalId.current = saved.id
-
-      window.open(
-        `/proposals/view?id=${encodeURIComponent(saved.id)}`,
-        '_blank',
-        'noopener,noreferrer',
-      )
+      return saved
     } catch (error) {
       setSaveError(
         error instanceof Error ? error.message : 'Unable to save proposal.',
@@ -296,6 +306,29 @@ function ProposalEditor({
       isSavingRef.current = false
       setIsSaving(false)
     }
+  }
+
+  function handleGenerate(e: React.FormEvent) {
+    e.preventDefault()
+    const saved = persistProposal()
+    if (!saved) return
+
+    window.open(
+      `/proposals/view?id=${encodeURIComponent(saved.id)}`,
+      '_blank',
+      'noopener,noreferrer',
+    )
+  }
+
+  function handleSave() {
+    const saved = persistProposal()
+    if (!saved) return
+
+    setIsSaved(true)
+    savedStateTimeout.current = setTimeout(() => {
+      setIsSaved(false)
+      savedStateTimeout.current = null
+    }, 2200)
   }
 
   return (
@@ -577,7 +610,7 @@ function ProposalEditor({
 
         {/* Right column — summary */}
         <aside className="lg:sticky lg:top-24 lg:h-fit">
-          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="proposal-actions flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm">
             <h2 className="text-lg font-semibold tracking-tight text-foreground">
               Price summary
             </h2>
@@ -612,22 +645,53 @@ function ProposalEditor({
               </span>
             </div>
 
-            <Button
-              type="submit"
-              size="lg"
-              disabled={isSaving}
-              className="mt-2 h-12 w-full text-sm"
+            <div
+              role="group"
+              aria-label="Proposal actions"
+              data-slot="button-group"
+              className="mt-2 flex w-full"
             >
-              <FileText />
-              Generate Proposal
-            </Button>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isSaving}
+                className="h-12 min-w-0 flex-1 rounded-r-none border-r border-r-primary-foreground/20 text-sm"
+              >
+                <FileText />
+                Generate Proposal
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                disabled={isSaving}
+                aria-label={isSaved ? 'Proposal saved' : 'Save proposal'}
+                title={isSaved ? 'Proposal saved' : 'Save proposal'}
+                data-save-button
+                onClick={handleSave}
+                className={`h-12 overflow-hidden rounded-l-none border-l border-l-primary-foreground/20 px-0 transition-[width] duration-300 ease-out motion-reduce:transition-none ${
+                  isSaved ? 'w-24 gap-1.5' : 'w-12 gap-0'
+                }`}
+              >
+                {isSaved ? (
+                  <>
+                    <Check className="size-4" />
+                    <span>Saved</span>
+                  </>
+                ) : (
+                  <SaveIcon className="size-4" />
+                )}
+              </Button>
+            </div>
             {saveError && (
               <p className="text-center text-sm text-destructive" role="alert">
                 {saveError}
               </p>
             )}
             <p className="text-center text-xs text-muted-foreground">
-              Opens a printable proposal in a new tab.
+              <span className="proposal-generate-hint">
+                Opens a printable proposal in a new tab.
+              </span>
+              <span className="proposal-save-hint">Saves form changes.</span>
             </p>
           </div>
         </aside>
