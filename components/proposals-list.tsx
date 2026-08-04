@@ -9,9 +9,11 @@ import {
   Mail,
   Pencil,
   Phone,
+  Search,
   Trash2,
   TriangleAlert,
   User,
+  X,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
@@ -25,7 +27,27 @@ const proposalDateFormatter = new Intl.DateTimeFormat('en-GB', {
 
 export function ProposalsList({ initial }: { initial: Proposal[] }) {
   const [items, setItems] = React.useState(initial)
+  const [query, setQuery] = React.useState('')
   const [pendingDelete, setPendingDelete] = React.useState<Proposal | null>(null)
+
+  const filtered = React.useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return items
+
+    return items.filter((proposal) => {
+      const villa = getVilla(proposal.villaId)
+
+      return [
+        proposal.id,
+        villa?.name,
+        villa?.location,
+        proposal.clientName,
+        proposal.manager,
+        proposal.phone,
+        proposal.email,
+      ].some((field) => field?.toLowerCase().includes(q))
+    })
+  }, [items, query])
 
   function confirmDelete() {
     if (!pendingDelete) return
@@ -52,14 +74,50 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
 
   return (
     <>
-      <ul className="flex flex-col gap-4">
-        {items.map((proposal) => {
-          const villa = getVilla(proposal.villaId)
-          return (
-            <li
-              key={proposal.id}
-              className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:p-5"
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
+          {filtered.length} of {items.length} proposals
+        </h2>
+
+        <div className="relative w-full sm:max-w-xs">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search by villa, client, manager…"
+            aria-label="Search proposals"
+            className="h-11 w-full rounded-xl border border-border bg-card pl-9 pr-9 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              aria-label="Clear search"
+              className="absolute right-2 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
             >
+              <X className="size-4" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border py-20 text-center">
+          <p className="font-serif text-xl text-foreground">No proposals found</p>
+          <p className="max-w-sm text-sm text-muted-foreground">
+            No proposals match &ldquo;{query}&rdquo;. Try a different search term.
+          </p>
+        </div>
+      ) : (
+        <ul className="flex flex-col gap-4">
+          {filtered.map((proposal) => {
+            const villa = getVilla(proposal.villaId)
+            return (
+              <li
+                key={proposal.id}
+                className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:p-5"
+              >
               <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-36">
                 <Image
                   src={villa?.image || '/placeholder.svg'}
@@ -157,10 +215,11 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
                   Delete
                 </Button>
               </div>
-            </li>
-          )
-        })}
-      </ul>
+              </li>
+            )
+          })}
+        </ul>
+      )}
 
       <Modal
         open={pendingDelete !== null}
