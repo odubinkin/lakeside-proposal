@@ -1,10 +1,11 @@
 ---
 id: "202608041110-10JTV7"
 title: "Add project README"
-status: "DOING"
+result_summary: "Added and verified project README with setup, run, build, and lint guidance."
+status: "DONE"
 priority: "med"
 owner: "DOCS"
-revision: 16
+revision: 19
 origin:
   system: "manual"
 depends_on: []
@@ -18,31 +19,38 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T11:11:41.417Z"
+  updated_at: "2026-08-04T11:12:25.143Z"
   updated_by: "CODER"
   note: "verified-202608041110-10JTV7"
   attempts: 0
 quality_review:
   state: "pass"
-  updated_at: "2026-08-04T11:11:34.698Z"
+  updated_at: "2026-08-04T11:12:20.038Z"
   updated_by: "EVALUATOR"
-  note: "README is accurate, scoped, and ready to publish."
-  evaluated_sha: null
+  note: "README is accurate, scoped, and ready to publish at commit d5d9608."
+  evaluated_sha: "d5d96081e498a138ee6cc840c56e14a9c12bbac6"
   blueprint_digest: "092e633f6e249a3695dc3a96c1cef10401f350457b4931fb8e8b719799acf108"
   evidence_refs:
     - ".agentplane/tasks/202608041110-10JTV7/README.md"
-    - ".agentplane/tasks/202608041110-10JTV7/quality/20260804-111134698-recovery-context/quality-report.json"
-    - ".agentplane/tasks/202608041110-10JTV7/quality/20260804-111134698-recovery-context/evaluator-prompt.md"
-    - ".agentplane/tasks/202608041110-10JTV7/quality/20260804-111134698-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608041110-10JTV7/quality/20260804-111220038-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608041110-10JTV7/quality/20260804-111220038-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608041110-10JTV7/quality/20260804-111220038-recovery-context/evaluator-opinion.md"
     - ".agentplane/tasks/202608041110-10JTV7/blueprint/resolved-snapshot.json"
     - "README.md"
+    - "node .agentplane/policy/check-routing.mjs: pass"
+    - "ap doctor: pass"
   findings:
     - "Documented features, persistence behavior, AI limitation, and npm commands agree with the repository implementation and package metadata."
-commit: null
+commit:
+  hash: "d5d96081e498a138ee6cc840c56e14a9c12bbac6"
+  message: "📝 10JTV7 task: document project setup and usage"
 comments:
   -
     author: "DOCS"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "DOCS"
+    body: "Verified: README accurately documents the implemented project, commands, persistence model, and current AI limitation; all required checks passed."
 events:
   -
     type: "status"
@@ -69,8 +77,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608041110-10JTV7"
+  -
+    type: "verify"
+    at: "2026-08-04T11:12:25.143Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608041110-10JTV7"
+  -
+    type: "status"
+    at: "2026-08-04T11:12:42.272Z"
+    author: "DOCS"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: README accurately documents the implemented project, commands, persistence model, and current AI limitation; all required checks passed."
 doc_version: 3
-doc_updated_at: "2026-08-04T11:12:06.255Z"
+doc_updated_at: "2026-08-04T11:12:42.273Z"
 doc_updated_by: "DOCS"
 description: "Create an English README.md describing the Villa Sales Configurator and documenting installation, development, build, start, and lint commands."
 sections:
@@ -172,6 +193,36 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-04T11:12:25.143Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608041110-10JTV7
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T11:12:06.255Z, excerpt_hash=sha256:c03884220f2c5d3830e759d1c874e93d5ff2c04e984e79966e3463f9e841017c
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041110-10JTV7/blueprint/resolved-snapshot.json
+    - old_digest: 092e633f6e249a3695dc3a96c1cef10401f350457b4931fb8e8b719799acf108
+    - current_digest: 092e633f6e249a3695dc3a96c1cef10401f350457b4931fb8e8b719799acf108
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608041110-10JTV7
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608041110-10JTV7 --result verified-202608041110-10JTV7 --commit d5d96081e498a138ee6cc840c56e14a9c12bbac6
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert the README.md addition and the task close commit if verification reveals incorrect or misleading documentation."
   Findings: |-
@@ -180,6 +231,10 @@ sections:
     - Observation: The initial closeout attempt was rejected because the evaluator report could not bind uncommitted documentation to an evaluated Git SHA.
       Impact: Task closure was delayed; no project content or acceptance criteria changed.
       Resolution: Commit the verified task-scoped documentation first, then rerun the EVALUATOR review against that commit before closeout.
+extensions:
+  implementation_commit:
+    hash: "d5d96081e498a138ee6cc840c56e14a9c12bbac6"
+    message: "📝 10JTV7 task: document project setup and usage"
 id_source: "generated"
 ---
 ## Summary
@@ -286,6 +341,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608041110-10JTV7 --result verified-202608041110-10JTV7 --commit a8431bd645124bc5c3a3cce832d5b7ed7dd44a5e
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T11:12:25.143Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608041110-10JTV7
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T11:12:06.255Z, excerpt_hash=sha256:c03884220f2c5d3830e759d1c874e93d5ff2c04e984e79966e3463f9e841017c
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041110-10JTV7/blueprint/resolved-snapshot.json
+- old_digest: 092e633f6e249a3695dc3a96c1cef10401f350457b4931fb8e8b719799acf108
+- current_digest: 092e633f6e249a3695dc3a96c1cef10401f350457b4931fb8e8b719799acf108
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608041110-10JTV7
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608041110-10JTV7 --result verified-202608041110-10JTV7 --commit d5d96081e498a138ee6cc840c56e14a9c12bbac6
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
