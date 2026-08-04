@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041059-7G8D8N",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T11:01:25.950Z",
+  "verdict": "pass",
+  "summary": "Proposal preview total price fix is implemented and validated.",
+  "evaluated_sha": "2a733690fb1c96d9fb2cd08b6db766bcd152eb99",
+  "blueprint_digest": "43030eb45b764b898dc30082ee2414c5214319250afb673380a7b0e3f0149d8d",
+  "findings": [
+    "components/proposals-list.tsx now adds selected add-on prices to the villa base price; npm run lint, npm run build, and git diff --check pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041059-7G8D8N/README.md",
+    "npm run lint; npm run build; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
