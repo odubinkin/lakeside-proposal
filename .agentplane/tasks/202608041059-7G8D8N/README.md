@@ -1,10 +1,11 @@
 ---
 id: "202608041059-7G8D8N"
 title: "Fix proposal preview total price"
-status: "DOING"
+result_summary: "verified-202608041059-7G8D8N"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 8
+revision: 10
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T11:01:30.353Z"
+  updated_at: "2026-08-04T11:01:56.786Z"
   updated_by: "CODER"
   note: "verified-202608041059-7G8D8N"
   attempts: 0
@@ -39,11 +40,16 @@ quality_review:
     - "npm run lint; npm run build; git diff --check"
   findings:
     - "components/proposals-list.tsx now adds selected add-on prices to the villa base price; npm run lint, npm run build, and git diff --check pass."
-commit: null
+commit:
+  hash: "b10744c1427206f35d8ea0a08acd6196dfe94dd2"
+  message: "🚧 7G8D8N task: record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: update the Proposals preview to calculate and display each proposal's final total, including selected add-ons, then run lint and build verification."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608041059-7G8D8N. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -70,8 +76,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608041059-7G8D8N"
+  -
+    type: "verify"
+    at: "2026-08-04T11:01:56.786Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608041059-7G8D8N"
+  -
+    type: "status"
+    at: "2026-08-04T11:01:56.990Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608041059-7G8D8N. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-04T11:01:30.535Z"
+doc_updated_at: "2026-08-04T11:01:56.991Z"
 doc_updated_by: "CODER"
 description: "On the Proposals page, proposal previews display the villa base price instead of the proposal's final total price. Identify the preview price source, render the final proposal price, and add or update focused verification."
 sections:
@@ -201,6 +220,36 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-04T11:01:56.786Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608041059-7G8D8N
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T11:01:30.535Z, excerpt_hash=sha256:4067e6c0d2671944bbb825f93b0ba7363aab826f8b2f3d8fbcbd2a2e4f1204c6
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041059-7G8D8N/blueprint/resolved-snapshot.json
+    - old_digest: 43030eb45b764b898dc30082ee2414c5214319250afb673380a7b0e3f0149d8d
+    - current_digest: 43030eb45b764b898dc30082ee2414c5214319250afb673380a7b0e3f0149d8d
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608041059-7G8D8N
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608041059-7G8D8N --result verified-202608041059-7G8D8N --commit b10744c1427206f35d8ea0a08acd6196dfe94dd2
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert task-related commit(s).
@@ -209,6 +258,10 @@ sections:
     - Observation: Command: npm run lint; Result: pass; Evidence: ESLint exited 0. Scope: repository lint, including components/proposals-list.tsx.
       Impact: Command: npm run build; Result: pass; Evidence: Next.js compiled successfully and generated all 9 static pages, including /proposals. Scope: production build.
       Resolution: Command: git diff --check; Result: pass; Evidence: no whitespace errors. Scope: focused one-file implementation diff.
+extensions:
+  implementation_commit:
+    hash: "2a733690fb1c96d9fb2cd08b6db766bcd152eb99"
+    message: "🚧 7G8D8N task: show proposal total price in previews"
 id_source: "generated"
 ---
 ## Summary
@@ -339,6 +392,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608041059-7G8D8N --result verified-202608041059-7G8D8N --commit 2a733690fb1c96d9fb2cd08b6db766bcd152eb99
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T11:01:56.786Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608041059-7G8D8N
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T11:01:30.535Z, excerpt_hash=sha256:4067e6c0d2671944bbb825f93b0ba7363aab826f8b2f3d8fbcbd2a2e4f1204c6
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041059-7G8D8N/blueprint/resolved-snapshot.json
+- old_digest: 43030eb45b764b898dc30082ee2414c5214319250afb673380a7b0e3f0149d8d
+- current_digest: 43030eb45b764b898dc30082ee2414c5214319250afb673380a7b0e3f0149d8d
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608041059-7G8D8N
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608041059-7G8D8N --result verified-202608041059-7G8D8N --commit b10744c1427206f35d8ea0a08acd6196dfe94dd2
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
