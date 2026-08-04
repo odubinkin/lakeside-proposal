@@ -184,6 +184,9 @@ function ProposalEditor({
   )
   const [errors, setErrors] = React.useState<ProposalFormErrors>({})
   const [saveError, setSaveError] = React.useState('')
+  const [isSaving, setIsSaving] = React.useState(false)
+  const savedProposalId = React.useRef(editId)
+  const isSavingRef = React.useRef(false)
 
   function toggleAddOn(id: string) {
     setSelected((prev) => {
@@ -218,6 +221,8 @@ function ProposalEditor({
 
   function handleGenerate(e: React.FormEvent) {
     e.preventDefault()
+    if (isSavingRef.current) return
+
     setSaveError('')
 
     const addOnIds = Array.from(selected)
@@ -230,7 +235,10 @@ function ProposalEditor({
       proposalText,
     })
     setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) return
 
+    isSavingRef.current = true
+    setIsSaving(true)
     try {
       const saved = saveProposal(
         {
@@ -243,10 +251,9 @@ function ProposalEditor({
           proposalText,
           addOnIds,
         },
-        editId ?? undefined,
+        savedProposalId.current ?? undefined,
       )
-
-      if (Object.keys(validationErrors).length > 0) return
+      savedProposalId.current = saved.id
 
       window.open(
         `/proposals/view?id=${encodeURIComponent(saved.id)}`,
@@ -257,6 +264,9 @@ function ProposalEditor({
       setSaveError(
         error instanceof Error ? error.message : 'Unable to save proposal.',
       )
+    } finally {
+      isSavingRef.current = false
+      setIsSaving(false)
     }
   }
 
@@ -574,7 +584,12 @@ function ProposalEditor({
               </span>
             </div>
 
-            <Button type="submit" size="lg" className="mt-2 h-12 w-full text-sm">
+            <Button
+              type="submit"
+              size="lg"
+              disabled={isSaving}
+              className="mt-2 h-12 w-full text-sm"
+            >
               <FileText />
               Generate Proposal
             </Button>
