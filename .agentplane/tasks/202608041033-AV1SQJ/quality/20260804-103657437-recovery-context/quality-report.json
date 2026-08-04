@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041033-AV1SQJ",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:36:57.437Z",
+  "verdict": "pass",
+  "summary": "The scoped form change satisfies the approved behavior and all declared checks pass.",
+  "evaluated_sha": "00ea05acbc26ea68f38cf558b9234cf034d78b46",
+  "blueprint_digest": "28d32703f88ddca14847a8fbc0cf98b31be323f47d9facd76a9e1056790cc80e",
+  "findings": [
+    "Create mode now caches the first saved proposal ID, reuses it on later submissions, guards in-flight re-entry, and validates before persistence."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041033-AV1SQJ/README.md",
+    "npm run lint",
+    "npx tsc --noEmit",
+    "npm run build",
+    "git diff --check",
+    "ap doctor",
+    "node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "No automated browser interaction test exists; behavior was verified from the synchronous save flow and scoped diff."
+  ]
+}
