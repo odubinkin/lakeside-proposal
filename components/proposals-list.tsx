@@ -18,7 +18,13 @@ import {
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import { ProposalLoading } from '@/components/proposal-loading'
-import { getVilla, formatTHB, type Proposal } from '@/lib/data'
+import {
+  getAddOnPrice,
+  getAddOns,
+  getVilla,
+  formatTHB,
+  type Proposal,
+} from '@/lib/data'
 import {
   deleteProposal,
   getProposalsServerSnapshot,
@@ -131,6 +137,13 @@ export function ProposalsList() {
         <ul className="flex flex-col gap-4">
           {filtered.map((proposal) => {
             const villa = getVilla(proposal.villaId)
+            const total = villa
+              ? villa.price +
+                getAddOns(proposal.addOnIds).reduce(
+                  (sum, addOn) => sum + getAddOnPrice(addOn, villa.price),
+                  0,
+                )
+              : 0
             return (
               <li
                 key={proposal.id}
@@ -156,7 +169,7 @@ export function ProposalsList() {
                   </h3>
                   {villa && (
                     <span className="text-sm text-muted-foreground">
-                      {formatTHB(villa.price)}
+                      {formatTHB(total)}
                     </span>
                   )}
                 </div>
