@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041016-EVSQ1B",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:28:03.360Z",
+  "verdict": "pass",
+  "summary": "The centered proposal loader remains valid on the task-attributed integrated evidence commit.",
+  "evaluated_sha": "c1aeb8589cfd1d7b1ebb2e6b192cb18eb121465e",
+  "blueprint_digest": "0f99b52558650338078445f696524edb628d5da3356d21f5548ef03ed319c515",
+  "findings": [
+    "Both proposal loading branches share the accessible animated indicator; no proposal data behavior changed."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041016-EVSQ1B/README.md",
+    "implementation commit ffdf311ddc7960e9c16f477f5a44e4e03cb2cc6e",
+    "pnpm lint; pnpm build; pnpm exec tsc --noEmit; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
