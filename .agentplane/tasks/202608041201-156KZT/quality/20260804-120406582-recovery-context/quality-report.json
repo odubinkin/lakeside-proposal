@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041201-156KZT",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T12:04:06.582Z",
+  "verdict": "pass",
+  "summary": "Configuration fix verified",
+  "evaluated_sha": "65996cafcafdd33e5f39e5214172f319f98e30ba",
+  "blueprint_digest": "6ed9cc2f678ea8d604c135d51d02263fab75ab3fd0acabc8340fc31293473257",
+  "findings": [
+    "next.config.mjs allows the reported Android LAN origin; lint, build, diff, doctor, and routing checks pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041201-156KZT/README.md",
+    "next.config.mjs; npm run lint; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
