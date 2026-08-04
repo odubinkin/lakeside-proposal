@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040911-3B1QPW",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T09:22:46.367Z",
+  "verdict": "pass",
+  "summary": "The approved two-line LCP loading change is scoped, minimal, and fully verified.",
+  "evaluated_sha": "9aca1e36614a7b064ca35ecb7af56697c60811ca",
+  "blueprint_digest": "6e60bada052f847c7944a2886786a375d83bf0566bafc357412a91e7e7ee15bb",
+  "findings": [
+    "Both targeted villa Image elements use loading=\"eager\"; existing props are preserved and lint/build pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040911-3B1QPW/README.md",
+    "components/proposal-form.tsx",
+    "components/proposal-view.tsx",
+    "git diff --check; exact-match inspection; pnpm lint; pnpm build; implementation commit 9aca1e36614a"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
