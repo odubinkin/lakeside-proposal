@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040931-XX9BPQ",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T09:33:55.107Z",
+  "verdict": "pass",
+  "summary": "Approved ignore-and-untrack scope is complete and independently reproducible.",
+  "evaluated_sha": "a86e67d340386974168f9021b9083bdf37cb557a",
+  "blueprint_digest": "3edfe107ef91543eb0ffbf70af038d662d1f74256b5fd26fc76a0822f478fee9",
+  "findings": [
+    "The .gitignore rule matches next-env.d.ts; Git no longer tracks the generated file; the local copy remains present; committed diff passes whitespace validation and contains only approved implementation and task evidence paths."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040931-XX9BPQ/README.md",
+    ".gitignore",
+    "git show --check --stat a86e67d34038",
+    "git check-ignore -v next-env.d.ts"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "Next.js will continue regenerating the ignored local file as intended."
+  ]
+}
