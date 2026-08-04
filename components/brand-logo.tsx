@@ -3,10 +3,12 @@ import { cn } from '@/lib/utils'
 
 export function BrandLogo({
   className,
+  wordmarkClassName,
   showWordmark = true,
   size = 36,
 }: {
   className?: string
+  wordmarkClassName?: string
   showWordmark?: boolean
   size?: number
 }) {
@@ -23,7 +25,12 @@ export function BrandLogo({
       />
       {showWordmark && (
         <span className="flex flex-col leading-none">
-          <span className="font-serif text-base font-semibold tracking-tight text-foreground">
+          <span
+            className={cn(
+              'font-serif text-base font-semibold tracking-tight text-foreground',
+              wordmarkClassName,
+            )}
+          >
             Redwood Lakeside
           </span>
           <span className="text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">

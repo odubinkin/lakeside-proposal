@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Bot, Send, Sparkles, Loader2, CheckCircle2, MessageSquare } from 'lucide-react'
+import { Bot, Send, Sparkles, Loader2, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import { cn } from '@/lib/utils'
@@ -106,10 +106,13 @@ export function ChatBot({ onAutofill }: { onAutofill: () => void }) {
       <Button
         size="lg"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 h-14 gap-2.5 rounded-full px-5 text-sm shadow-lg shadow-primary/25"
+        aria-label="Chat with assistant"
+        className="fixed bottom-6 right-6 z-40 h-16 w-16 gap-0 overflow-hidden rounded-full p-0 text-sm shadow-lg shadow-primary/25 transition-[width,padding,gap] duration-300 ease-out hover:w-[216px] hover:gap-3 hover:px-6 focus-visible:w-[216px] focus-visible:gap-3 focus-visible:px-6"
       >
-        <MessageSquare className="size-5" />
-        Chat with assistant
+        <Bot className="size-6" />
+        <span className="max-w-0 overflow-hidden opacity-0 transition-[max-width,opacity] duration-300 ease-out group-hover/button:max-w-40 group-hover/button:opacity-100 group-focus-visible/button:max-w-40 group-focus-visible/button:opacity-100">
+          Chat with assistant
+        </span>
       </Button>
 
       <Modal

@@ -88,14 +88,34 @@
   * {
     @apply border-border outline-ring/50;
   }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .villa-card-actions {
+    container: villa-card-actions / inline-size;
+  }
+}
+
+@container villa-card-actions (max-width: 340px) {
+  .villa-card-action {
+    width: 100%;
   }
 }
 
 @media print {
   .no-print {
     display: none !important;
+  }
+  .proposal-document section {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
   body {
     background: #fff !important;

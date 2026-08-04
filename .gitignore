@@ -26,3 +26,6 @@ CLAUDE.md.bak-*
 node_modules
 .next
 tsconfig.tsbuildinfo
+.playwright/
+.playwright-cli/
+.DS_Store

@@ -46,7 +46,7 @@ export function VillaCard({ villa }: { villa: Villa }) {
           </span>
         </div>
 
-        <div className="mt-auto flex items-end justify-between gap-3 border-t border-border pt-4">
+        <div className="villa-card-actions mt-auto flex flex-wrap items-end justify-between gap-3 border-t border-border pt-4">
           <div className="flex flex-col">
             <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
               From
@@ -58,7 +58,7 @@ export function VillaCard({ villa }: { villa: Villa }) {
           <Button
             size="lg"
             nativeButton={false}
-            className="h-11 px-4"
+            className="villa-card-action h-11 px-4"
             render={
               <Link href={`/proposals/new?villa=${villa.id}`}>
                 <FileText />

@@ -16,8 +16,12 @@ export function TopNav() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
-        <Link href="/villas" className="shrink-0" aria-label="Redwood Lakeside home">
-          <BrandLogo />
+        <Link
+          href="/villas"
+          className="flex h-full shrink-0 items-center"
+          aria-label="Redwood Lakeside home"
+        >
+          <BrandLogo size={64} wordmarkClassName="text-xl" />
         </Link>
 
         <nav className="flex items-center gap-1" aria-label="Main navigation">

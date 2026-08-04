@@ -109,11 +109,11 @@ export function ProposalForm() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
-        href="/villas"
+        href={editing ? '/proposals' : '/villas'}
         className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
-        Back to villas
+        {editing ? 'Back to proposals' : 'Back to villas'}
       </Link>
 
       <div className="mb-8 flex flex-col gap-2">

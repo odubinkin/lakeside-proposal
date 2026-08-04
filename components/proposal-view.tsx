@@ -35,7 +35,6 @@ export function ProposalView() {
     phone: existing?.phone ?? params.get('phone') ?? '—',
     email: existing?.email ?? params.get('email') ?? '—',
     manager: existing?.manager ?? params.get('manager') ?? '—',
-    comment: existing?.comment ?? params.get('comment') ?? '',
   }
 
   const proposalText = existing?.proposalText ?? params.get('proposalText') ?? ''
@@ -48,7 +47,7 @@ export function ProposalView() {
   })
 
   return (
-    <div className="min-h-screen bg-muted/40 py-0 print:bg-white sm:py-10">
+    <div className="min-h-screen bg-muted/40 py-0 print:bg-white print:py-0 sm:py-10">
       <Button
         onClick={() => window.print()}
         size="lg"
@@ -58,7 +57,7 @@ export function ProposalView() {
         Print proposal
       </Button>
 
-      <article className="mx-auto max-w-3xl bg-card shadow-sm print:shadow-none sm:rounded-2xl sm:border sm:border-border">
+      <article className="proposal-document mx-auto max-w-3xl bg-card shadow-sm print:shadow-none sm:rounded-2xl sm:border sm:border-border">
         {/* Header */}
         <header className="flex flex-col gap-6 border-b border-border p-8 sm:p-10">
           <div className="flex items-start justify-between gap-4">
@@ -83,7 +82,7 @@ export function ProposalView() {
 
         {/* Proposal text */}
         {proposalText && (
-          <section className="border-b border-border px-8 pt-8 sm:px-10 sm:pt-10">
+          <section className="border-b border-border p-8 sm:p-10">
             <p className="whitespace-pre-line text-[15px] leading-relaxed text-foreground">
               {proposalText}
             </p>
@@ -191,11 +190,6 @@ export function ProposalView() {
             <Detail label="Sales manager" value={client.manager} />
             <Detail label="Phone" value={client.phone} />
             <Detail label="Email" value={client.email} />
-            {client.comment && (
-              <div className="sm:col-span-2">
-                <Detail label="Comment" value={client.comment} />
-              </div>
-            )}
           </dl>
         </section>
 

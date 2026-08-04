@@ -3,10 +3,25 @@
 import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Eye, Pencil, Trash2, Phone, Mail, User, TriangleAlert } from 'lucide-react'
+import {
+  CalendarDays,
+  Eye,
+  Mail,
+  Pencil,
+  Phone,
+  Trash2,
+  TriangleAlert,
+  User,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import { getVilla, formatTHB, type Proposal } from '@/lib/data'
+
+const proposalDateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+})
 
 export function ProposalsList({ initial }: { initial: Proposal[] }) {
   const [items, setItems] = React.useState(initial)
@@ -70,22 +85,36 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
                   )}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-muted-foreground">
-                  <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
-                    {proposal.clientName}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Phone className="size-3.5" />
-                    {proposal.phone}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Mail className="size-3.5" />
-                    {proposal.email}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <User className="size-3.5" />
-                    Manager: {proposal.manager}
-                  </span>
+                <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+                    <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+                      {proposal.clientName}
+                    </span>
+                    <a
+                      href={`tel:${proposal.phone.replace(/\s+/g, '')}`}
+                      className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                    >
+                      <Phone className="size-3.5" />
+                      {proposal.phone}
+                    </a>
+                    <a
+                      href={`mailto:${proposal.email}`}
+                      className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                    >
+                      <Mail className="size-3.5" />
+                      {proposal.email}
+                    </a>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+                    <span className="inline-flex items-center gap-1.5">
+                      <User className="size-3.5" />
+                      Manager: {proposal.manager}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <CalendarDays className="size-3.5" />
+                      Created: {proposalDateFormatter.format(new Date(`${proposal.createdAt}T00:00:00`))}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -94,7 +123,7 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
                   variant="outline"
                   size="lg"
                   nativeButton={false}
-                  className="h-10 flex-1 px-3"
+                  className="h-10 flex-1 px-3 sm:h-auto sm:py-1.5 lg:h-10 lg:py-0"
                   render={
                     <a
                       href={`/proposal/view?id=${proposal.id}`}
@@ -110,7 +139,7 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
                   variant="secondary"
                   size="lg"
                   nativeButton={false}
-                  className="h-10 flex-1 px-3"
+                  className="h-10 flex-1 px-3 sm:h-auto sm:py-1.5 lg:h-10 lg:py-0"
                   render={
                     <Link href={`/proposals/new?edit=${proposal.id}`}>
                       <Pencil />
@@ -121,7 +150,7 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
                 <Button
                   variant="destructive"
                   size="lg"
-                  className="h-10 flex-1 px-3"
+                  className="h-10 flex-1 px-3 sm:h-auto sm:py-1.5 lg:h-10 lg:py-0"
                   onClick={() => setPendingDelete(proposal)}
                 >
                   <Trash2 />
