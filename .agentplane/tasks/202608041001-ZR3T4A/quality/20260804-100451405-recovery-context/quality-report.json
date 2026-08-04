@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041001-ZR3T4A",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:04:51.405Z",
+  "verdict": "pass",
+  "summary": "Edit-only pricing mode labels verified",
+  "evaluated_sha": "3f041a0c59b8c39a8395b8d382c490413775484b",
+  "blueprint_digest": "81ae321e4d04cd1fe4b7b185d83aa27517a668c1b4ff7dae8e5d40699361599d",
+  "findings": [
+    "components/proposal-form.tsx appends fixed or percentage mode labels; components/proposal-view.tsx is unchanged."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041001-ZR3T4A/README.md",
+    "npm run lint; npm run build; node .agentplane/policy/check-routing.mjs; ap doctor; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
