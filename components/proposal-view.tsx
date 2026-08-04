@@ -10,37 +10,69 @@ import {
   villas,
   getVilla,
   getAddOns,
+  getAddOnPrice,
   formatTHB,
-  proposals,
 } from '@/lib/data'
+import {
+  getProposalsServerSnapshot,
+  getProposalsSnapshot,
+  parseProposals,
+  PROPOSALS_SERVER_SNAPSHOT,
+  subscribeProposals,
+} from '@/lib/proposal-storage'
 
 export function ProposalView() {
   const params = useSearchParams()
+  const proposalId = params.get('id')
+  const snapshot = React.useSyncExternalStore(
+    subscribeProposals,
+    getProposalsSnapshot,
+    getProposalsServerSnapshot,
+  )
+  const proposals = React.useMemo(() => parseProposals(snapshot), [snapshot])
+  const proposal = proposalId
+    ? proposals.find((item) => item.id === proposalId)
+    : undefined
 
-  const editId = params.get('id')
-  const existing = editId ? proposals.find((p) => p.id === editId) : undefined
+  if (snapshot === PROPOSALS_SERVER_SNAPSHOT) {
+    return (
+      <div className="p-10 text-sm text-muted-foreground">Loading proposal…</div>
+    )
+  }
 
-  const villaId = existing?.villaId ?? params.get('villa') ?? villas[0].id
-  const villa = getVilla(villaId) ?? villas[0]
+  if (!proposal) {
+    return (
+      <div className="mx-auto flex max-w-xl flex-col items-start gap-4 p-10">
+        <h1 className="font-serif text-3xl font-semibold text-foreground">
+          Proposal not found
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          The requested proposal is not available in this browser.
+        </p>
+        <Button nativeButton={false} render={<a href="/proposals">Back to proposals</a>} />
+      </div>
+    )
+  }
 
-  const addonIds = existing
-    ? existing.addOnIds
-    : (params.get('addons')?.split(',').filter(Boolean) ?? [])
-  const selectedAddOns = getAddOns(addonIds)
-  const addOnsTotal = selectedAddOns.reduce((s, a) => s + a.price, 0)
+  const villa = getVilla(proposal.villaId) ?? villas[0]
+  const selectedAddOns = getAddOns(proposal.addOnIds)
+  const addOnsTotal = selectedAddOns.reduce(
+    (sum, addOn) => sum + getAddOnPrice(addOn, villa.price),
+    0,
+  )
   const total = villa.price + addOnsTotal
 
   const client = {
-    name: existing?.clientName ?? params.get('client') ?? '—',
-    phone: existing?.phone ?? params.get('phone') ?? '—',
-    email: existing?.email ?? params.get('email') ?? '—',
-    manager: existing?.manager ?? params.get('manager') ?? '—',
+    name: proposal.clientName,
+    phone: proposal.phone,
+    email: proposal.email,
+    manager: proposal.manager,
   }
 
-  const proposalText = existing?.proposalText ?? params.get('proposalText') ?? ''
+  const proposalText = proposal.proposalText
 
-  const proposalRef = existing?.id ?? `PRO-${new Date().getFullYear()}-DRAFT`
-  const today = new Date().toLocaleDateString('en-GB', {
+  const proposalRef = proposal.id
+  const proposalDate = new Date(`${proposal.createdAt}T00:00:00`).toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -64,7 +96,7 @@ export function ProposalView() {
             <BrandLogo size={44} />
             <div className="text-right">
               <p className="font-mono text-sm font-medium text-foreground">{proposalRef}</p>
-              <p className="text-xs text-muted-foreground">{today}</p>
+              <p className="text-xs text-muted-foreground">{proposalDate}</p>
             </div>
           </div>
           <div className="flex flex-col gap-1">
@@ -161,7 +193,9 @@ export function ProposalView() {
                   <Check className="size-4 text-primary" />
                   {a.name}
                 </span>
-                <span className="text-sm text-muted-foreground">{formatTHB(a.price)}</span>
+                <span className="text-sm text-muted-foreground">
+                  {formatTHB(getAddOnPrice(a, villa.price))}
+                </span>
               </div>
             ))}
             {selectedAddOns.length > 0 && (

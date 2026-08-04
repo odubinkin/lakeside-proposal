@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ProposalsList } from '@/components/proposals-list'
-import { proposals } from '@/lib/data'
 
 export default function ProposalsPage() {
   return (
@@ -29,7 +28,7 @@ export default function ProposalsPage() {
         />
       </section>
 
-      <ProposalsList initial={proposals} />
+      <ProposalsList />
     </div>
   )
 }

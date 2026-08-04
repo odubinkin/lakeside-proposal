@@ -18,6 +18,14 @@ import {
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import { getVilla, formatTHB, type Proposal } from '@/lib/data'
+import {
+  deleteProposal,
+  getProposalsServerSnapshot,
+  getProposalsSnapshot,
+  parseProposals,
+  PROPOSALS_SERVER_SNAPSHOT,
+  subscribeProposals,
+} from '@/lib/proposal-storage'
 
 const proposalDateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: '2-digit',
@@ -25,8 +33,13 @@ const proposalDateFormatter = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 })
 
-export function ProposalsList({ initial }: { initial: Proposal[] }) {
-  const [items, setItems] = React.useState(initial)
+export function ProposalsList() {
+  const snapshot = React.useSyncExternalStore(
+    subscribeProposals,
+    getProposalsSnapshot,
+    getProposalsServerSnapshot,
+  )
+  const items = React.useMemo(() => parseProposals(snapshot), [snapshot])
   const [query, setQuery] = React.useState('')
   const [pendingDelete, setPendingDelete] = React.useState<Proposal | null>(null)
 
@@ -51,8 +64,16 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
 
   function confirmDelete() {
     if (!pendingDelete) return
-    setItems((prev) => prev.filter((p) => p.id !== pendingDelete.id))
+    deleteProposal(pendingDelete.id)
     setPendingDelete(null)
+  }
+
+  if (snapshot === PROPOSALS_SERVER_SNAPSHOT) {
+    return (
+      <div className="rounded-2xl border border-dashed border-border py-20 text-center text-sm text-muted-foreground">
+        Loading proposals…
+      </div>
+    )
   }
 
   if (items.length === 0) {

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "furniture",
+    "name": "Furniture Package",
+    "description": "Curated designer furnishings, styling and soft goods throughout.",
+    "price": {
+      "mode": "percentage",
+      "value": 5
+    }
+  },
+  {
+    "id": "smart-home",
+    "name": "Smart Home",
+    "description": "Integrated lighting, climate, security and voice control system.",
+    "price": {
+      "mode": "fixed",
+      "value": 1500000
+    }
+  },
+  {
+    "id": "smart-pool",
+    "name": "Smart Pool",
+    "description": "Automated chemistry, heating and app-controlled pool management.",
+    "price": {
+      "mode": "fixed",
+      "value": 950000
+    }
+  },
+  {
+    "id": "solar",
+    "name": "Solar Panels",
+    "description": "Rooftop solar array with battery storage for energy independence.",
+    "price": {
+      "mode": "fixed",
+      "value": 1750000
+    }
+  },
+  {
+    "id": "ev-charger",
+    "name": "EV Charger",
+    "description": "High-speed dual electric vehicle charging station in the garage.",
+    "price": {
+      "mode": "fixed",
+      "value": 320000
+    }
+  },
+  {
+    "id": "kitchen",
+    "name": "Kitchen Upgrade",
+    "description": "Premium European appliances, stone island and custom cabinetry.",
+    "price": {
+      "mode": "fixed",
+      "value": 1900000
+    }
+  }
+]

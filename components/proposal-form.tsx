@@ -26,10 +26,19 @@ import {
   villas,
   addOns,
   getVilla,
+  getAddOnPrice,
   formatTHB,
-  proposals,
   type AddOn,
+  type Proposal,
 } from '@/lib/data'
+import {
+  getProposalsServerSnapshot,
+  getProposalsSnapshot,
+  parseProposals,
+  PROPOSALS_SERVER_SNAPSHOT,
+  saveProposal,
+  subscribeProposals,
+} from '@/lib/proposal-storage'
 
 const addOnIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   furniture: Sofa,
@@ -43,10 +52,60 @@ const addOnIcons: Record<string, React.ComponentType<{ className?: string }>> = 
 export function ProposalForm() {
   const params = useSearchParams()
   const editId = params.get('id')
-  const editing = editId ? proposals.find((p) => p.id === editId) : undefined
-  const villaParam = params.get('villa') ?? editing?.villaId ?? villas[0].id
+  const snapshot = React.useSyncExternalStore(
+    subscribeProposals,
+    getProposalsSnapshot,
+    getProposalsServerSnapshot,
+  )
+  const proposals = React.useMemo(() => parseProposals(snapshot), [snapshot])
+  const editing = editId
+    ? proposals.find((proposal) => proposal.id === editId)
+    : undefined
 
-  const [villaId, setVillaId] = React.useState(villaParam)
+  if (snapshot === PROPOSALS_SERVER_SNAPSHOT) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-20 text-sm text-muted-foreground sm:px-6">
+        Loading proposal…
+      </div>
+    )
+  }
+
+  if (editId && !editing) {
+    return (
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-20 sm:px-6">
+        <h1 className="font-serif text-3xl font-semibold text-foreground">
+          Proposal not found
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          The requested proposal is not available in this browser.
+        </p>
+        <Button nativeButton={false} render={<Link href="/proposals">Back to proposals</Link>} />
+      </div>
+    )
+  }
+
+  return (
+    <ProposalEditor
+      key={editing?.id ?? 'new'}
+      editId={editId}
+      editing={editing}
+      villaParam={params.get('villa') ?? villas[0].id}
+    />
+  )
+}
+
+function ProposalEditor({
+  editId,
+  editing,
+  villaParam,
+}: {
+  editId: string | null
+  editing: Proposal | undefined
+  villaParam: string
+}) {
+  const isEditing = Boolean(editId)
+
+  const [villaId, setVillaId] = React.useState(editing?.villaId ?? villaParam)
   const villa = getVilla(villaId) ?? villas[0]
 
   const [selected, setSelected] = React.useState<Set<string>>(
@@ -60,6 +119,7 @@ export function ProposalForm() {
   const [proposalText, setProposalText] = React.useState(
     editing?.proposalText ?? '',
   )
+  const [saveError, setSaveError] = React.useState('')
 
   function toggleAddOn(id: string) {
     setSelected((prev) => {
@@ -71,7 +131,10 @@ export function ProposalForm() {
   }
 
   const selectedAddOns: AddOn[] = addOns.filter((a) => selected.has(a.id))
-  const addOnsTotal = selectedAddOns.reduce((sum, a) => sum + a.price, 0)
+  const addOnsTotal = selectedAddOns.reduce(
+    (sum, addOn) => sum + getAddOnPrice(addOn, villa.price),
+    0,
+  )
   const total = villa.price + addOnsTotal
 
   function handleAutofill() {
@@ -88,37 +151,49 @@ export function ProposalForm() {
     setSelected(new Set(['furniture', 'smart-home', 'kitchen']))
   }
 
-  function buildViewUrl() {
-    const sp = new URLSearchParams()
-    sp.set('villa', villaId)
-    if (selected.size) sp.set('addons', Array.from(selected).join(','))
-    sp.set('client', clientName)
-    sp.set('phone', phone)
-    sp.set('email', email)
-    sp.set('manager', manager)
-    if (comment) sp.set('comment', comment)
-    if (proposalText) sp.set('proposalText', proposalText)
-    return `/proposals/view?${sp.toString()}`
-  }
-
   function handleGenerate(e: React.FormEvent) {
     e.preventDefault()
-    window.open(buildViewUrl(), '_blank', 'noopener,noreferrer')
+    setSaveError('')
+
+    try {
+      const saved = saveProposal(
+        {
+          villaId,
+          clientName,
+          phone,
+          email,
+          manager,
+          comment,
+          proposalText,
+          addOnIds: Array.from(selected),
+        },
+        editId ?? undefined,
+      )
+      window.open(
+        `/proposals/view?id=${encodeURIComponent(saved.id)}`,
+        '_blank',
+        'noopener,noreferrer',
+      )
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Unable to save proposal.',
+      )
+    }
   }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
-        href={editing ? '/proposals' : '/villas'}
+        href={isEditing ? '/proposals' : '/villas'}
         className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
-        {editing ? 'Back to proposals' : 'Back to villas'}
+        {isEditing ? 'Back to proposals' : 'Back to villas'}
       </Link>
 
       <div className="mb-8 flex flex-col gap-2">
         <h1 className="font-serif text-4xl font-semibold tracking-tight text-foreground">
-          {editing ? 'Edit proposal' : 'Create proposal'}
+          {isEditing ? 'Edit proposal' : 'Create proposal'}
         </h1>
         <p className="text-base leading-relaxed text-muted-foreground">
           Configure the residence, add-ons and client details, then generate a
@@ -231,7 +306,7 @@ export function ProposalForm() {
                         {addOn.description}
                       </span>
                       <span className="mt-1 text-sm font-semibold text-primary">
-                        + {formatTHB(addOn.price)}
+                        + {formatTHB(getAddOnPrice(addOn, villa.price))}
                       </span>
                     </span>
                   </button>
@@ -340,7 +415,9 @@ export function ProposalForm() {
                 selectedAddOns.map((a) => (
                   <div key={a.id} className="flex items-center justify-between text-sm">
                     <span className="text-foreground">{a.name}</span>
-                    <span className="text-muted-foreground">+ {formatTHB(a.price)}</span>
+                    <span className="text-muted-foreground">
+                      + {formatTHB(getAddOnPrice(a, villa.price))}
+                    </span>
                   </div>
                 ))
               )}
@@ -357,6 +434,11 @@ export function ProposalForm() {
               <FileText />
               Generate Proposal
             </Button>
+            {saveError && (
+              <p className="text-center text-sm text-destructive" role="alert">
+                {saveError}
+              </p>
+            )}
             <p className="text-center text-xs text-muted-foreground">
               Opens a printable proposal in a new tab.
             </p>
