@@ -1,10 +1,12 @@
 ---
 id: "202608041028-N25BTC"
 title: "Make proposal add-ons optional"
-status: "DOING"
+result_summary: "Proposal add-ons are optional without changing selection, pricing, or persistence"
+risk_level: "low"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 11
+revision: 13
 origin:
   system: "manual"
 depends_on: []
@@ -26,11 +28,33 @@ verification:
   updated_by: "CODER"
   note: "Add-ons are optional; validation no longer rejects empty selections, while selection, pricing, saving, and unrelated required fields remain intact."
   attempts: 0
-commit: null
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-04T10:30:21.239Z"
+  updated_by: "EVALUATOR"
+  note: "The scoped validation change correctly makes add-ons optional without changing selection, pricing, or persistence behavior."
+  evaluated_sha: "5fbed1ed4f45566069fcdb8bd8bc36c3679e1d3a"
+  blueprint_digest: "5077931c9f0ef4b3a8197b501a483718eca26905b42052a132dc882470c1ef9f"
+  evidence_refs:
+    - ".agentplane/tasks/202608041028-N25BTC/README.md"
+    - ".agentplane/tasks/202608041028-N25BTC/quality/20260804-103021239-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608041028-N25BTC/quality/20260804-103021239-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608041028-N25BTC/quality/20260804-103021239-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608041028-N25BTC/blueprint/resolved-snapshot.json"
+    - "commit 5fbed1ed4f45566069fcdb8bd8bc36c3679e1d3a"
+    - "pnpm lint; pnpm build; pnpm exec tsc --noEmit; focused rg assertion; git diff --check"
+  findings:
+    - "The empty addOnIds case no longer produces an error; obsolete error types and ARIA references were removed, and the legend now identifies the group as optional."
+commit:
+  hash: "5fbed1ed4f45566069fcdb8bd8bc36c3679e1d3a"
+  message: "🚧 N25BTC frontend: make proposal add-ons optional"
 comments:
   -
     author: "CODER"
     body: "Start: make proposal add-ons optional while preserving selection, pricing, saving, and all unrelated validation."
+  -
+    author: "CODER"
+    body: "Verified: proposals can be generated with zero add-ons; lint, build, TypeScript, focused validation assertions, routing, doctor, and evaluator all pass."
 events:
   -
     type: "status"
@@ -45,8 +69,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Add-ons are optional; validation no longer rejects empty selections, while selection, pricing, saving, and unrelated required fields remain intact."
+  -
+    type: "status"
+    at: "2026-08-04T10:30:27.288Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: proposals can be generated with zero add-ons; lint, build, TypeScript, focused validation assertions, routing, doctor, and evaluator all pass."
 doc_version: 3
-doc_updated_at: "2026-08-04T10:30:13.315Z"
+doc_updated_at: "2026-08-04T10:30:27.289Z"
 doc_updated_by: "CODER"
 description: "Allow /proposals/new and /proposals/edit submissions with no additional options selected, removing the unnecessary Select at least one additional option validation error while preserving add-on selection and pricing behavior."
 sections:

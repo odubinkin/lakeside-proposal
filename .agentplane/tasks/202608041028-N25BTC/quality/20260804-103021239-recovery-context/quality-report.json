@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041028-N25BTC",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:30:21.239Z",
+  "verdict": "pass",
+  "summary": "The scoped validation change correctly makes add-ons optional without changing selection, pricing, or persistence behavior.",
+  "evaluated_sha": "5fbed1ed4f45566069fcdb8bd8bc36c3679e1d3a",
+  "blueprint_digest": "5077931c9f0ef4b3a8197b501a483718eca26905b42052a132dc882470c1ef9f",
+  "findings": [
+    "The empty addOnIds case no longer produces an error; obsolete error types and ARIA references were removed, and the legend now identifies the group as optional."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041028-N25BTC/README.md",
+    "commit 5fbed1ed4f45566069fcdb8bd8bc36c3679e1d3a",
+    "pnpm lint; pnpm build; pnpm exec tsc --noEmit; focused rg assertion; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "No dedicated unit-test harness exists; behavior is covered by direct source inspection and project-level static/build checks."
+  ]
+}
