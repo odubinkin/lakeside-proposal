@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041042-87DC6V",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:44:41.077Z",
+  "verdict": "pass",
+  "summary": "The implementation is scoped to the proposal form and satisfies the approved scrolling behavior.",
+  "evaluated_sha": "594dfcfabc993b557ca362fccd646bc901015a0a",
+  "blueprint_digest": "b2c00470e04005ea253fd4231a22c8b4c0e1d91c2d6472fd1036dd0d70b4d224",
+  "findings": [
+    "Validation errors are checked in page order; the first invalid control scrolls smoothly only when it is not fully visible, while the existing save and proposal reuse flow remains unchanged."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041042-87DC6V/README.md",
+    "npm run lint; npx tsc --noEmit; npm run build; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
