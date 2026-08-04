@@ -97,6 +97,7 @@ export function ProposalView() {
                 src={villa.image || '/placeholder.svg'}
                 alt={villa.name}
                 fill
+                loading="eager"
                 sizes="768px"
                 className="object-cover"
               />

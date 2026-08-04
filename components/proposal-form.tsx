@@ -136,6 +136,7 @@ export function ProposalForm() {
                 src={villa.image || '/placeholder.svg'}
                 alt={villa.name}
                 fill
+                loading="eager"
                 sizes="(max-width: 1024px) 100vw, 720px"
                 className="object-cover"
               />
