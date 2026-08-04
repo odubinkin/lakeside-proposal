@@ -42,7 +42,7 @@ const addOnIcons: Record<string, React.ComponentType<{ className?: string }>> = 
 
 export function ProposalForm() {
   const params = useSearchParams()
-  const editId = params.get('edit')
+  const editId = params.get('proposal')
   const editing = editId ? proposals.find((p) => p.id === editId) : undefined
   const villaParam = params.get('villa') ?? editing?.villaId ?? villas[0].id
 

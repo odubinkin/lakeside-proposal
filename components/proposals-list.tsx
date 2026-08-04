@@ -199,7 +199,7 @@ export function ProposalsList({ initial }: { initial: Proposal[] }) {
                   nativeButton={false}
                   className="h-10 flex-1 px-3 sm:h-auto sm:py-1.5 lg:h-10 lg:py-0"
                   render={
-                    <Link href={`/proposals/new?edit=${proposal.id}`}>
+                    <Link href={`/proposals/edit?proposal=${proposal.id}`}>
                       <Pencil />
                       Edit
                     </Link>
