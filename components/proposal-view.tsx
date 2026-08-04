@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { Printer, MapPin, Maximize, BedDouble, Bath, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { BrandLogo } from '@/components/brand-logo'
+import { ProposalLoading } from '@/components/proposal-loading'
 import {
   villas,
   getVilla,
@@ -35,9 +36,7 @@ export function ProposalView() {
     : undefined
 
   if (snapshot === PROPOSALS_SERVER_SNAPSHOT) {
-    return (
-      <div className="p-10 text-sm text-muted-foreground">Loading proposal…</div>
-    )
+    return <ProposalLoading />
   }
 
   if (!proposal) {

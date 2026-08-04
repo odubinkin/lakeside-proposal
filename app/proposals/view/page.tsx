@@ -1,13 +1,10 @@
 import { Suspense } from 'react'
 import { ProposalView } from '@/components/proposal-view'
+import { ProposalLoading } from '@/components/proposal-loading'
 
 export default function ProposalViewPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="p-10 text-sm text-muted-foreground">Loading proposal…</div>
-      }
-    >
+    <Suspense fallback={<ProposalLoading />}>
       <ProposalView />
     </Suspense>
   )
