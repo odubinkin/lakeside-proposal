@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "task_id": "202608041016-6AXKH5",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T10:26:07.213Z",
+  "verdict": "pass",
+  "summary": "Proposal form validation meets the approved required-field, contact, save, and navigation behavior.",
+  "evaluated_sha": "476dd14e6268579bef2029c7c39a460c0fc9077b",
+  "blueprint_digest": "1d21d26d09bac54024f08ad6124084ea429b7b47ebbeb900f02be0018bdc3717",
+  "findings": [
+    "ESLint and production build pass; browser verification covered empty, malformed-contact, and valid email-only submissions without console errors."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608041016-6AXKH5/README.md",
+    "components/proposal-form.tsx",
+    "npm run lint",
+    "npm run build",
+    "Playwright /proposals/new submission flow"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}

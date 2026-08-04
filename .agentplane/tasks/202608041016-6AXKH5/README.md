@@ -1,10 +1,11 @@
 ---
 id: "202608041016-6AXKH5"
 title: "Validate new proposal form"
-status: "DOING"
+result_summary: "Validated proposal generation while preserving invalid draft saves."
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 12
+revision: 15
 origin:
   system: "manual"
 depends_on: []
@@ -18,22 +19,22 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-04T10:25:24.728Z"
+  updated_at: "2026-08-04T10:26:16.290Z"
   updated_by: "CODER"
   note: "verified-202608041016-6AXKH5"
   attempts: 0
 quality_review:
   state: "pass"
-  updated_at: "2026-08-04T10:25:17.071Z"
+  updated_at: "2026-08-04T10:26:07.213Z"
   updated_by: "EVALUATOR"
   note: "Proposal form validation meets the approved required-field, contact, save, and navigation behavior."
-  evaluated_sha: null
+  evaluated_sha: "476dd14e6268579bef2029c7c39a460c0fc9077b"
   blueprint_digest: "1d21d26d09bac54024f08ad6124084ea429b7b47ebbeb900f02be0018bdc3717"
   evidence_refs:
     - ".agentplane/tasks/202608041016-6AXKH5/README.md"
-    - ".agentplane/tasks/202608041016-6AXKH5/quality/20260804-102517071-recovery-context/quality-report.json"
-    - ".agentplane/tasks/202608041016-6AXKH5/quality/20260804-102517071-recovery-context/evaluator-prompt.md"
-    - ".agentplane/tasks/202608041016-6AXKH5/quality/20260804-102517071-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608041016-6AXKH5/quality/20260804-102607213-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608041016-6AXKH5/quality/20260804-102607213-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608041016-6AXKH5/quality/20260804-102607213-recovery-context/evaluator-opinion.md"
     - ".agentplane/tasks/202608041016-6AXKH5/blueprint/resolved-snapshot.json"
     - "components/proposal-form.tsx"
     - "npm run lint"
@@ -41,11 +42,16 @@ quality_review:
     - "Playwright /proposals/new submission flow"
   findings:
     - "ESLint and production build pass; browser verification covered empty, malformed-contact, and valid email-only submissions without console errors."
-commit: null
+commit:
+  hash: "476dd14e6268579bef2029c7c39a460c0fc9077b"
+  message: "🚧 6AXKH5 task: record proposal validation quality evidence"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: required-field and contact validation passed lint, build, and Playwright browser checks with invalid-save navigation gating confirmed."
 events:
   -
     type: "status"
@@ -72,8 +78,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608041016-6AXKH5"
+  -
+    type: "verify"
+    at: "2026-08-04T10:26:16.290Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608041016-6AXKH5"
+  -
+    type: "status"
+    at: "2026-08-04T10:26:48.103Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: required-field and contact validation passed lint, build, and Playwright browser checks with invalid-save navigation gating confirmed."
 doc_version: 3
-doc_updated_at: "2026-08-04T10:25:24.814Z"
+doc_updated_at: "2026-08-04T10:26:48.105Z"
 doc_updated_by: "CODER"
 description: "Require all /proposals/new fields except comment, require phone or email, show validation errors, save invalid submissions without navigation, and navigate only after valid Generate Proposal submission."
 sections:
@@ -166,6 +185,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608041016-6AXKH5 --result verified-202608041016-6AXKH5 --commit 1be51646de648cff96918cc30d86096fb82e8683
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-04T10:26:16.290Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608041016-6AXKH5
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T10:25:24.814Z, excerpt_hash=sha256:8e99ee0305a1ffd0729c71882768efd16147b28ef148977db057171878c59268
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041016-6AXKH5/blueprint/resolved-snapshot.json
+    - old_digest: 1d21d26d09bac54024f08ad6124084ea429b7b47ebbeb900f02be0018bdc3717
+    - current_digest: 1d21d26d09bac54024f08ad6124084ea429b7b47ebbeb900f02be0018bdc3717
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608041016-6AXKH5
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608041016-6AXKH5 --result verified-202608041016-6AXKH5 --commit 476dd14e6268579bef2029c7c39a460c0fc9077b
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -280,6 +329,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608041016-6AXKH5 --result verified-202608041016-6AXKH5 --commit 1be51646de648cff96918cc30d86096fb82e8683
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-04T10:26:16.290Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608041016-6AXKH5
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-04T10:25:24.814Z, excerpt_hash=sha256:8e99ee0305a1ffd0729c71882768efd16147b28ef148977db057171878c59268
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608041016-6AXKH5/blueprint/resolved-snapshot.json
+- old_digest: 1d21d26d09bac54024f08ad6124084ea429b7b47ebbeb900f02be0018bdc3717
+- current_digest: 1d21d26d09bac54024f08ad6124084ea429b7b47ebbeb900f02be0018bdc3717
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608041016-6AXKH5
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608041016-6AXKH5 --result verified-202608041016-6AXKH5 --commit 476dd14e6268579bef2029c7c39a460c0fc9077b
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
