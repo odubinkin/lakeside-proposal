@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "202608040648-P98A1J",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-04T06:54:36.532Z",
+  "verdict": "pass",
+  "summary": "The visual prototype scope is implemented and all declared checks pass.",
+  "evaluated_sha": "5a1f53ede2615c9444764d91426283182bc97d61",
+  "blueprint_digest": "6c5782f98d637ff665fe2e0a75d0f2d66c3c0474009905d77f7088474b28449d",
+  "findings": [
+    "Villa search integration is complete; lint, TypeScript, production build, workspace health, routing policy, and commit hygiene evidence show no blocking defects."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608040648-P98A1J/README.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
