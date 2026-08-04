@@ -49,6 +49,74 @@ const addOnIcons: Record<string, React.ComponentType<{ className?: string }>> = 
   kitchen: ChefHat,
 }
 
+type ProposalFormErrors = Partial<
+  Record<
+    'villaId' | 'addOnIds' | 'clientName' | 'phone' | 'email' | 'manager' | 'proposalText',
+    string
+  >
+>
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const phonePattern = /^\+?[0-9()\s.-]+$/
+
+function validateProposalForm({
+  villaId,
+  addOnIds,
+  clientName,
+  phone,
+  email,
+  manager,
+  proposalText,
+}: {
+  villaId: string
+  addOnIds: string[]
+  clientName: string
+  phone: string
+  email: string
+  manager: string
+  proposalText: string
+}): ProposalFormErrors {
+  const errors: ProposalFormErrors = {}
+  const trimmedPhone = phone.trim()
+  const trimmedEmail = email.trim()
+
+  if (!getVilla(villaId)) errors.villaId = 'Select a villa.'
+  if (addOnIds.length === 0) {
+    errors.addOnIds = 'Select at least one additional option.'
+  }
+  if (!clientName.trim()) errors.clientName = 'Enter the client name.'
+  if (!manager.trim()) errors.manager = 'Enter the manager name.'
+  if (!proposalText.trim()) errors.proposalText = 'Enter the proposal text.'
+
+  if (!trimmedPhone && !trimmedEmail) {
+    const contactError = 'Enter a phone number or email address.'
+    errors.phone = contactError
+    errors.email = contactError
+  } else {
+    if (trimmedPhone) {
+      const digitCount = trimmedPhone.replace(/\D/g, '').length
+      if (!phonePattern.test(trimmedPhone) || digitCount < 7 || digitCount > 15) {
+        errors.phone = 'Enter a valid phone number.'
+      }
+    }
+    if (trimmedEmail && !emailPattern.test(trimmedEmail)) {
+      errors.email = 'Enter a valid email address.'
+    }
+  }
+
+  return errors
+}
+
+function FieldError({ id, children }: { id: string; children?: string }) {
+  if (!children) return null
+
+  return (
+    <p id={id} className="mt-1.5 text-sm text-destructive" role="alert">
+      {children}
+    </p>
+  )
+}
+
 export function ProposalForm() {
   const params = useSearchParams()
   const editId = params.get('id')
@@ -119,6 +187,7 @@ function ProposalEditor({
   const [proposalText, setProposalText] = React.useState(
     editing?.proposalText ?? '',
   )
+  const [errors, setErrors] = React.useState<ProposalFormErrors>({})
   const [saveError, setSaveError] = React.useState('')
 
   function toggleAddOn(id: string) {
@@ -149,11 +218,24 @@ function ProposalEditor({
       'We are delighted to present this residence as a fully turnkey, energy-efficient home tailored to your family’s relocation. This offer includes a curated furniture package, an integrated smart-home system and a premium kitchen upgrade, ensuring the villa is ready to enjoy from the moment you arrive. Our team will guide you through every step of the purchase to make the transition effortless.',
     )
     setSelected(new Set(['furniture', 'smart-home', 'kitchen']))
+    setErrors({})
   }
 
   function handleGenerate(e: React.FormEvent) {
     e.preventDefault()
     setSaveError('')
+
+    const addOnIds = Array.from(selected)
+    const validationErrors = validateProposalForm({
+      villaId,
+      addOnIds,
+      clientName,
+      phone,
+      email,
+      manager,
+      proposalText,
+    })
+    setErrors(validationErrors)
 
     try {
       const saved = saveProposal(
@@ -165,10 +247,13 @@ function ProposalEditor({
           manager,
           comment,
           proposalText,
-          addOnIds: Array.from(selected),
+          addOnIds,
         },
         editId ?? undefined,
       )
+
+      if (Object.keys(validationErrors).length > 0) return
+
       window.open(
         `/proposals/view?id=${encodeURIComponent(saved.id)}`,
         '_blank',
@@ -201,7 +286,11 @@ function ProposalEditor({
         </p>
       </div>
 
-      <form onSubmit={handleGenerate} className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
+      <form
+        noValidate
+        onSubmit={handleGenerate}
+        className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]"
+      >
         {/* Left column */}
         <div className="flex flex-col gap-6">
           {/* Villa preview */}
@@ -247,7 +336,13 @@ function ProposalEditor({
               <select
                 id="villa-select"
                 value={villaId}
-                onChange={(e) => setVillaId(e.target.value)}
+                required
+                aria-invalid={Boolean(errors.villaId)}
+                aria-describedby={errors.villaId ? 'villa-select-error' : undefined}
+                onChange={(e) => {
+                  setVillaId(e.target.value)
+                  setErrors((current) => ({ ...current, villaId: undefined }))
+                }}
                 className="h-11 w-full rounded-lg border border-border bg-background px-3.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
               >
                 {villas.map((v) => (
@@ -256,6 +351,7 @@ function ProposalEditor({
                   </option>
                 ))}
               </select>
+              <FieldError id="villa-select-error">{errors.villaId}</FieldError>
             </div>
           </section>
 
@@ -269,7 +365,11 @@ function ProposalEditor({
                 Select any upgrades to include. The total updates automatically.
               </p>
             </div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <fieldset
+              className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+              aria-describedby={errors.addOnIds ? 'add-ons-error' : undefined}
+            >
+              <legend className="sr-only">Additional options (required)</legend>
               {addOns.map((addOn) => {
                 const Icon = addOnIcons[addOn.id] ?? Home
                 const active = selected.has(addOn.id)
@@ -279,7 +379,10 @@ function ProposalEditor({
                   <button
                     key={addOn.id}
                     type="button"
-                    onClick={() => toggleAddOn(addOn.id)}
+                    onClick={() => {
+                      toggleAddOn(addOn.id)
+                      setErrors((current) => ({ ...current, addOnIds: undefined }))
+                    }}
                     aria-pressed={active}
                     className={
                       'flex items-start gap-3 rounded-xl border p-4 text-left transition-all ' +
@@ -314,7 +417,8 @@ function ProposalEditor({
                   </button>
                 )
               })}
-            </div>
+            </fieldset>
+            <FieldError id="add-ons-error">{errors.addOnIds}</FieldError>
           </section>
 
           {/* Proposal text */}
@@ -331,11 +435,18 @@ function ProposalEditor({
             <Textarea
               id="proposalText"
               value={proposalText}
-              onChange={(e) => setProposalText(e.target.value)}
+              required
+              aria-invalid={Boolean(errors.proposalText)}
+              aria-describedby={errors.proposalText ? 'proposal-text-error' : undefined}
+              onChange={(e) => {
+                setProposalText(e.target.value)
+                setErrors((current) => ({ ...current, proposalText: undefined }))
+              }}
               rows={6}
-              className="min-h-36"
+              className="min-h-36 aria-invalid:border-destructive aria-invalid:ring-destructive/20"
               placeholder="Dear client, we are delighted to present this residence as an exceptional opportunity…"
             />
+            <FieldError id="proposal-text-error">{errors.proposalText}</FieldError>
           </section>
 
           {/* Client details */}
@@ -349,18 +460,34 @@ function ProposalEditor({
                 <Input
                   id="clientName"
                   value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
+                  required
+                  aria-invalid={Boolean(errors.clientName)}
+                  aria-describedby={errors.clientName ? 'client-name-error' : undefined}
+                  onChange={(e) => {
+                    setClientName(e.target.value)
+                    setErrors((current) => ({ ...current, clientName: undefined }))
+                  }}
+                  className="aria-invalid:border-destructive aria-invalid:ring-destructive/20"
                   placeholder="e.g. Oliver Bennett"
                 />
+                <FieldError id="client-name-error">{errors.clientName}</FieldError>
               </div>
               <div>
                 <Label htmlFor="manager">Manager name</Label>
                 <Input
                   id="manager"
                   value={manager}
-                  onChange={(e) => setManager(e.target.value)}
+                  required
+                  aria-invalid={Boolean(errors.manager)}
+                  aria-describedby={errors.manager ? 'manager-error' : undefined}
+                  onChange={(e) => {
+                    setManager(e.target.value)
+                    setErrors((current) => ({ ...current, manager: undefined }))
+                  }}
+                  className="aria-invalid:border-destructive aria-invalid:ring-destructive/20"
                   placeholder="e.g. Anna Petrova"
                 />
+                <FieldError id="manager-error">{errors.manager}</FieldError>
               </div>
               <div>
                 <Label htmlFor="phone">Phone</Label>
@@ -368,9 +495,20 @@ function ProposalEditor({
                   id="phone"
                   type="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  aria-invalid={Boolean(errors.phone)}
+                  aria-describedby={errors.phone ? 'phone-error' : 'contact-requirement'}
+                  onChange={(e) => {
+                    setPhone(e.target.value)
+                    setErrors((current) => ({
+                      ...current,
+                      phone: undefined,
+                      email: undefined,
+                    }))
+                  }}
+                  className="aria-invalid:border-destructive aria-invalid:ring-destructive/20"
                   placeholder="+66 ..."
                 />
+                <FieldError id="phone-error">{errors.phone}</FieldError>
               </div>
               <div>
                 <Label htmlFor="email">Email</Label>
@@ -378,10 +516,27 @@ function ProposalEditor({
                   id="email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? 'email-error' : 'contact-requirement'}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    setErrors((current) => ({
+                      ...current,
+                      phone: undefined,
+                      email: undefined,
+                    }))
+                  }}
+                  className="aria-invalid:border-destructive aria-invalid:ring-destructive/20"
                   placeholder="client@example.com"
                 />
+                <FieldError id="email-error">{errors.email}</FieldError>
               </div>
+              <p
+                id="contact-requirement"
+                className="text-xs text-muted-foreground sm:col-span-2"
+              >
+                Provide at least one contact method: phone or email.
+              </p>
               <div className="sm:col-span-2">
                 <Label htmlFor="comment">Comment</Label>
                 <Textarea
