@@ -56,6 +56,17 @@ type ProposalFormErrors = Partial<
   >
 >
 
+const errorFieldsInPageOrder: Array<
+  [keyof ProposalFormErrors, string]
+> = [
+  ['villaId', 'villa-select'],
+  ['proposalText', 'proposalText'],
+  ['clientName', 'clientName'],
+  ['manager', 'manager'],
+  ['phone', 'phone'],
+  ['email', 'email'],
+]
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const phonePattern = /^\+?[0-9()\s.-]+$/
 
@@ -110,6 +121,23 @@ function FieldError({ id, children }: { id: string; children?: string }) {
       {children}
     </p>
   )
+}
+
+function scrollToFirstInvalidField(errors: ProposalFormErrors) {
+  const firstInvalidField = errorFieldsInPageOrder.find(
+    ([fieldName]) => errors[fieldName],
+  )
+  if (!firstInvalidField) return
+
+  const field = document.getElementById(firstInvalidField[1])
+  if (!field) return
+
+  const { top, bottom } = field.getBoundingClientRect()
+  const isFullyVisible = top >= 0 && bottom <= window.innerHeight
+
+  if (!isFullyVisible) {
+    field.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
 }
 
 export function ProposalForm() {
@@ -235,7 +263,10 @@ function ProposalEditor({
       proposalText,
     })
     setErrors(validationErrors)
-    if (Object.keys(validationErrors).length > 0) return
+    if (Object.keys(validationErrors).length > 0) {
+      scrollToFirstInvalidField(validationErrors)
+      return
+    }
 
     isSavingRef.current = true
     setIsSaving(true)
