@@ -1,10 +1,11 @@
 ---
 id: "202608050932-2VFW54"
 title: "Show draft status for incomplete proposals"
-status: "DOING"
+result_summary: "verified-202608050932-2VFW54"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 10
+revision: 12
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T09:36:23.439Z"
+  updated_at: "2026-08-05T09:36:34.456Z"
   updated_by: "CODER"
   note: "verified-202608050932-2VFW54"
   attempts: 0
@@ -39,11 +40,16 @@ quality_review:
     - "tests/components/proposals.test.tsx"
   findings:
     - "Targeted component coverage verifies both completed and incomplete proposal states, and all declared static and policy checks passed."
-commit: null
+commit:
+  hash: "e626e710e40fb8c9664a653570314a26f87c9ef6"
+  message: "🚧 2VFW54 task: implement draft proposal status"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608050932-2VFW54. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -69,8 +75,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608050932-2VFW54"
+  -
+    type: "verify"
+    at: "2026-08-05T09:36:34.456Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050932-2VFW54"
+  -
+    type: "status"
+    at: "2026-08-05T09:36:34.603Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608050932-2VFW54. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T09:36:23.611Z"
+doc_updated_at: "2026-08-05T09:36:34.604Z"
 doc_updated_by: "CODER"
 description: "On /proposals, hide the View action for proposals where completed is false and show a yellow Draft badge while preserving actions for completed proposals."
 sections:
@@ -150,6 +169,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608050932-2VFW54 --result verified-202608050932-2VFW54 --commit e626e710e40fb8c9664a653570314a26f87c9ef6
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T09:36:34.456Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050932-2VFW54
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T09:36:23.611Z, excerpt_hash=sha256:89cddbe4dd6f0ccf92b450525b0d4b61035d45e6887bb27bc2e7d78fb04afdf1
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050932-2VFW54/blueprint/resolved-snapshot.json
+    - old_digest: 32fb325276dbdd929e4861507b6e5db0e720fb38bd1313afa5cd74e7295fdd77
+    - current_digest: 32fb325276dbdd929e4861507b6e5db0e720fb38bd1313afa5cd74e7295fdd77
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050932-2VFW54
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050932-2VFW54 --result verified-202608050932-2VFW54 --commit 68aa9c7bab3622eee42dc57c85742e1d2660a173
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -247,6 +296,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050932-2VFW54 --result verified-202608050932-2VFW54 --commit e626e710e40fb8c9664a653570314a26f87c9ef6
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T09:36:34.456Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050932-2VFW54
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T09:36:23.611Z, excerpt_hash=sha256:89cddbe4dd6f0ccf92b450525b0d4b61035d45e6887bb27bc2e7d78fb04afdf1
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050932-2VFW54/blueprint/resolved-snapshot.json
+- old_digest: 32fb325276dbdd929e4861507b6e5db0e720fb38bd1313afa5cd74e7295fdd77
+- current_digest: 32fb325276dbdd929e4861507b6e5db0e720fb38bd1313afa5cd74e7295fdd77
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050932-2VFW54
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050932-2VFW54 --result verified-202608050932-2VFW54 --commit 68aa9c7bab3622eee42dc57c85742e1d2660a173
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
