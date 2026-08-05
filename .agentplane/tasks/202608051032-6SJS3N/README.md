@@ -4,7 +4,7 @@ title: "Refine proposal card hierarchy"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 13
+revision: 15
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,29 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T10:36:52.673Z"
+  updated_at: "2026-08-05T10:37:32.644Z"
   updated_by: "CODER"
-  note: "Proposal card hierarchy and responsive preview sizing verified by targeted component tests, lint, typecheck, local desktop/mobile Playwright inspection, Agentplane doctor, and policy routing validation."
+  note: "verified-202608051032-6SJS3N"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T10:37:21.862Z"
+  updated_by: "EVALUATOR"
+  note: "Proposal card layout matches the approved hierarchy and responsive sizing requirements."
+  evaluated_sha: "884481e0896c7c309f86b7034b641044b58a9df0"
+  blueprint_digest: "950c0e2114bd3d6f16aabefce779b5752017763749468ddae572d7c252906c7c"
+  evidence_refs:
+    - ".agentplane/tasks/202608051032-6SJS3N/README.md"
+    - ".agentplane/tasks/202608051032-6SJS3N/quality/20260805-103721862-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051032-6SJS3N/quality/20260805-103721862-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051032-6SJS3N/quality/20260805-103721862-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051032-6SJS3N/blueprint/resolved-snapshot.json"
+    - "npm test -- --run tests/components/proposals.test.tsx"
+    - "npm run lint"
+    - "npm run typecheck"
+    - "Playwright 390x844 and 1440x1000 visual inspection"
+  findings:
+    - "ID and Draft share a dedicated metadata row above the villa title; the desktop preview is larger while mobile layout remains overflow-free."
 commit: null
 comments:
   -
@@ -41,8 +60,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "Proposal card hierarchy and responsive preview sizing verified by targeted component tests, lint, typecheck, local desktop/mobile Playwright inspection, Agentplane doctor, and policy routing validation."
+  -
+    type: "verify"
+    at: "2026-08-05T10:37:32.644Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051032-6SJS3N"
 doc_version: 3
-doc_updated_at: "2026-08-05T10:36:52.776Z"
+doc_updated_at: "2026-08-05T10:37:32.724Z"
 doc_updated_by: "CODER"
 description: "On /proposals, move the proposal ID and Draft status badges to a dedicated row above the villa title, and slightly enlarge the villa preview image at wide-screen breakpoints while preserving mobile layout and existing behavior."
 sections:
@@ -100,6 +125,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608051032-6SJS3N
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T10:37:32.644Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051032-6SJS3N
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:36:52.776Z, excerpt_hash=sha256:754ba5967576b283197b703c94f4e0197c5a588439e9a33873495db8272a7c95
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051032-6SJS3N/blueprint/resolved-snapshot.json
+    - old_digest: 950c0e2114bd3d6f16aabefce779b5752017763749468ddae572d7c252906c7c
+    - current_digest: 950c0e2114bd3d6f16aabefce779b5752017763749468ddae572d7c252906c7c
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051032-6SJS3N
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051032-6SJS3N --result verified-202608051032-6SJS3N --commit 884481e0896c7c309f86b7034b641044b58a9df0
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -179,6 +234,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608051032-6SJS3N
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T10:37:32.644Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051032-6SJS3N
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:36:52.776Z, excerpt_hash=sha256:754ba5967576b283197b703c94f4e0197c5a588439e9a33873495db8272a7c95
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051032-6SJS3N/blueprint/resolved-snapshot.json
+- old_digest: 950c0e2114bd3d6f16aabefce779b5752017763749468ddae572d7c252906c7c
+- current_digest: 950c0e2114bd3d6f16aabefce779b5752017763749468ddae572d7c252906c7c
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051032-6SJS3N
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051032-6SJS3N --result verified-202608051032-6SJS3N --commit 884481e0896c7c309f86b7034b641044b58a9df0
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

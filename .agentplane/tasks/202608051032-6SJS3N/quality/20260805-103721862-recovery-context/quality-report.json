@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051032-6SJS3N",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T10:37:21.862Z",
+  "verdict": "pass",
+  "summary": "Proposal card layout matches the approved hierarchy and responsive sizing requirements.",
+  "evaluated_sha": "884481e0896c7c309f86b7034b641044b58a9df0",
+  "blueprint_digest": "950c0e2114bd3d6f16aabefce779b5752017763749468ddae572d7c252906c7c",
+  "findings": [
+    "ID and Draft share a dedicated metadata row above the villa title; the desktop preview is larger while mobile layout remains overflow-free."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051032-6SJS3N/README.md",
+    "npm test -- --run tests/components/proposals.test.tsx",
+    "npm run lint",
+    "npm run typecheck",
+    "Playwright 390x844 and 1440x1000 visual inspection"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
