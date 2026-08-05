@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050819-Y6SBA6",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T08:22:34.453Z",
+  "verdict": "pass",
+  "summary": "The implementation matches the approved language behavior and keeps code, canonical specification, implementation notes, and tests aligned.",
+  "evaluated_sha": "22ed66664ffe8540a01336ea5af0a91f44fe91dd",
+  "blueprint_digest": "16beec5c0949e2cd4c887e26af836591a03ec80435ac9413369ef23d6a5f2217",
+  "findings": [
+    "Willow now replies in the language of the user's current message while translating or transliterating form content into English and preserving language-neutral identifiers."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050819-Y6SBA6/README.md",
+    "commit 22ed66664ffe8540a01336ea5af0a91f44fe91dd",
+    "npm test -- --run tests/unit/ai-server.test.ts: 9 tests passed",
+    "npm run lint: passed",
+    "npm run typecheck: passed",
+    "node .agentplane/policy/check-routing.mjs and ap doctor: passed"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
