@@ -93,6 +93,55 @@ npm run start
 
 By default, the production server is available at [http://localhost:3000](http://localhost:3000).
 
+## Docker
+
+The Docker image builds and runs the optimized standalone Next.js production
+server. The main Compose configuration exposes the application to an existing
+Traefik instance without publishing port 3000 on the host.
+
+Before starting the production stack, make sure that Traefik is connected to an
+external Docker network named `traefik`, has an entrypoint named `websecure`,
+and has a certificate resolver named `letsencrypt`. Set the public domain and,
+optionally, the server-only OpenRouter credentials:
+
+```bash
+export APP_DOMAIN=proposal.example.com
+export OPENROUTER_API_KEY=<your OpenRouter API key>
+export OPENROUTER_MODEL=<OpenRouter model identifier>
+```
+
+If the external network does not exist yet, create it once and connect the
+Traefik container to it:
+
+```bash
+docker network create traefik
+```
+
+Build and start the application in the background:
+
+```bash
+docker compose up -d --build
+```
+
+Traefik routes `https://${APP_DOMAIN}` to port 3000 inside the application
+container and requests its TLS certificate through the `letsencrypt` resolver.
+If either OpenRouter variable is empty or omitted, Willow uses its deterministic
+mock provider.
+
+For local access, apply the local override together with the main Compose file.
+It preserves the production configuration and also publishes the application on
+[http://localhost:3000](http://localhost:3000):
+
+```bash
+APP_DOMAIN=localhost docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.local.yml \
+  up --build
+```
+
+Stop either stack with the same Compose file arguments used to start it, adding
+`down` in place of `up --build`.
+
 ## Testing and code quality
 
 Run ESLint across the project:

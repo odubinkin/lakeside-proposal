@@ -1,0 +1,16 @@
+.git
+.agentplane
+.next
+node_modules
+coverage
+playwright-report
+test-results
+.playwright
+.env
+.env.*
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+npm-debug.log*
+*.tsbuildinfo
+.DS_Store

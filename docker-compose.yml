@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+    image: lakeside-proposal:latest
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-}
+    expose:
+      - "3000"
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.lakeside-proposal.rule=Host(`${APP_DOMAIN:?Set APP_DOMAIN}`)"
+      - "traefik.http.routers.lakeside-proposal.entrypoints=websecure"
+      - "traefik.http.routers.lakeside-proposal.tls=true"
+      - "traefik.http.routers.lakeside-proposal.tls.certresolver=letsencrypt"
+      - "traefik.http.services.lakeside-proposal.loadbalancer.server.port=3000"
+
+networks:
+  traefik:
+    external: true
+    name: traefik
