@@ -4,7 +4,7 @@ title: "Specify Willow AI assistant integration"
 status: "DOING"
 priority: "med"
 owner: "DOCS"
-revision: 16
+revision: 18
 origin:
   system: "manual"
 depends_on: []
@@ -18,28 +18,29 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T05:24:21.386Z"
+  updated_at: "2026-08-05T05:25:32.851Z"
   updated_by: "CODER"
   note: "verified-202608050518-VF2YJ1"
   attempts: 0
 quality_review:
   state: "pass"
-  updated_at: "2026-08-05T05:24:11.238Z"
+  updated_at: "2026-08-05T05:25:16.579Z"
   updated_by: "EVALUATOR"
-  note: "The English implementation specification satisfies the approved documentation scope and is ready for task closure."
-  evaluated_sha: null
+  note: "Commit f1fc52c contains the complete English Willow AI assistant implementation specification and satisfies the approved docs quality contract."
+  evaluated_sha: "f1fc52cde46d2ddf96af139470f99ca4c1916c64"
   blueprint_digest: "8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd"
   evidence_refs:
     - ".agentplane/tasks/202608050518-VF2YJ1/README.md"
-    - ".agentplane/tasks/202608050518-VF2YJ1/quality/20260805-052411238-recovery-context/quality-report.json"
-    - ".agentplane/tasks/202608050518-VF2YJ1/quality/20260805-052411238-recovery-context/evaluator-prompt.md"
-    - ".agentplane/tasks/202608050518-VF2YJ1/quality/20260805-052411238-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050518-VF2YJ1/quality/20260805-052516579-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050518-VF2YJ1/quality/20260805-052516579-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050518-VF2YJ1/quality/20260805-052516579-recovery-context/evaluator-opinion.md"
     - ".agentplane/tasks/202608050518-VF2YJ1/blueprint/resolved-snapshot.json"
     - "docs/AI_BOT_SPEC.md"
+    - "f1fc52c"
     - "node .agentplane/policy/check-routing.mjs: pass"
     - "ap doctor: pass"
   findings:
-    - "The specification maps every requested requirement to explicit architecture, API, prompt, form-tool, persistence, streaming, security, acceptance, and mock-only testing contracts while preserving the current mock branches and exact sample data."
+    - "The committed specification is internally consistent, grounded in current repository field/catalog/mock contracts, and covers the required server architecture, OpenRouter configuration, client tool execution, streaming, persistence, security, acceptance criteria, and mock-only test strategy."
 commit: null
 comments:
   -
@@ -71,8 +72,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608050518-VF2YJ1"
+  -
+    type: "verify"
+    at: "2026-08-05T05:25:32.851Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050518-VF2YJ1"
 doc_version: 3
-doc_updated_at: "2026-08-05T05:24:21.468Z"
+doc_updated_at: "2026-08-05T05:25:32.938Z"
 doc_updated_by: "DOCS"
 description: "Create an English implementation specification for the LangChain TypeScript and OpenRouter-backed Willow proposal assistant, including server API, client-executed form tools, mock fallback, streaming, local chat persistence, security, acceptance criteria, and tests."
 sections:
@@ -167,6 +174,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608050518-VF2YJ1 --result verified-202608050518-VF2YJ1 --commit 6defe14b70bb9be5b438bf5caed44f0ad270a85d
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T05:25:32.851Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050518-VF2YJ1
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T05:24:21.468Z, excerpt_hash=sha256:b522e65440ddc063cdfd0c3bd85542724d728c729907512ac53c71bb08bb7675
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050518-VF2YJ1/blueprint/resolved-snapshot.json
+    - old_digest: 8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd
+    - current_digest: 8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050518-VF2YJ1
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050518-VF2YJ1 --result verified-202608050518-VF2YJ1 --commit f1fc52cde46d2ddf96af139470f99ca4c1916c64
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -283,6 +320,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050518-VF2YJ1 --result verified-202608050518-VF2YJ1 --commit 6defe14b70bb9be5b438bf5caed44f0ad270a85d
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T05:25:32.851Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050518-VF2YJ1
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T05:24:21.468Z, excerpt_hash=sha256:b522e65440ddc063cdfd0c3bd85542724d728c729907512ac53c71bb08bb7675
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050518-VF2YJ1/blueprint/resolved-snapshot.json
+- old_digest: 8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd
+- current_digest: 8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050518-VF2YJ1
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050518-VF2YJ1 --result verified-202608050518-VF2YJ1 --commit f1fc52cde46d2ddf96af139470f99ca4c1916c64
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

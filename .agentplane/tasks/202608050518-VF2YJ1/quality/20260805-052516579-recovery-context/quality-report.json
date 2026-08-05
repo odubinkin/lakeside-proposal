@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050518-VF2YJ1",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T05:25:16.579Z",
+  "verdict": "pass",
+  "summary": "Commit f1fc52c contains the complete English Willow AI assistant implementation specification and satisfies the approved docs quality contract.",
+  "evaluated_sha": "f1fc52cde46d2ddf96af139470f99ca4c1916c64",
+  "blueprint_digest": "8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd",
+  "findings": [
+    "The committed specification is internally consistent, grounded in current repository field/catalog/mock contracts, and covers the required server architecture, OpenRouter configuration, client tool execution, streaming, persistence, security, acceptance criteria, and mock-only test strategy."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050518-VF2YJ1/README.md",
+    "docs/AI_BOT_SPEC.md",
+    "f1fc52c",
+    "node .agentplane/policy/check-routing.mjs: pass",
+    "ap doctor: pass"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "Application implementation remains future work; exact LangChain constructor options must follow the dependency versions pinned during that implementation."
+  ]
+}
