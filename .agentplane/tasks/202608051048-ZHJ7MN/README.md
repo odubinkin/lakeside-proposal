@@ -4,7 +4,7 @@ title: "Improve assistant chat window controls"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 13
+revision: 15
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T10:54:39.413Z"
+  updated_at: "2026-08-05T10:55:25.617Z"
   updated_by: "CODER"
   note: "verified-202608051048-ZHJ7MN"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T10:55:16.102Z"
+  updated_by: "EVALUATOR"
+  note: "Assistant chat window requirements are implemented within the approved frontend scope and all declared checks pass."
+  evaluated_sha: "465d392134033876772b227bc0d00540b0cff375"
+  blueprint_digest: "15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13"
+  evidence_refs:
+    - ".agentplane/tasks/202608051048-ZHJ7MN/README.md"
+    - ".agentplane/tasks/202608051048-ZHJ7MN/quality/20260805-105516102-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051048-ZHJ7MN/quality/20260805-105516102-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051048-ZHJ7MN/quality/20260805-105516102-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051048-ZHJ7MN/blueprint/resolved-snapshot.json"
+    - "commit 465d39213403; npm test -- --run tests/components/catalog-modal-chat.test.tsx tests/components/ai-chat.test.tsx; npm run lint; npm run typecheck; npm run build; Playwright CLI local Chromium inspection"
+  findings:
+    - "Accessible icon controls, real resize/maximize/restore behavior including post-resize maximization, responsive viewport constraints, and suggestion hiding after the first user message are covered by tests and browser evidence."
 commit: null
 comments:
   -
@@ -47,8 +63,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051048-ZHJ7MN"
+  -
+    type: "verify"
+    at: "2026-08-05T10:55:25.617Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051048-ZHJ7MN"
 doc_version: 3
-doc_updated_at: "2026-08-05T10:54:39.495Z"
+doc_updated_at: "2026-08-05T10:55:25.722Z"
 doc_updated_by: "CODER"
 description: "Replace the textual Close control with an accessible icon, add window resize and maximize/restore behavior, and hide action suggestions after the first user message."
 sections:
@@ -127,6 +149,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 205e635081a3aeab8b4e6427ce939782a62e71e3
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T10:55:25.617Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051048-ZHJ7MN
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:54:39.495Z, excerpt_hash=sha256:25fcc1b48376a9196778b52b957b0de3a8b2327a99b2f7fe1a2c8eac1a8eddc9
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051048-ZHJ7MN/blueprint/resolved-snapshot.json
+    - old_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+    - current_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051048-ZHJ7MN
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 465d392134033876772b227bc0d00540b0cff375
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -227,6 +279,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 205e635081a3aeab8b4e6427ce939782a62e71e3
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T10:55:25.617Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051048-ZHJ7MN
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:54:39.495Z, excerpt_hash=sha256:25fcc1b48376a9196778b52b957b0de3a8b2327a99b2f7fe1a2c8eac1a8eddc9
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051048-ZHJ7MN/blueprint/resolved-snapshot.json
+- old_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+- current_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051048-ZHJ7MN
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 465d392134033876772b227bc0d00540b0cff375
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

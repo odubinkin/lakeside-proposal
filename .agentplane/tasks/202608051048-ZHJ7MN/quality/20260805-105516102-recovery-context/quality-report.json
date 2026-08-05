@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051048-ZHJ7MN",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T10:55:16.102Z",
+  "verdict": "pass",
+  "summary": "Assistant chat window requirements are implemented within the approved frontend scope and all declared checks pass.",
+  "evaluated_sha": "465d392134033876772b227bc0d00540b0cff375",
+  "blueprint_digest": "15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13",
+  "findings": [
+    "Accessible icon controls, real resize/maximize/restore behavior including post-resize maximization, responsive viewport constraints, and suggestion hiding after the first user message are covered by tests and browser evidence."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051048-ZHJ7MN/README.md",
+    "commit 465d39213403; npm test -- --run tests/components/catalog-modal-chat.test.tsx tests/components/ai-chat.test.tsx; npm run lint; npm run typecheck; npm run build; Playwright CLI local Chromium inspection"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
