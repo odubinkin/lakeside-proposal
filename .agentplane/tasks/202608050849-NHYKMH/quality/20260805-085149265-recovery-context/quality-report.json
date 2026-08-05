@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050849-NHYKMH",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T08:51:49.265Z",
+  "verdict": "pass",
+  "summary": "Prompt, canonical spec, and contract test consistently prohibit duplicated package and pricing details in proposalText; all declared and repository policy checks pass.",
+  "evaluated_sha": "c1590acd9875543a7fb1e1fc8d031d6750f326c7",
+  "blueprint_digest": "9a99d14a58eb10aa2a0f068dcc73c96107ce327f5e36e72cca0cb5f77d5a6fd8",
+  "findings": [
+    "The scoped rule is present in both runtime and canonical prompt text, with unit assertions covering package contents, component prices, final total, and automatic document rendering."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050849-NHYKMH/README.md",
+    "tests/unit/ai-server.test.ts"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
