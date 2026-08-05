@@ -4,7 +4,7 @@ title: "Stabilize cross-browser proposal printing"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 16
+revision: 18
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T12:38:35.122Z"
+  updated_at: "2026-08-05T12:39:24.569Z"
   updated_by: "CODER"
-  note: "Print CSS, focused Chromium coverage, production build, repository checks, and user-confirmed Safari pagination all pass; the task is ready to commit and close."
+  note: "verified-202608051217-XJE3EB"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T12:39:13.714Z"
+  updated_by: "EVALUATOR"
+  note: "Cross-browser proposal print layout is implementation-complete and verified."
+  evaluated_sha: "859dddea94ce35569d9901e4db111adce50a4917"
+  blueprint_digest: "95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526"
+  evidence_refs:
+    - ".agentplane/tasks/202608051217-XJE3EB/README.md"
+    - ".agentplane/tasks/202608051217-XJE3EB/quality/20260805-123913714-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051217-XJE3EB/quality/20260805-123913714-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051217-XJE3EB/quality/20260805-123913714-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051217-XJE3EB/blueprint/resolved-snapshot.json"
+    - "implementation commit 859dddea94ce; npm run lint; npm run typecheck; npm test; npm run build; focused Chromium print E2E; manual Safari confirmation; ap doctor; routing check"
+  findings:
+    - "A4 page sizing, targeted fragmentation groups, and legacy page-break fallbacks are scoped to the printable proposal; Chromium automation and user-confirmed Safari output pass."
 commit: null
 comments:
   -
@@ -67,8 +83,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "Print CSS, focused Chromium coverage, production build, repository checks, and user-confirmed Safari pagination all pass; the task is ready to commit and close."
+  -
+    type: "verify"
+    at: "2026-08-05T12:39:24.569Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051217-XJE3EB"
 doc_version: 3
-doc_updated_at: "2026-08-05T12:38:35.197Z"
+doc_updated_at: "2026-08-05T12:39:24.630Z"
 doc_updated_by: "CODER"
 description: "Make the commercial proposal print layout predictable across Chromium, Firefox, and Safari/WebKit using robust print CSS. Keep Playwright configured for Chromium only. Do not close the task until the user explicitly requests closure."
 sections:
@@ -103,6 +125,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608051217-XJE3EB
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T12:39:24.569Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051217-XJE3EB
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T12:38:35.197Z, excerpt_hash=sha256:e81275080079e7e57276953b024d17555aae61b0d9b8214f887d89a56a60848f
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051217-XJE3EB/blueprint/resolved-snapshot.json
+    - old_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+    - current_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051217-XJE3EB
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051217-XJE3EB --result verified-202608051217-XJE3EB --commit 859dddea94ce35569d9901e4db111adce50a4917
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -166,6 +218,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608051217-XJE3EB
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T12:39:24.569Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051217-XJE3EB
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T12:38:35.197Z, excerpt_hash=sha256:e81275080079e7e57276953b024d17555aae61b0d9b8214f887d89a56a60848f
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051217-XJE3EB/blueprint/resolved-snapshot.json
+- old_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+- current_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051217-XJE3EB
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051217-XJE3EB --result verified-202608051217-XJE3EB --commit 859dddea94ce35569d9901e4db111adce50a4917
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

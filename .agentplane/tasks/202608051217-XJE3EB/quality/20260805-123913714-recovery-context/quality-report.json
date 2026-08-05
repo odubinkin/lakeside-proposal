@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051217-XJE3EB",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T12:39:13.714Z",
+  "verdict": "pass",
+  "summary": "Cross-browser proposal print layout is implementation-complete and verified.",
+  "evaluated_sha": "859dddea94ce35569d9901e4db111adce50a4917",
+  "blueprint_digest": "95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526",
+  "findings": [
+    "A4 page sizing, targeted fragmentation groups, and legacy page-break fallbacks are scoped to the printable proposal; Chromium automation and user-confirmed Safari output pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051217-XJE3EB/README.md",
+    "implementation commit 859dddea94ce; npm run lint; npm run typecheck; npm test; npm run build; focused Chromium print E2E; manual Safari confirmation; ap doctor; routing check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
