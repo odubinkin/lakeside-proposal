@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051212-MZ0DC4",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T12:14:55.494Z",
+  "verdict": "pass",
+  "summary": "Delete dialog now emphasizes a normalized client label and supplies the required fallback; focused and repository checks pass.",
+  "evaluated_sha": "0f29e7a0d14fd63724754b3a6048d8b7e6280d2a",
+  "blueprint_digest": "8d414fa842a1fa4f49612a1133d8d1f8809d8f5d5019b1fede0241870ad2e273",
+  "findings": [
+    "The dialog renders a strong element for both Alice Buyer and unknown client, with no changes to deletion or focus behavior."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051212-MZ0DC4/README.md",
+    "tests/components/proposals.test.tsx"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
