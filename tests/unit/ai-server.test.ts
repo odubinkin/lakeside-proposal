@@ -158,14 +158,19 @@ describe('prompt construction', () => {
       "Always reply in the same language as the user's current message",
     )
     expect(WILLOW_SYSTEM_PROMPT).toContain('always populate the proposal form in English')
+    expect(WILLOW_SYSTEM_PROMPT).toContain('do not include a heading')
     expect(WILLOW_SYSTEM_PROMPT).toContain(
-      'do not enumerate what is included in the selected package',
+      'details that are added automatically to the generated proposal document',
     )
+    expect(WILLOW_SYSTEM_PROMPT).toContain('the property area')
+    expect(WILLOW_SYSTEM_PROMPT).toContain('bedroom count')
+    expect(WILLOW_SYSTEM_PROMPT).toContain('bathroom count')
     expect(WILLOW_SYSTEM_PROMPT).toContain(
-      'prices of individual components or the final proposal total',
+      'selected add-ons or package components and their individual prices',
     )
+    expect(WILLOW_SYSTEM_PROMPT).toContain('the base villa price')
     expect(WILLOW_SYSTEM_PROMPT).toContain(
-      'added automatically to the generated proposal document',
+      'the final proposal total',
     )
     expect(WILLOW_SYSTEM_PROMPT).toContain('Do not invent or infer availability')
     expect(WILLOW_SYSTEM_PROMPT).toContain('return on investment')
