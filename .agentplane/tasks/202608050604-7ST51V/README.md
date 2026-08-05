@@ -4,7 +4,7 @@ title: "Refine Willow AI assistant specification"
 status: "DOING"
 priority: "med"
 owner: "DOCS"
-revision: 12
+revision: 14
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T06:08:27.078Z"
+  updated_at: "2026-08-05T06:09:24.598Z"
   updated_by: "CODER"
   note: "verified-202608050604-7ST51V"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T06:09:12.385Z"
+  updated_by: "EVALUATOR"
+  note: "Specification revisions are internally consistent and match the approved docs-only scope."
+  evaluated_sha: "dc726054bc0ddf6860163478e96196d0e4b6eede"
+  blueprint_digest: "e0ef95629751c68a9147a4b8d324343587b0d3c6f6bd3ac0e89fa680f0000fc7"
+  evidence_refs:
+    - ".agentplane/tasks/202608050604-7ST51V/README.md"
+    - ".agentplane/tasks/202608050604-7ST51V/quality/20260805-060912385-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050604-7ST51V/quality/20260805-060912385-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050604-7ST51V/quality/20260805-060912385-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050604-7ST51V/blueprint/resolved-snapshot.json"
+    - "docs/AI_BOT_SPEC.md; git diff --check; node .agentplane/policy/check-routing.mjs; ap doctor"
+  findings:
+    - "Streaming correlation, field validation, provider-error UX, prompt grounding, chat lifecycle, tests, and implementation-documentation requirements are explicit; declined complexity was not introduced."
 commit: null
 comments:
   -
@@ -47,8 +63,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608050604-7ST51V"
+  -
+    type: "verify"
+    at: "2026-08-05T06:09:24.598Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050604-7ST51V"
 doc_version: 3
-doc_updated_at: "2026-08-05T06:08:27.158Z"
+doc_updated_at: "2026-08-05T06:09:24.694Z"
 doc_updated_by: "DOCS"
 description: "Update docs/AI_BOT_SPEC.md to reflect approved product decisions for prompt grounding, provider errors, stream correlation, field validation, chat lifecycle, tests, and implementation documentation."
 sections:
@@ -113,6 +135,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608050604-7ST51V --result verified-202608050604-7ST51V --commit 9899b989f9a9de7afcd65fa6cce6b8d0013a4ea3
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T06:09:24.598Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050604-7ST51V
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T06:08:27.158Z, excerpt_hash=sha256:96b213747d8d339be260d9667eade8019d9bd3c0dfee18ebd9a327ecae76e8b7
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050604-7ST51V/blueprint/resolved-snapshot.json
+    - old_digest: e0ef95629751c68a9147a4b8d324343587b0d3c6f6bd3ac0e89fa680f0000fc7
+    - current_digest: e0ef95629751c68a9147a4b8d324343587b0d3c6f6bd3ac0e89fa680f0000fc7
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050604-7ST51V
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050604-7ST51V --result verified-202608050604-7ST51V --commit dc726054bc0ddf6860163478e96196d0e4b6eede
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -199,6 +251,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050604-7ST51V --result verified-202608050604-7ST51V --commit 9899b989f9a9de7afcd65fa6cce6b8d0013a4ea3
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T06:09:24.598Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050604-7ST51V
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T06:08:27.158Z, excerpt_hash=sha256:96b213747d8d339be260d9667eade8019d9bd3c0dfee18ebd9a327ecae76e8b7
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050604-7ST51V/blueprint/resolved-snapshot.json
+- old_digest: e0ef95629751c68a9147a4b8d324343587b0d3c6f6bd3ac0e89fa680f0000fc7
+- current_digest: e0ef95629751c68a9147a4b8d324343587b0d3c6f6bd3ac0e89fa680f0000fc7
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050604-7ST51V
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050604-7ST51V --result verified-202608050604-7ST51V --commit dc726054bc0ddf6860163478e96196d0e4b6eede
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

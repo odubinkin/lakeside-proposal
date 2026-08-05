@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050604-7ST51V",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T06:09:12.385Z",
+  "verdict": "pass",
+  "summary": "Specification revisions are internally consistent and match the approved docs-only scope.",
+  "evaluated_sha": "dc726054bc0ddf6860163478e96196d0e4b6eede",
+  "blueprint_digest": "e0ef95629751c68a9147a4b8d324343587b0d3c6f6bd3ac0e89fa680f0000fc7",
+  "findings": [
+    "Streaming correlation, field validation, provider-error UX, prompt grounding, chat lifecycle, tests, and implementation-documentation requirements are explicit; declined complexity was not introduced."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050604-7ST51V/README.md",
+    "docs/AI_BOT_SPEC.md; git diff --check; node .agentplane/policy/check-routing.mjs; ap doctor"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
