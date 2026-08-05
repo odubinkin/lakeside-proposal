@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050518-VF2YJ1",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T05:24:11.238Z",
+  "verdict": "pass",
+  "summary": "The English implementation specification satisfies the approved documentation scope and is ready for task closure.",
+  "evaluated_sha": null,
+  "blueprint_digest": "8709f60611f7dd0b5584e44d8250c825f97bf1bb7d10668e306e7fe297646dfd",
+  "findings": [
+    "The specification maps every requested requirement to explicit architecture, API, prompt, form-tool, persistence, streaming, security, acceptance, and mock-only testing contracts while preserving the current mock branches and exact sample data."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050518-VF2YJ1/README.md",
+    "docs/AI_BOT_SPEC.md",
+    "node .agentplane/policy/check-routing.mjs: pass",
+    "ap doctor: pass"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "The specification intentionally leaves exact LangChain constructor option names to the dependency versions pinned during implementation; no application implementation is part of this task."
+  ]
+}
