@@ -1,10 +1,11 @@
 ---
 id: "202608050953-4JWG5P"
 title: "Preserve saved proposal URL and show proposal ID"
-status: "DOING"
+result_summary: "verified-202608050953-4JWG5P"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 8
+revision: 10
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T10:07:05.700Z"
+  updated_at: "2026-08-05T10:07:25.305Z"
   updated_by: "CODER"
   note: "verified-202608050953-4JWG5P"
   attempts: 0
@@ -39,11 +40,16 @@ quality_review:
     - "npm test -- --run; npm run lint; npm run typecheck; npm run build; isolated Playwright proposal-flows.spec.ts: 5 passed; node .agentplane/policy/check-routing.mjs"
   findings:
     - "The browser address changes to the saved edit route without a document reload; refresh restores the same proposal, and the badge shows only the proposal identifier after assignment."
-commit: null
+commit:
+  hash: "5445d248a61936449a74a539d03da7a4f5f1c06b"
+  message: "🚧 4JWG5P task: record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: Implement client-side first-save URL replacement and responsive proposal ID badge with focused component and end-to-end coverage."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608050953-4JWG5P. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -81,8 +87,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608050953-4JWG5P"
+  -
+    type: "verify"
+    at: "2026-08-05T10:07:25.305Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050953-4JWG5P"
+  -
+    type: "status"
+    at: "2026-08-05T10:07:25.498Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608050953-4JWG5P. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T10:07:05.784Z"
+doc_updated_at: "2026-08-05T10:07:25.499Z"
 doc_updated_by: "CODER"
 description: "After the first successful save on /proposals/new, replace the browser URL with /proposals/edit?id=<proposal-id> without a full page reload, and show the assigned proposal ID as a responsive heading badge."
 sections:
@@ -182,11 +201,45 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T10:07:25.305Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050953-4JWG5P
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:07:05.784Z, excerpt_hash=sha256:84d859a9542f093252645e7a3438c12033e880b3d16ab2ab0ae60740e731962c
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050953-4JWG5P/blueprint/resolved-snapshot.json
+    - old_digest: 7c25c76d26fdbb1e72959447caf14ca61a9954eaad6a8c6a484baccfaa64c656
+    - current_digest: 7c25c76d26fdbb1e72959447caf14ca61a9954eaad6a8c6a484baccfaa64c656
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050953-4JWG5P
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050953-4JWG5P --result verified-202608050953-4JWG5P --commit 5445d248a61936449a74a539d03da7a4f5f1c06b
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert task-related commit(s).
     - Re-run required checks to confirm rollback safety.
   Findings: ""
+extensions:
+  implementation_commit:
+    hash: "12213dfde689debdaa3c3913d7c85ae0e5a4aac7"
+    message: "🚧 4JWG5P task: preserve saved proposal edit URL"
 id_source: "generated"
 ---
 ## Summary
@@ -287,6 +340,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050953-4JWG5P --result verified-202608050953-4JWG5P --commit 12213dfde689debdaa3c3913d7c85ae0e5a4aac7
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T10:07:25.305Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050953-4JWG5P
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:07:05.784Z, excerpt_hash=sha256:84d859a9542f093252645e7a3438c12033e880b3d16ab2ab0ae60740e731962c
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050953-4JWG5P/blueprint/resolved-snapshot.json
+- old_digest: 7c25c76d26fdbb1e72959447caf14ca61a9954eaad6a8c6a484baccfaa64c656
+- current_digest: 7c25c76d26fdbb1e72959447caf14ca61a9954eaad6a8c6a484baccfaa64c656
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050953-4JWG5P
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050953-4JWG5P --result verified-202608050953-4JWG5P --commit 5445d248a61936449a74a539d03da7a4f5f1c06b
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
