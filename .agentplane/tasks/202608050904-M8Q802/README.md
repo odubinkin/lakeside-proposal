@@ -4,7 +4,7 @@ title: "Swap proposal form detail sections"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 8
+revision: 11
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,27 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T09:05:42.245Z"
+  updated_at: "2026-08-05T09:06:34.712Z"
   updated_by: "CODER"
-  note: "Command: npm test -- tests/components/proposal-form.test.tsx; Result: pass; Evidence: 1 file and 7 tests passed; Scope: proposal form rendering and behavior. Command: npm run typecheck; Result: pass; Evidence: tsc --noEmit exited successfully; Scope: repository TypeScript. Command: git diff review; Result: pass; Evidence: only section reorder and regression test; Scope: approved files. Agentplane doctor and routing policy checks also passed."
+  note: "verified-202608050904-M8Q802"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T09:06:23.679Z"
+  updated_by: "EVALUATOR"
+  note: "The approved form-section reorder is implemented with a focused regression test; targeted tests, typecheck, Agentplane doctor, and routing checks pass."
+  evaluated_sha: "e05f8314b594e1d13a831455028b59abc0036f8f"
+  blueprint_digest: "333a7e9cf4b0d28dd1ade38475db7d7c77f7a761b0b6e7567755c8e571c727f6"
+  evidence_refs:
+    - ".agentplane/tasks/202608050904-M8Q802/README.md"
+    - ".agentplane/tasks/202608050904-M8Q802/quality/20260805-090623679-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050904-M8Q802/quality/20260805-090623679-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050904-M8Q802/quality/20260805-090623679-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050904-M8Q802/blueprint/resolved-snapshot.json"
+    - "components/proposal-form.tsx"
+    - "tests/components/proposal-form.test.tsx"
+  findings:
+    - "Client & manager details now renders before Proposal text, and the DOM-order assertion prevents regression."
 commit: null
 comments:
   -
@@ -41,8 +58,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "Command: npm test -- tests/components/proposal-form.test.tsx; Result: pass; Evidence: 1 file and 7 tests passed; Scope: proposal form rendering and behavior. Command: npm run typecheck; Result: pass; Evidence: tsc --noEmit exited successfully; Scope: repository TypeScript. Command: git diff review; Result: pass; Evidence: only section reorder and regression test; Scope: approved files. Agentplane doctor and routing policy checks also passed."
+  -
+    type: "verify"
+    at: "2026-08-05T09:06:34.712Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050904-M8Q802"
 doc_version: 3
-doc_updated_at: "2026-08-05T09:06:18.938Z"
+doc_updated_at: "2026-08-05T09:06:41.580Z"
 doc_updated_by: "CODER"
 description: "Place Client & manager details before Proposal text in the proposal form and verify the rendered order."
 sections:
@@ -93,6 +116,36 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T09:06:34.712Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050904-M8Q802
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T09:06:18.938Z, excerpt_hash=sha256:c773202358e1478fb08a8fd19d8f5d5ec60be3fcf2801296027a9394d2f24403
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050904-M8Q802/blueprint/resolved-snapshot.json
+    - old_digest: 333a7e9cf4b0d28dd1ade38475db7d7c77f7a761b0b6e7567755c8e571c727f6
+    - current_digest: 333a7e9cf4b0d28dd1ade38475db7d7c77f7a761b0b6e7567755c8e571c727f6
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050904-M8Q802
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050904-M8Q802 --result verified-202608050904-M8Q802 --commit e05f8314b594e1d13a831455028b59abc0036f8f
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert task-related commit(s).
@@ -105,6 +158,10 @@ sections:
     - Observation: The first implementation commit attempt was rejected because the commit hook did not receive an active Agentplane task context.
       Impact: No commit was created and the intended task files remained staged without data loss.
       Resolution: Retry the commit with AGENTPLANE_TASK_ID set to this task and a task-scoped commit subject.
+
+    - Observation: The first close attempt was rejected because evaluator output had not yet been checkpointed.
+      Impact: The task remained verified and no close commit was created.
+      Resolution: Commit the current task quality artifacts, then rerun the route oracle's exact completion command.
 id_source: "generated"
 ---
 ## Summary
@@ -163,6 +220,36 @@ DecisionContextRef:
 - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
 - risks: none
 
+### 2026-08-05T09:06:34.712Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050904-M8Q802
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T09:06:18.938Z, excerpt_hash=sha256:c773202358e1478fb08a8fd19d8f5d5ec60be3fcf2801296027a9394d2f24403
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050904-M8Q802/blueprint/resolved-snapshot.json
+- old_digest: 333a7e9cf4b0d28dd1ade38475db7d7c77f7a761b0b6e7567755c8e571c727f6
+- current_digest: 333a7e9cf4b0d28dd1ade38475db7d7c77f7a761b0b6e7567755c8e571c727f6
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050904-M8Q802
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050904-M8Q802 --result verified-202608050904-M8Q802 --commit e05f8314b594e1d13a831455028b59abc0036f8f
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
 <!-- END VERIFICATION RESULTS -->
 
 ## Rollback Plan
@@ -179,3 +266,7 @@ DecisionContextRef:
 - Observation: The first implementation commit attempt was rejected because the commit hook did not receive an active Agentplane task context.
   Impact: No commit was created and the intended task files remained staged without data loss.
   Resolution: Retry the commit with AGENTPLANE_TASK_ID set to this task and a task-scoped commit subject.
+
+- Observation: The first close attempt was rejected because evaluator output had not yet been checkpointed.
+  Impact: The task remained verified and no close commit was created.
+  Resolution: Commit the current task quality artifacts, then rerun the route oracle's exact completion command.
