@@ -1,11 +1,11 @@
 ---
 id: "202608051141-1FG5NM"
 title: "Add production Docker deployment"
-result_summary: "verified-202608051141-1FG5NM"
-status: "DOING"
+result_summary: "Added production Docker deployment with configurable Traefik network and local port override."
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 25
+revision: 26
 origin:
   system: "manual"
 depends_on: []
@@ -39,8 +39,8 @@ quality_review:
   findings:
     - "Main Compose has no expose or ports entry; TRAEFIK_NETWORK resolves to a caller-supplied network or dokploy-network by default, while the local overlay alone publishes port 3000."
 commit:
-  hash: "815cc21bebdec9e85860499edfbe0204adf76f54"
-  message: "🚧 1FG5NM task: record evaluator quality review"
+  hash: "34d17cc698bd547f34bca10e3d15b02067ef8cf0"
+  message: "🚧 1FG5NM task: record corrected quality review"
 comments:
   -
     author: "CODER"
@@ -51,6 +51,9 @@ comments:
   -
     author: "CODER"
     body: "Start: Reopen the task for the approved Traefik network correction and removal of the main Compose expose declaration."
+  -
+    author: "CODER"
+    body: "Verified: Production Docker deployment now has no main port declaration, uses configurable Traefik networking with the dokploy-network default, and exposes port 3000 only through the local overlay."
 events:
   -
     type: "status"
@@ -103,8 +106,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Verified the corrected Compose setup: no main expose/ports declaration, configurable TRAEFIK_NETWORK with dokploy-network default, local-only 3000 publication, AI variables, TLS labels, application build, and Docker image build."
+  -
+    type: "status"
+    at: "2026-08-05T11:51:24.606Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Production Docker deployment now has no main port declaration, uses configurable Traefik networking with the dokploy-network default, and exposes port 3000 only through the local overlay."
 doc_version: 3
-doc_updated_at: "2026-08-05T11:50:30.172Z"
+doc_updated_at: "2026-08-05T11:51:24.607Z"
 doc_updated_by: "CODER"
 description: "Add a production standalone Docker image, Traefik-enabled Compose deployment, local port override, AI assistant environment variables, and Docker launch documentation."
 sections:
@@ -183,8 +193,8 @@ sections:
   Findings: "No findings yet."
 extensions:
   implementation_commit:
-    hash: "c79809274ff7bf3d22414097f8414e92ee515d2a"
-    message: "🚧 1FG5NM task: add production Docker deployment"
+    hash: "4589e893a55a850b94ec81120d8975f5acb2912a"
+    message: "🚧 1FG5NM task: refine Traefik network configuration"
 id_source: "generated"
 ---
 ## Summary
