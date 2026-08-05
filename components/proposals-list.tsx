@@ -153,6 +153,10 @@ export function ProposalsList() {
         <ul className="flex flex-col gap-4">
           {filtered.map((proposal) => {
             const villa = getVilla(proposal.villaId)
+            const clientName = proposal.clientName.trim()
+            const phone = proposal.phone.trim()
+            const email = proposal.email.trim()
+            const manager = proposal.manager.trim()
             const total = villa
               ? villa.price +
                 getAddOns(proposal.addOnIds).reduce(
@@ -196,30 +200,40 @@ export function ProposalsList() {
                 </div>
 
                 <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                  {(clientName || phone || email) && (
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+                      {clientName && (
+                        <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+                          {clientName}
+                        </span>
+                      )}
+                      {phone && (
+                        <a
+                          href={`tel:${phone.replace(/\s+/g, '')}`}
+                          className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                        >
+                          <Phone className="size-3.5" />
+                          {phone}
+                        </a>
+                      )}
+                      {email && (
+                        <a
+                          href={`mailto:${email}`}
+                          className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                        >
+                          <Mail className="size-3.5" />
+                          {email}
+                        </a>
+                      )}
+                    </div>
+                  )}
                   <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-                    <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
-                      {proposal.clientName}
-                    </span>
-                    <a
-                      href={`tel:${proposal.phone.replace(/\s+/g, '')}`}
-                      className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-foreground hover:underline"
-                    >
-                      <Phone className="size-3.5" />
-                      {proposal.phone}
-                    </a>
-                    <a
-                      href={`mailto:${proposal.email}`}
-                      className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-foreground hover:underline"
-                    >
-                      <Mail className="size-3.5" />
-                      {proposal.email}
-                    </a>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-                    <span className="inline-flex items-center gap-1.5">
-                      <User className="size-3.5" />
-                      Manager: {proposal.manager}
-                    </span>
+                    {manager && (
+                      <span className="inline-flex items-center gap-1.5">
+                        <User className="size-3.5" />
+                        Manager: {manager}
+                      </span>
+                    )}
                     <span className="inline-flex items-center gap-1.5">
                       <CalendarDays className="size-3.5" />
                       Created: {proposalDateFormatter.format(new Date(`${proposal.createdAt}T00:00:00`))}

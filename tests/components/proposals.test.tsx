@@ -72,6 +72,38 @@ describe('proposal management and view', () => {
     expect(within(draftItem!).queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 
+  it('does not render empty proposal fields or their icons and labels', () => {
+    const emptyFieldsProposal: Proposal = {
+      ...proposal,
+      id: 'PRO-EMPTY-FIELDS',
+      clientName: '   ',
+      phone: '',
+      email: '  ',
+      manager: '\t',
+      completed: false,
+    }
+    window.localStorage.setItem(
+      PROPOSALS_STORAGE_KEY,
+      JSON.stringify([emptyFieldsProposal]),
+    )
+
+    render(<ProposalsList />)
+
+    const item = screen.getByText(emptyFieldsProposal.id).closest('li')
+
+    expect(item).not.toBeNull()
+    expect(within(item!).queryByRole('link')).not.toBeInTheDocument()
+    expect(within(item!).queryByText(/Manager:/)).not.toBeInTheDocument()
+    expect(item!.querySelector('.lucide-phone')).not.toBeInTheDocument()
+    expect(item!.querySelector('.lucide-mail')).not.toBeInTheDocument()
+    expect(item!.querySelector('.lucide-user')).not.toBeInTheDocument()
+    expect(
+      [...item!.querySelectorAll('span')].some(
+        (element) => element.textContent === emptyFieldsProposal.clientName,
+      ),
+    ).toBe(false)
+  })
+
   it('traps focus, restores the trigger, and supports every deletion outcome', async () => {
     const user = userEvent.setup()
     render(<ProposalsList />)
