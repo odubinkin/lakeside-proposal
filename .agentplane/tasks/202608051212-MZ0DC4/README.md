@@ -1,10 +1,11 @@
 ---
 id: "202608051212-MZ0DC4"
 title: "Improve delete proposal client label"
-status: "DOING"
+result_summary: "Bold client label with unknown client fallback"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 14
+revision: 17
 origin:
   system: "manual"
 depends_on: []
@@ -18,7 +19,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T12:15:06.555Z"
+  updated_at: "2026-08-05T12:15:21.959Z"
   updated_by: "CODER"
   note: "verified-202608051212-MZ0DC4"
   attempts: 0
@@ -38,11 +39,19 @@ quality_review:
     - "tests/components/proposals.test.tsx"
   findings:
     - "The dialog renders a strong element for both Alice Buyer and unknown client, with no changes to deletion or focus behavior."
-commit: null
+commit:
+  hash: "02ed5ac0d8476cd5db283ad51eb943c5c3cea338"
+  message: "🚧 MZ0DC4 task: record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: Update the delete confirmation client label and add focused component coverage for named and missing clients."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051212-MZ0DC4. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    author: "CODER"
+    body: "Verified: Delete proposal dialog bolds the client name, falls back to unknown client, and all declared checks passed."
 events:
   -
     type: "status"
@@ -63,8 +72,28 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051212-MZ0DC4"
+  -
+    type: "verify"
+    at: "2026-08-05T12:15:21.959Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051212-MZ0DC4"
+  -
+    type: "status"
+    at: "2026-08-05T12:15:22.110Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051212-MZ0DC4. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    type: "status"
+    at: "2026-08-05T12:16:15.870Z"
+    author: "CODER"
+    from: "DONE"
+    to: "DONE"
+    note: "Verified: Delete proposal dialog bolds the client name, falls back to unknown client, and all declared checks passed."
 doc_version: 3
-doc_updated_at: "2026-08-05T12:15:06.622Z"
+doc_updated_at: "2026-08-05T12:16:15.872Z"
 doc_updated_by: "CODER"
 description: "Make the client name bold in the Delete proposal dialog and show unknown client when the stored name is blank."
 sections:
@@ -136,9 +165,43 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T12:15:21.959Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051212-MZ0DC4
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T12:15:06.622Z, excerpt_hash=sha256:cea287579e4fa5fb75efcd6293ed007d22f0284d313296be7699c15c6e1eb60c
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051212-MZ0DC4/blueprint/resolved-snapshot.json
+    - old_digest: 8d414fa842a1fa4f49612a1133d8d1f8809d8f5d5019b1fede0241870ad2e273
+    - current_digest: 8d414fa842a1fa4f49612a1133d8d1f8809d8f5d5019b1fede0241870ad2e273
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051212-MZ0DC4
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051212-MZ0DC4 --result verified-202608051212-MZ0DC4 --commit 02ed5ac0d8476cd5db283ad51eb943c5c3cea338
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert the dialog label rendering and its focused assertions; no storage schema or persisted data changes are involved."
   Findings: "No findings yet."
+extensions:
+  implementation_commit:
+    hash: "0f29e7a0d14fd63724754b3a6048d8b7e6280d2a"
+    message: "🚧 MZ0DC4 task: improve delete proposal client label"
 id_source: "generated"
 ---
 ## Summary
@@ -215,6 +278,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051212-MZ0DC4 --result verified-202608051212-MZ0DC4 --commit 0f29e7a0d14fd63724754b3a6048d8b7e6280d2a
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T12:15:21.959Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051212-MZ0DC4
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T12:15:06.622Z, excerpt_hash=sha256:cea287579e4fa5fb75efcd6293ed007d22f0284d313296be7699c15c6e1eb60c
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051212-MZ0DC4/blueprint/resolved-snapshot.json
+- old_digest: 8d414fa842a1fa4f49612a1133d8d1f8809d8f5d5019b1fede0241870ad2e273
+- current_digest: 8d414fa842a1fa4f49612a1133d8d1f8809d8f5d5019b1fede0241870ad2e273
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051212-MZ0DC4
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051212-MZ0DC4 --result verified-202608051212-MZ0DC4 --commit 02ed5ac0d8476cd5db283ad51eb943c5c3cea338
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
