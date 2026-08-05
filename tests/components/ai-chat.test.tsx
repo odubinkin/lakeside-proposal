@@ -87,6 +87,50 @@ describe('chat persistence and transport behavior', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('renders chat text as safe GitHub-flavored Markdown', () => {
+    const stored: ChatTranscriptEntry[] = [
+      {
+        id: 'markdown-assistant',
+        kind: 'text',
+        role: 'assistant',
+        content: [
+          '## Recommendation',
+          '',
+          '**Villa Lagoon** is the best match.',
+          '',
+          '- Private pool',
+          '- Lake view',
+          '',
+          '[View details](https://example.com/villas/lagoon)',
+          '',
+          '| Nights | Guests |',
+          '| --- | --- |',
+          '| 5 | 4 |',
+          '',
+          '<img alt="unsafe-markup" src="x" />',
+        ].join('\n'),
+        createdAt: '2026-08-05T00:00:00.000Z',
+        delivery: 'complete',
+      },
+    ]
+    writeChatTranscript('PRO-MARKDOWN', stored)
+
+    const { container } = renderChat('PRO-MARKDOWN')
+    fireEvent.click(screen.getByRole('button', { name: 'Chat with assistant' }))
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Recommendation' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Villa Lagoon').tagName).toBe('STRONG')
+    expect(screen.getByRole('list')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'View details' })).toHaveAttribute(
+      'href',
+      'https://example.com/villas/lagoon',
+    )
+    expect(screen.getByRole('table')).toBeInTheDocument()
+    expect(container.querySelector('img[alt="unsafe-markup"]')).toBeNull()
+  })
+
   it('migrates a draft transcript when the proposal receives its first ID', async () => {
     const { rerender } = renderChat(null)
     await waitFor(() => {

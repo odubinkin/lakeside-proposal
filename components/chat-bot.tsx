@@ -18,6 +18,8 @@ import {
   Square,
   X,
 } from 'lucide-react'
+import ReactMarkdown, { type Components } from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import {
@@ -48,6 +50,58 @@ const suggestions = [
 
 const welcomeText =
   "Hi, I'm Willow, your Redwood Lakeside assistant. I can help you complete this proposal, suggest add-ons, or answer questions about the villa."
+
+const markdownComponents: Components = {
+  h1: ({ children }) => <h1 className="mb-2 mt-3 text-lg font-semibold first:mt-0">{children}</h1>,
+  h2: ({ children }) => <h2 className="mb-2 mt-3 text-base font-semibold first:mt-0">{children}</h2>,
+  h3: ({ children }) => <h3 className="mb-1.5 mt-3 text-sm font-semibold first:mt-0">{children}</h3>,
+  p: ({ children }) => <p className="my-2 first:mt-0 last:mb-0">{children}</p>,
+  ul: ({ children }) => <ul className="my-2 list-disc space-y-1 pl-5">{children}</ul>,
+  ol: ({ children, start }) => (
+    <ol start={start} className="my-2 list-decimal space-y-1 pl-5">
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => <li className="pl-0.5">{children}</li>,
+  a: ({ children, href }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="font-medium underline decoration-current/50 underline-offset-2 hover:decoration-current"
+    >
+      {children}
+    </a>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="my-2 border-l-2 border-current/25 pl-3 italic opacity-80">
+      {children}
+    </blockquote>
+  ),
+  pre: ({ children }) => (
+    <pre className="my-2 max-w-full overflow-x-auto rounded-lg bg-foreground/10 p-3 text-xs leading-relaxed [&_code]:bg-transparent [&_code]:p-0">
+      {children}
+    </pre>
+  ),
+  code: ({ children, className }) => (
+    <code
+      className={cn(
+        'rounded bg-foreground/10 px-1 py-0.5 font-mono text-[0.85em]',
+        className,
+      )}
+    >
+      {children}
+    </code>
+  ),
+  table: ({ children }) => (
+    <div className="my-2 max-w-full overflow-x-auto">
+      <table className="w-full border-collapse text-left text-xs">{children}</table>
+    </div>
+  ),
+  th: ({ children }) => <th className="border border-current/20 px-2 py-1 font-semibold">{children}</th>,
+  td: ({ children }) => <td className="border border-current/20 px-2 py-1">{children}</td>,
+  hr: () => <hr className="my-3 border-current/20" />,
+}
 
 type ChatBotProps = {
   form: ProposalFormState
@@ -762,14 +816,24 @@ function TextBubble({
       )}
       <div
         className={cn(
-          'max-w-[78%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap',
+          'max-w-[78%] overflow-hidden rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed',
           isUser
             ? 'rounded-br-sm bg-primary text-primary-foreground'
             : 'rounded-bl-sm bg-muted text-foreground',
           entry.delivery === 'interrupted' && 'border border-amber-500/40 opacity-80',
         )}
       >
-        {entry.content || <Loader2 className="size-4 animate-spin" />}
+        {entry.content ? (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={markdownComponents}
+            skipHtml
+          >
+            {entry.content}
+          </ReactMarkdown>
+        ) : (
+          <Loader2 className="size-4 animate-spin" />
+        )}
         {entry.delivery === 'interrupted' && (
           <span className="mt-1 block text-xs">Response interrupted</span>
         )}
