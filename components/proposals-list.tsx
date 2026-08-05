@@ -125,7 +125,7 @@ export function ProposalsList() {
             type="text"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search by villa, client, manager…"
+            placeholder="Search by ID, villa, client, manager…"
             aria-label="Search proposals"
             className="h-11 w-full rounded-xl border border-border bg-card pl-9 pr-9 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
           />

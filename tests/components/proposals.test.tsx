@@ -47,6 +47,30 @@ describe('proposal management and view', () => {
     expect(screen.getByText('Alice Buyer')).toBeInTheDocument()
   })
 
+  it('filters proposals by full or partial ID without case sensitivity', async () => {
+    const user = userEvent.setup()
+    const secondProposal: Proposal = {
+      ...proposal,
+      id: 'PRO-SECOND',
+    }
+    window.localStorage.setItem(
+      PROPOSALS_STORAGE_KEY,
+      JSON.stringify([proposal, secondProposal]),
+    )
+
+    render(<ProposalsList />)
+
+    const search = screen.getByPlaceholderText('Search by ID, villa, client, manager…')
+    await user.type(search, 'pro-test')
+    expect(screen.getByText('PRO-TEST')).toBeInTheDocument()
+    expect(screen.queryByText('PRO-SECOND')).not.toBeInTheDocument()
+
+    await user.clear(search)
+    await user.type(search, 'TEST')
+    expect(screen.getByText('PRO-TEST')).toBeInTheDocument()
+    expect(screen.queryByText('PRO-SECOND')).not.toBeInTheDocument()
+  })
+
   it('eager-loads every proposal villa preview', () => {
     const secondProposal: Proposal = {
       ...proposal,
