@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051057-H7TV5C",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T11:04:02.083Z",
+  "verdict": "pass",
+  "summary": "The expanded AI proposal-text contract is implemented consistently in the canonical prompt, regression assertions, and implementation documentation, with all declared checks passing.",
+  "evaluated_sha": "6c251750a6f5a21a2351a9f7efa18910db1ee32e",
+  "blueprint_digest": "40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b",
+  "findings": [
+    "The prompt now requires client-specific proposal copy based on available needs and preferences and explicitly rejects generic villa-advertising or reusable marketing language; the documentation mirrors that contract and focused tests lock both clauses."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051057-H7TV5C/README.md",
+    "lib/ai/server/prompt.ts",
+    "docs/AI_BOT_IMPL.md",
+    "tests/unit/ai-server.test.ts",
+    "npm test -- --run tests/components/proposal-form-sections.test.tsx tests/components/proposal-form.test.tsx tests/components/catalog-modal-chat.test.tsx tests/components/ai-chat.test.tsx tests/unit/ai-server.test.ts: 5 files, 37 tests passed",
+    "npm run lint; npm run typecheck; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs: all passed"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "Prompt compliance remains model-dependent at runtime, but the system instruction is explicit and regression-covered."
+  ]
+}

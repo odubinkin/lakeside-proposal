@@ -4,7 +4,7 @@ title: "Add AI fill action to proposal text"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 21
+revision: 24
 origin:
   system: "manual"
 depends_on: []
@@ -19,10 +19,30 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T11:03:06.418Z"
+  updated_at: "2026-08-05T11:04:12.834Z"
   updated_by: "CODER"
-  note: "Expanded verification passed: 5 focused files/37 tests, prompt-documentation contract cross-check, ESLint, TypeScript, production build, whitespace, Agentplane doctor, routing, and scoped-status checks all succeeded."
+  note: "verified-202608051057-H7TV5C"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T11:04:02.083Z"
+  updated_by: "EVALUATOR"
+  note: "The expanded AI proposal-text contract is implemented consistently in the canonical prompt, regression assertions, and implementation documentation, with all declared checks passing."
+  evaluated_sha: "6c251750a6f5a21a2351a9f7efa18910db1ee32e"
+  blueprint_digest: "40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b"
+  evidence_refs:
+    - ".agentplane/tasks/202608051057-H7TV5C/README.md"
+    - ".agentplane/tasks/202608051057-H7TV5C/quality/20260805-110402083-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051057-H7TV5C/quality/20260805-110402083-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051057-H7TV5C/quality/20260805-110402083-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json"
+    - "lib/ai/server/prompt.ts"
+    - "docs/AI_BOT_IMPL.md"
+    - "tests/unit/ai-server.test.ts"
+    - "npm test -- --run tests/components/proposal-form-sections.test.tsx tests/components/proposal-form.test.tsx tests/components/catalog-modal-chat.test.tsx tests/components/ai-chat.test.tsx tests/unit/ai-server.test.ts: 5 files, 37 tests passed"
+    - "npm run lint; npm run typecheck; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs: all passed"
+  findings:
+    - "The prompt now requires client-specific proposal copy based on available needs and preferences and explicitly rejects generic villa-advertising or reusable marketing language; the documentation mirrors that contract and focused tests lock both clauses."
 commit: null
 comments:
   -
@@ -54,8 +74,20 @@ events:
     author: "CODER"
     state: "ok"
     note: "Expanded verification passed: 5 focused files/37 tests, prompt-documentation contract cross-check, ESLint, TypeScript, production build, whitespace, Agentplane doctor, routing, and scoped-status checks all succeeded."
+  -
+    type: "verify"
+    at: "2026-08-05T11:03:47.255Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051057-H7TV5C"
+  -
+    type: "verify"
+    at: "2026-08-05T11:04:12.834Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051057-H7TV5C"
 doc_version: 3
-doc_updated_at: "2026-08-05T11:03:06.596Z"
+doc_updated_at: "2026-08-05T11:04:12.922Z"
 doc_updated_by: "CODER"
 description: "Add a Fill with AI robot-icon button to the Proposal text section on proposal create/edit pages. Clicking it opens the existing Willow chat and automatically sends the English user message: Fill in the commercial proposal text."
 sections:
@@ -106,6 +138,66 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608051057-H7TV5C
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T11:03:47.255Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051057-H7TV5C
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:03:06.596Z, excerpt_hash=sha256:7478bdfcded1b3a5f07729cf3d5e7c93cc5d9b358a86485ccba00f3ad746f118
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json
+    - old_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+    - current_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051057-H7TV5C
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 6c251750a6f5a21a2351a9f7efa18910db1ee32e
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T11:04:12.834Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051057-H7TV5C
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:03:47.404Z, excerpt_hash=sha256:7478bdfcded1b3a5f07729cf3d5e7c93cc5d9b358a86485ccba00f3ad746f118
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json
+    - old_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+    - current_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051057-H7TV5C
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 6c251750a6f5a21a2351a9f7efa18910db1ee32e
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -178,6 +270,66 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608051057-H7TV5C
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:03:47.255Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051057-H7TV5C
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:03:06.596Z, excerpt_hash=sha256:7478bdfcded1b3a5f07729cf3d5e7c93cc5d9b358a86485ccba00f3ad746f118
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json
+- old_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+- current_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051057-H7TV5C
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 6c251750a6f5a21a2351a9f7efa18910db1ee32e
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:04:12.834Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051057-H7TV5C
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:03:47.404Z, excerpt_hash=sha256:7478bdfcded1b3a5f07729cf3d5e7c93cc5d9b358a86485ccba00f3ad746f118
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json
+- old_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+- current_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051057-H7TV5C
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 6c251750a6f5a21a2351a9f7efa18910db1ee32e
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
