@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050943-N6SYVE",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T09:45:31.867Z",
+  "verdict": "pass",
+  "summary": "The proposal-list LCP fix is minimal, correctly applies eager loading to every rendered villa preview, and is covered by focused multi-image regression testing.",
+  "evaluated_sha": "7731fa1c6c99b6eb55821f9b651c34bd91200115",
+  "blueprint_digest": "8478d753709335b6851ed926607959b950f913ebf49b07d66ff63d56a1b32352",
+  "findings": [
+    "The shared proposal-list Image now sets loading=\"eager\", so the contract applies uniformly regardless of which proposal is visible or selected as LCP.",
+    "The regression test renders two proposal previews and asserts both images carry loading=\"eager\"."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050943-N6SYVE/README.md",
+    "components/proposals-list.tsx",
+    "tests/components/proposals.test.tsx",
+    "pnpm test -- tests/components/proposals.test.tsx: 13 files and 103 tests passed",
+    "pnpm lint: passed",
+    "git diff --check: passed",
+    "ap doctor: OK; policy routing OK"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": [
+    "Eager-loading all proposal thumbnails increases initial image requests when the list is large; this is an explicit product tradeoff approved for unpredictable LCP selection."
+  ]
+}

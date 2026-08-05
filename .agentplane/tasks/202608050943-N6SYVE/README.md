@@ -4,7 +4,7 @@ title: "Eager-load proposal list villa previews"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 10
+revision: 11
 origin:
   system: "manual"
 depends_on:
@@ -30,6 +30,28 @@ verification:
   updated_by: "CODER"
   note: "Scoped verification passed: proposal-list preview images are eager-loaded and the focused multi-image regression test passes; lint and diff checks are clean."
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T09:45:31.867Z"
+  updated_by: "EVALUATOR"
+  note: "The proposal-list LCP fix is minimal, correctly applies eager loading to every rendered villa preview, and is covered by focused multi-image regression testing."
+  evaluated_sha: "7731fa1c6c99b6eb55821f9b651c34bd91200115"
+  blueprint_digest: "8478d753709335b6851ed926607959b950f913ebf49b07d66ff63d56a1b32352"
+  evidence_refs:
+    - ".agentplane/tasks/202608050943-N6SYVE/README.md"
+    - ".agentplane/tasks/202608050943-N6SYVE/quality/20260805-094531867-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050943-N6SYVE/quality/20260805-094531867-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050943-N6SYVE/quality/20260805-094531867-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050943-N6SYVE/blueprint/resolved-snapshot.json"
+    - "components/proposals-list.tsx"
+    - "tests/components/proposals.test.tsx"
+    - "pnpm test -- tests/components/proposals.test.tsx: 13 files and 103 tests passed"
+    - "pnpm lint: passed"
+    - "git diff --check: passed"
+    - "ap doctor: OK; policy routing OK"
+  findings:
+    - "The shared proposal-list Image now sets loading=\"eager\", so the contract applies uniformly regardless of which proposal is visible or selected as LCP."
+    - "The regression test renders two proposal previews and asserts both images carry loading=\"eager\"."
 commit: null
 comments:
   -
