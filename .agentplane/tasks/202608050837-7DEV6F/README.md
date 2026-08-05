@@ -1,10 +1,11 @@
 ---
 id: "202608050837-7DEV6F"
 title: "Support streamed text before form tool calls"
-status: "DOING"
+result_summary: "Support mixed form-tool streaming and persisted tool summaries"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 16
+revision: 20
 origin:
   system: "manual"
 depends_on: []
@@ -18,9 +19,9 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T08:42:48.876Z"
+  updated_at: "2026-08-05T08:43:23.074Z"
   updated_by: "CODER"
-  note: "verified-202608050837-7DEV6F"
+  note: "Supported mixed form tool streaming and persisted tool summaries"
   attempts: 0
 quality_review:
   state: "pass"
@@ -38,11 +39,19 @@ quality_review:
     - "npm test -- --run: 13 files, 95 tests passed; npm run lint; npx tsc --noEmit; npm run build; policy routing; ap doctor"
   findings:
     - "The adapter and route accept text followed by one validated form tool call; the client retains non-empty preambles, persists terminal form-tool summaries, excludes the active summary from immediate continuation, and includes it in later model history."
-commit: null
+commit:
+  hash: "f052d3259be0e951ded42f54360dceacf125be25"
+  message: "🚧 7DEV6F task: record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608050837-7DEV6F. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    author: "CODER"
+    body: "Verified: Mixed form-tool streaming, retained preambles, and persisted user-visible tool summaries passed all declared checks."
 events:
   -
     type: "status"
@@ -69,8 +78,34 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608050837-7DEV6F"
+  -
+    type: "verify"
+    at: "2026-08-05T08:43:14.800Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050837-7DEV6F"
+  -
+    type: "status"
+    at: "2026-08-05T08:43:15.003Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608050837-7DEV6F. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    type: "verify"
+    at: "2026-08-05T08:43:23.074Z"
+    author: "CODER"
+    state: "ok"
+    note: "Supported mixed form tool streaming and persisted tool summaries"
+  -
+    type: "status"
+    at: "2026-08-05T08:43:56.192Z"
+    author: "CODER"
+    from: "DONE"
+    to: "DONE"
+    note: "Verified: Mixed form-tool streaming, retained preambles, and persisted user-visible tool summaries passed all declared checks."
 doc_version: 3
-doc_updated_at: "2026-08-05T08:42:48.957Z"
+doc_updated_at: "2026-08-05T08:43:56.195Z"
 doc_updated_by: "CODER"
 description: "Allow OpenRouter responses containing a streamed text preamble followed by edit_proposal_form; preserve the preamble in chat, show and persist the user-visible form-tool result, and include completed form-tool statuses in subsequent model history without durably storing raw tool calls."
 sections:
@@ -172,9 +207,73 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T08:43:14.800Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050837-7DEV6F
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:42:48.957Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+    - old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit f052d3259be0e951ded42f54360dceacf125be25
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T08:43:23.074Z — VERIFY — ok
+
+    By: CODER
+
+    Note: Supported mixed form tool streaming and persisted tool summaries
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:43:15.004Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+    - old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane commit 202608050837-7DEV6F --close --unstage-others
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert the task commit to restore the previous text-or-tool-only protocol and transcript behavior."
   Findings: "None."
+extensions:
+  implementation_commit:
+    hash: "314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f"
+    message: "🚧 7DEV6F task: support mixed form tool streaming"
 id_source: "generated"
 ---
 ## Summary
@@ -281,6 +380,66 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit 314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T08:43:14.800Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050837-7DEV6F
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:42:48.957Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+- old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit f052d3259be0e951ded42f54360dceacf125be25
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T08:43:23.074Z — VERIFY — ok
+
+By: CODER
+
+Note: Supported mixed form tool streaming and persisted tool summaries
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:43:15.004Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+- old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane commit 202608050837-7DEV6F --close --unstage-others
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
