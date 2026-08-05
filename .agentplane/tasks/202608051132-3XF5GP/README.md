@@ -1,10 +1,11 @@
 ---
 id: "202608051132-3XF5GP"
 title: "Render agent chat messages as Markdown"
-status: "DOING"
+result_summary: "Render chat messages as safe GitHub-flavored Markdown"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 12
+revision: 15
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T11:36:40.537Z"
+  updated_at: "2026-08-05T11:37:01.064Z"
   updated_by: "CODER"
   note: "verified-202608051132-3XF5GP"
   attempts: 0
@@ -39,11 +40,19 @@ quality_review:
   findings:
     - "react-markdown with remark-gfm replaces plain-text rendering for chat text bubbles while skipHtml prevents raw HTML interpretation."
     - "Focused and full tests, lint, typecheck, production build, diff check, Agentplane doctor, and policy routing all pass."
-commit: null
+commit:
+  hash: "e35e2e042342593e1a72cb345c426b3d641629d8"
+  message: "🚧 3XF5GP task: render chat messages as Markdown"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051132-3XF5GP. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    author: "CODER"
+    body: "Verified: Markdown chat rendering is implemented safely and all declared checks pass."
 events:
   -
     type: "status"
@@ -99,8 +108,28 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051132-3XF5GP"
+  -
+    type: "verify"
+    at: "2026-08-05T11:37:01.064Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051132-3XF5GP"
+  -
+    type: "status"
+    at: "2026-08-05T11:37:01.179Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051132-3XF5GP. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    type: "status"
+    at: "2026-08-05T11:37:41.098Z"
+    author: "CODER"
+    from: "DONE"
+    to: "DONE"
+    note: "Verified: Markdown chat rendering is implemented safely and all declared checks pass."
 doc_version: 3
-doc_updated_at: "2026-08-05T11:36:40.598Z"
+doc_updated_at: "2026-08-05T11:37:41.099Z"
 doc_updated_by: "CODER"
 description: "Render chat text entries as safe GitHub-flavored Markdown instead of plain text, with styling and component coverage."
 sections:
@@ -233,6 +262,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit e35e2e042342593e1a72cb345c426b3d641629d8
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T11:37:01.064Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051132-3XF5GP
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:36:40.598Z, excerpt_hash=sha256:1cbe72ab09191ff46901e2aceac94075cd3372333585848838f321089c82cb55
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051132-3XF5GP/blueprint/resolved-snapshot.json
+    - old_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+    - current_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051132-3XF5GP
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit a35ee2db2fb465bef08edc15fb23f1f6bdc6f54a
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -384,6 +443,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit e35e2e042342593e1a72cb345c426b3d641629d8
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:37:01.064Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051132-3XF5GP
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:36:40.598Z, excerpt_hash=sha256:1cbe72ab09191ff46901e2aceac94075cd3372333585848838f321089c82cb55
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051132-3XF5GP/blueprint/resolved-snapshot.json
+- old_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+- current_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051132-3XF5GP
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit a35ee2db2fb465bef08edc15fb23f1f6bdc6f54a
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
