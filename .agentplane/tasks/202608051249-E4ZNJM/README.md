@@ -4,7 +4,7 @@ title: "Reduce proposal view spacing"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 22
+revision: 25
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T13:06:39.991Z"
+  updated_at: "2026-08-05T13:07:52.631Z"
   updated_by: "CODER"
-  note: "Command: npm test -- --run tests/components/proposals.test.tsx. Result: pass. Evidence: 1 test file and 9 tests passed, including unconditional p-6 section-spacing coverage. Scope: proposal view and proposal management components. Command: npm run lint. Result: pass. Evidence: ESLint exited 0. Scope: repository lint. Command: npm run typecheck. Result: pass. Evidence: TypeScript exited 0. Scope: repository type safety. Command: npm run build. Result: pass. Evidence: Next.js compiled successfully and generated /proposals/view. Scope: production build. Command: git diff --check. Result: pass. Evidence: no whitespace errors. Scope: task diff. Command: ap doctor and node .agentplane/policy/check-routing.mjs. Result: pass. Evidence: doctor OK with zero findings and policy routing OK. Scope: repository workflow integrity. User confirmation: received explicit instruction to close and commit after reviewing the final result."
+  note: "verified-202608051249-E4ZNJM"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T13:07:42.962Z"
+  updated_by: "EVALUATOR"
+  note: "The final implementation matches the user-approved spacing scope and all declared checks pass."
+  evaluated_sha: "9633352271240f5b36d965aa50d96cb4572128e1"
+  blueprint_digest: "61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a"
+  evidence_refs:
+    - ".agentplane/tasks/202608051249-E4ZNJM/README.md"
+    - ".agentplane/tasks/202608051249-E4ZNJM/quality/20260805-130742962-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051249-E4ZNJM/quality/20260805-130742962-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051249-E4ZNJM/quality/20260805-130742962-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051249-E4ZNJM/blueprint/resolved-snapshot.json"
+    - "npm test -- --run tests/components/proposals.test.tsx; npm run lint; npm run typecheck; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs"
+  findings:
+    - "Only the five major proposal sections use unconditional spacing 6; internal spacing and other layout values are restored, with focused regression coverage."
 commit: null
 comments:
   -
@@ -41,8 +57,20 @@ events:
     author: "CODER"
     state: "ok"
     note: "Command: npm test -- --run tests/components/proposals.test.tsx. Result: pass. Evidence: 1 test file and 9 tests passed, including unconditional p-6 section-spacing coverage. Scope: proposal view and proposal management components. Command: npm run lint. Result: pass. Evidence: ESLint exited 0. Scope: repository lint. Command: npm run typecheck. Result: pass. Evidence: TypeScript exited 0. Scope: repository type safety. Command: npm run build. Result: pass. Evidence: Next.js compiled successfully and generated /proposals/view. Scope: production build. Command: git diff --check. Result: pass. Evidence: no whitespace errors. Scope: task diff. Command: ap doctor and node .agentplane/policy/check-routing.mjs. Result: pass. Evidence: doctor OK with zero findings and policy routing OK. Scope: repository workflow integrity. User confirmation: received explicit instruction to close and commit after reviewing the final result."
+  -
+    type: "verify"
+    at: "2026-08-05T13:07:28.091Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051249-E4ZNJM"
+  -
+    type: "verify"
+    at: "2026-08-05T13:07:52.631Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051249-E4ZNJM"
 doc_version: 3
-doc_updated_at: "2026-08-05T13:07:15.705Z"
+doc_updated_at: "2026-08-05T13:07:52.718Z"
 doc_updated_by: "CODER"
 description: "On /proposals/view, reduce horizontal and vertical spacing of proposal document blocks by approximately half while preserving content, behavior, responsiveness, and print support. Keep the task open until the user confirms the visual result."
 sections:
@@ -77,6 +105,66 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608051249-E4ZNJM
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T13:07:28.091Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051249-E4ZNJM
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T13:07:15.705Z, excerpt_hash=sha256:bf1a97a50d496a28286e84c367b3c2ba472f99ccf210c6f60e1bb140dde5f382
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051249-E4ZNJM/blueprint/resolved-snapshot.json
+    - old_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+    - current_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051249-E4ZNJM
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051249-E4ZNJM --result verified-202608051249-E4ZNJM --commit 9633352271240f5b36d965aa50d96cb4572128e1
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T13:07:52.631Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051249-E4ZNJM
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T13:07:28.183Z, excerpt_hash=sha256:bf1a97a50d496a28286e84c367b3c2ba472f99ccf210c6f60e1bb140dde5f382
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051249-E4ZNJM/blueprint/resolved-snapshot.json
+    - old_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+    - current_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051249-E4ZNJM
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051249-E4ZNJM --result verified-202608051249-E4ZNJM --commit 9633352271240f5b36d965aa50d96cb4572128e1
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -142,6 +230,66 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608051249-E4ZNJM
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T13:07:28.091Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051249-E4ZNJM
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T13:07:15.705Z, excerpt_hash=sha256:bf1a97a50d496a28286e84c367b3c2ba472f99ccf210c6f60e1bb140dde5f382
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051249-E4ZNJM/blueprint/resolved-snapshot.json
+- old_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+- current_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051249-E4ZNJM
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051249-E4ZNJM --result verified-202608051249-E4ZNJM --commit 9633352271240f5b36d965aa50d96cb4572128e1
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T13:07:52.631Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051249-E4ZNJM
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T13:07:28.183Z, excerpt_hash=sha256:bf1a97a50d496a28286e84c367b3c2ba472f99ccf210c6f60e1bb140dde5f382
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051249-E4ZNJM/blueprint/resolved-snapshot.json
+- old_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+- current_digest: 61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051249-E4ZNJM
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051249-E4ZNJM --result verified-202608051249-E4ZNJM --commit 9633352271240f5b36d965aa50d96cb4572128e1
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

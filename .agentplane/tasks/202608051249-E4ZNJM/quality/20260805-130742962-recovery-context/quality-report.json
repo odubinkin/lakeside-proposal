@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051249-E4ZNJM",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T13:07:42.962Z",
+  "verdict": "pass",
+  "summary": "The final implementation matches the user-approved spacing scope and all declared checks pass.",
+  "evaluated_sha": "9633352271240f5b36d965aa50d96cb4572128e1",
+  "blueprint_digest": "61459e6e860f52556c2bc962e494079650cebb6407aaf5ec3b3db50eeb04614a",
+  "findings": [
+    "Only the five major proposal sections use unconditional spacing 6; internal spacing and other layout values are restored, with focused regression coverage."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051249-E4ZNJM/README.md",
+    "npm test -- --run tests/components/proposals.test.tsx; npm run lint; npm run typecheck; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
