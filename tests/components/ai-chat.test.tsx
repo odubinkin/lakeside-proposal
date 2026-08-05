@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ChatBot } from '@/components/chat-bot'
@@ -281,6 +281,89 @@ describe('chat persistence and transport behavior', () => {
     expect(window.localStorage.getItem(getChatStorageKey('PRO-MIXED'))).toContain(
       'Form completed, fields changed: Client name',
     )
+  })
+
+  it('shows form progress while complete tool arguments are still streaming', async () => {
+    let releaseToolCall = () => undefined
+    const onApplyPatch = vi.fn((patch) => executeFormPatch(baseForm, patch))
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { runId: string }
+      if (fetchMock.mock.calls.length > 1) {
+        return textResponse(body, 'The form is updated.')
+      }
+
+      const encoder = new TextEncoder()
+      return new Response(
+        new ReadableStream<Uint8Array>({
+          start(controller) {
+            controller.enqueue(
+              encoder.encode(
+                [
+                  runEvent(body.runId, 0, {
+                    type: 'message_start',
+                    messageId: 'assistant-delayed-tool',
+                  }),
+                  runEvent(body.runId, 1, {
+                    type: 'tool_call_start',
+                    messageId: 'assistant-delayed-tool',
+                  }),
+                ]
+                  .map((event) => JSON.stringify(event))
+                  .join('\n') + '\n',
+              ),
+            )
+            releaseToolCall = () => {
+              controller.enqueue(
+                encoder.encode(
+                  [
+                    runEvent(body.runId, 2, {
+                      type: 'tool_call',
+                      messageId: 'assistant-delayed-tool',
+                      toolCallId: 'tool-delayed',
+                      name: 'edit_proposal_form',
+                      arguments: { clientName: 'Vasya Pupkin' },
+                    }),
+                    runEvent(body.runId, 3, {
+                      type: 'message_end',
+                      messageId: 'assistant-delayed-tool',
+                      finishReason: 'tool_call',
+                    }),
+                  ]
+                    .map((event) => JSON.stringify(event))
+                    .join('\n') + '\n',
+                ),
+              )
+              controller.close()
+            }
+          },
+        }),
+        { headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8' } },
+      )
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    render(
+      <ChatBot
+        form={baseForm}
+        proposalId="PRO-DELAYED-TOOL"
+        onApplyPatch={onApplyPatch}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Chat with assistant' }))
+    fireEvent.change(screen.getByLabelText('Message'), {
+      target: { value: 'Update the client name' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Send message' }))
+
+    expect(await screen.findByText('Filling in the form…')).toBeInTheDocument()
+    expect(onApplyPatch).not.toHaveBeenCalled()
+
+    await act(async () => releaseToolCall())
+
+    expect(
+      await screen.findByText('Form completed, fields changed: Client name'),
+    ).toBeInTheDocument()
+    expect(onApplyPatch).toHaveBeenCalledWith({ clientName: 'Vasya Pupkin' })
   })
 
   it('retries a failed whole turn with a new run ID and no duplicate user message', async () => {

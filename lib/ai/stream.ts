@@ -74,7 +74,14 @@ export async function readChatEventStream(
     const eventType = envelope.type
     if (
       typeof eventType !== 'string' ||
-      !['message_start', 'message_delta', 'tool_call', 'message_end', 'error'].includes(
+      ![
+        'message_start',
+        'message_delta',
+        'tool_call_start',
+        'tool_call',
+        'message_end',
+        'error',
+      ].includes(
         eventType,
       )
     ) {

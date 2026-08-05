@@ -18,6 +18,7 @@ export type AssistantContext = {
 
 export type AssistantOutputChunk =
   | { type: 'text_delta'; delta: string }
+  | { type: 'tool_call_start' }
   | {
       type: 'tool_call'
       toolCallId: string

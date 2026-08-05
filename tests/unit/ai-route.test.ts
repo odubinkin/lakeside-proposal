@@ -78,12 +78,13 @@ describe('POST /api/ai/chat', () => {
     const fillEvents = events(await fillResponse.text())
     expect(fillEvents.map(({ type }) => type)).toEqual([
       'message_start',
+      'tool_call_start',
       'tool_call',
       'message_end',
     ])
-    expect(fillEvents[1]).toMatchObject({ name: 'edit_proposal_form' })
+    expect(fillEvents[2]).toMatchObject({ name: 'edit_proposal_form' })
 
-    const tool = fillEvents[1] as {
+    const tool = fillEvents[2] as {
       messageId: string
       toolCallId: string
       arguments: Record<string, unknown>
@@ -134,15 +135,16 @@ describe('POST /api/ai/chat', () => {
     expect(output.map(({ type }) => type)).toEqual([
       'message_start',
       'message_delta',
+      'tool_call_start',
       'tool_call',
       'message_end',
     ])
     expect(output[1]).toMatchObject({ delta: 'I will update the client name.' })
-    expect(output[2]).toMatchObject({
+    expect(output[3]).toMatchObject({
       toolCallId: 'tool-mixed',
       arguments: { clientName: 'Vasya Pupkin' },
     })
-    expect(output[3]).toMatchObject({ finishReason: 'tool_call' })
+    expect(output[4]).toMatchObject({ finishReason: 'tool_call' })
   })
 
   it('maps provider failures to the generic message without invoking mock fallback', async () => {

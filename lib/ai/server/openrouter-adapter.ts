@@ -110,7 +110,10 @@ export async function* normalizeOpenRouterStream(
     }
 
     if ((chunk.tool_call_chunks?.length ?? 0) > 0) {
-      sawToolCall = true
+      if (!sawToolCall) {
+        sawToolCall = true
+        yield { type: 'tool_call_start' }
+      }
     }
   }
 

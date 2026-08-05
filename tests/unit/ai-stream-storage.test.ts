@@ -68,6 +68,55 @@ describe('NDJSON stream parsing', () => {
     expect(events).toEqual(['message_start', 'message_delta', 'message_end'])
   })
 
+  it('dispatches form-tool progress before complete arguments', async () => {
+    const lines = [
+      {
+        protocolVersion: 1,
+        runId,
+        sequence: 0,
+        type: 'message_start',
+        messageId: 'assistant-tool',
+      },
+      {
+        protocolVersion: 1,
+        runId,
+        sequence: 1,
+        type: 'tool_call_start',
+        messageId: 'assistant-tool',
+      },
+      {
+        protocolVersion: 1,
+        runId,
+        sequence: 2,
+        type: 'tool_call',
+        messageId: 'assistant-tool',
+        toolCallId: 'tool-1',
+        name: 'edit_proposal_form',
+        arguments: { clientName: 'Vasya Pupkin' },
+      },
+      {
+        protocolVersion: 1,
+        runId,
+        sequence: 3,
+        type: 'message_end',
+        messageId: 'assistant-tool',
+        finishReason: 'tool_call',
+      },
+    ]
+      .map((event) => `${JSON.stringify(event)}\n`)
+      .join('')
+    const received: string[] = []
+    await readChatEventStream(splitStream(lines, [31, 173]), runId, (event) => {
+      received.push(event.type)
+    })
+    expect(received).toEqual([
+      'message_start',
+      'tool_call_start',
+      'tool_call',
+      'message_end',
+    ])
+  })
+
   it.each([
     ['wrong run ID', eventLines().join('').replace(runId, crypto.randomUUID()), []],
     ['missing sequence', eventLines([0, 2, 3]).join(''), ['message_start']],

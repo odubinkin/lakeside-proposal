@@ -209,6 +209,10 @@ export const chatStreamEventSchema = z.discriminatedUnion('type', [
     delta: z.string(),
   }).strict(),
   streamEnvelopeSchema.extend({
+    type: z.literal('tool_call_start'),
+    messageId: z.string().min(1),
+  }).strict(),
+  streamEnvelopeSchema.extend({
     type: z.literal('tool_call'),
     messageId: z.string().min(1),
     toolCallId: z.string().min(1),

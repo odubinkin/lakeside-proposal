@@ -214,6 +214,7 @@ describe('OpenRouter stream normalization', () => {
     for await (const chunk of normalizeOpenRouterStream(response())) chunks.push(chunk)
     expect(chunks).toEqual([
       { type: 'text_delta', delta: 'I will update the client name.' },
+      { type: 'tool_call_start' },
       {
         type: 'tool_call',
         toolCallId: 'tool-mixed',

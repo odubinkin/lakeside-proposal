@@ -242,16 +242,20 @@ export function ChatBot({
           if (!result) break
 
           const statusId = `tool-status:${result.toolCallId}`
-          replaceEntries((current) => [
-            ...current,
-            {
-              id: statusId,
-              kind: 'status',
-              state: 'filling',
-              text: 'Filling in the form…',
-              createdAt: new Date().toISOString(),
-            },
-          ])
+          replaceEntries((current) =>
+            current.some((entry) => entry.id === statusId)
+              ? current
+              : [
+                  ...current,
+                  {
+                    id: statusId,
+                    kind: 'status',
+                    state: 'filling',
+                    text: 'Filling in the form…',
+                    createdAt: new Date().toISOString(),
+                  },
+                ],
+          )
 
           await waitForProgressPresentation(controller.signal)
           let toolResult: FormToolResult
@@ -570,6 +574,9 @@ async function runExchange({
             ),
           )
           break
+        case 'tool_call_start':
+          replaceEntries((current) => startToolProgress(current, event.messageId))
+          break
         case 'tool_call':
           pendingToolCall = {
             assistantMessageId: event.messageId,
@@ -577,11 +584,7 @@ async function runExchange({
             arguments: event.arguments,
           }
           replaceEntries((current) =>
-            current.flatMap((entry) => {
-              if (entry.id !== event.messageId || entry.kind !== 'text') return [entry]
-              if (!entry.content.trim()) return []
-              return [{ ...entry, delivery: 'complete' }]
-            }),
+            completeToolProgress(current, event.messageId, event.toolCallId),
           )
           break
         case 'message_end':
@@ -604,6 +607,57 @@ async function runExchange({
     throw new AssistantProtocolError()
   }
   return pendingToolCall
+}
+
+/**
+ * Shows form-tool progress and removes an empty assistant placeholder.
+ *
+ * @param entries - Current visible transcript.
+ * @param messageId - Assistant message that started the tool call.
+ * @returns Transcript with one provisional filling status.
+ */
+function startToolProgress(
+  entries: ChatTranscriptEntry[],
+  messageId: string,
+): ChatTranscriptEntry[] {
+  const provisionalStatusId = `tool-status-pending:${messageId}`
+  const next = entries.flatMap((entry): ChatTranscriptEntry[] => {
+    if (entry.id !== messageId || entry.kind !== 'text') return [entry]
+    if (!entry.content.trim()) return []
+    return [{ ...entry, delivery: 'complete' }]
+  })
+  if (next.some((entry) => entry.id === provisionalStatusId)) return next
+  return [
+    ...next,
+    {
+      id: provisionalStatusId,
+      kind: 'status',
+      state: 'filling',
+      text: 'Filling in the form…',
+      createdAt: new Date().toISOString(),
+    },
+  ]
+}
+
+/**
+ * Correlates provisional progress with the complete validated tool call.
+ *
+ * @param entries - Current visible transcript.
+ * @param messageId - Assistant message that owns the tool call.
+ * @param toolCallId - Provider tool-call identifier used for continuation history.
+ * @returns Transcript containing one final tool status ID.
+ */
+function completeToolProgress(
+  entries: ChatTranscriptEntry[],
+  messageId: string,
+  toolCallId: string,
+): ChatTranscriptEntry[] {
+  const provisionalStatusId = `tool-status-pending:${messageId}`
+  const statusId = `tool-status:${toolCallId}`
+  const started = startToolProgress(entries, messageId)
+  return started.map((entry) =>
+    entry.id === provisionalStatusId ? { ...entry, id: statusId } : entry,
+  )
 }
 
 /**
