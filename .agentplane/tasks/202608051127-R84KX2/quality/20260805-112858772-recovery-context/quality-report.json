@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051127-R84KX2",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T11:28:58.772Z",
+  "verdict": "pass",
+  "summary": "Approved proposal identifier styling is implemented and all declared checks pass.",
+  "evaluated_sha": "18912e76fa03aacdbfe3a86de3d30ecda88db659",
+  "blueprint_digest": "fb994c23e1311b58a84d423eb6b9b358eb21436b70b034a0efa63036155bb08d",
+  "findings": [
+    "Scoped diff removes ID badge styling and negative margin while preserving the Draft badge; focused test, lint, typecheck, doctor, and policy routing checks pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051127-R84KX2/README.md",
+    "tests/components/proposals.test.tsx"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
