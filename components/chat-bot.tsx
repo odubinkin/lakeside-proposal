@@ -377,7 +377,10 @@ async function runExchange({
     protocolVersion: AI_PROTOCOL_VERSION,
     runId,
     form: currentForm,
-    messages: getModelHistory(entriesForHistory(replaceEntries)),
+    messages: getModelHistory(
+      entriesForHistory(replaceEntries),
+      continuation ? `tool-status:${continuation.toolCallId}` : undefined,
+    ),
     ...(continuation ? { continuation } : {}),
   }
   let activeMessageId: string | undefined
@@ -417,7 +420,11 @@ async function runExchange({
             arguments: event.arguments,
           }
           replaceEntries((current) =>
-            current.filter((entry) => entry.id !== event.messageId),
+            current.flatMap((entry) => {
+              if (entry.id !== event.messageId || entry.kind !== 'text') return [entry]
+              if (!entry.content.trim()) return []
+              return [{ ...entry, delivery: 'complete' }]
+            }),
           )
           break
         case 'message_end':
@@ -450,13 +457,31 @@ function entriesForHistory(
   return replaceEntries((current) => current)
 }
 
-function getModelHistory(entries: ChatTranscriptEntry[]): ChatHistoryMessage[] {
+function getModelHistory(
+  entries: ChatTranscriptEntry[],
+  excludedStatusId?: string,
+): ChatHistoryMessage[] {
   return entries
-    .filter(
-      (entry): entry is Extract<ChatTranscriptEntry, { kind: 'text' }> =>
-        entry.kind === 'text' && entry.delivery === 'complete',
-    )
-    .map(({ id, role, content, createdAt }) => ({ id, role, content, createdAt }))
+    .flatMap((entry): ChatHistoryMessage[] => {
+      if (entry.kind === 'text' && entry.delivery === 'complete') {
+        const { id, role, content, createdAt } = entry
+        return [{ id, role, content, createdAt }]
+      }
+      if (
+        entry.kind === 'status' &&
+        entry.id.startsWith('tool-status:') &&
+        entry.id !== excludedStatusId &&
+        (entry.state === 'done' || entry.state === 'failed')
+      ) {
+        return [{
+          id: entry.id,
+          role: 'assistant',
+          content: entry.text,
+          createdAt: entry.createdAt,
+        }]
+      }
+      return []
+    })
     .slice(-50)
 }
 

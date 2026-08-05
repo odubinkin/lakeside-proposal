@@ -86,16 +86,15 @@ function streamAssistantResponse(
 
       try {
         send({ type: 'message_start', messageId })
-        let outputKind: 'text' | 'tool' | undefined
+        let sawTool = false
         for await (const chunk of adapter.stream(createAssistantContext(request), signal)) {
           if (signal.aborted) return
           if (chunk.type === 'text_delta') {
-            if (outputKind === 'tool') throw new ServerAssistantProtocolError()
-            outputKind = 'text'
+            if (sawTool) throw new ServerAssistantProtocolError()
             send({ type: 'message_delta', messageId, delta: chunk.delta })
           } else {
-            if (outputKind) throw new ServerAssistantProtocolError()
-            outputKind = 'tool'
+            if (sawTool) throw new ServerAssistantProtocolError()
+            sawTool = true
             send({
               type: 'tool_call',
               messageId,
@@ -110,7 +109,7 @@ function streamAssistantResponse(
         send({
           type: 'message_end',
           messageId,
-          finishReason: outputKind === 'tool' ? 'tool_call' : 'stop',
+          finishReason: sawTool ? 'tool_call' : 'stop',
         })
         controller.close()
       } catch (error) {

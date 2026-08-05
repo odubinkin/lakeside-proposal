@@ -92,5 +92,10 @@ function recoverEntry(entry: ChatTranscriptEntry): ChatTranscriptEntry {
 }
 
 function shouldRestoreEntry(entry: ChatTranscriptEntry): boolean {
-  return entry.kind === 'text' || entry.state === 'done' || entry.state === 'interrupted'
+  return (
+    entry.kind === 'text' ||
+    entry.state === 'done' ||
+    entry.state === 'interrupted' ||
+    (entry.state === 'failed' && entry.id.startsWith('tool-status:'))
+  )
 }

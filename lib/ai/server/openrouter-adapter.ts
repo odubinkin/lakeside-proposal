@@ -46,47 +46,11 @@ export class OpenRouterAssistantAdapter implements AssistantAdapter {
     signal: AbortSignal,
   ): AsyncIterable<AssistantOutputChunk> {
     try {
-      const runnable = this.model.bindTools([editProposalFormTool])
+      const runnable = this.model.bindTools([editProposalFormTool], {
+        parallel_tool_calls: false,
+      })
       const response = await runnable.stream(buildModelMessages(context), { signal })
-      let aggregate: AIMessageChunk | undefined
-      let emittedText = false
-      let sawToolCall = false
-
-      for await (const chunk of response) {
-        aggregate = aggregate ? aggregate.concat(chunk) : chunk
-        const hasToolChunk = (chunk.tool_call_chunks?.length ?? 0) > 0
-        if (hasToolChunk) {
-          if (emittedText) throw new ServerAssistantProtocolError()
-          sawToolCall = true
-          continue
-        }
-
-        const delta = getTextContent(chunk.content)
-        if (delta) {
-          if (sawToolCall) throw new ServerAssistantProtocolError()
-          emittedText = true
-          yield { type: 'text_delta', delta }
-        }
-      }
-
-      const toolCalls = aggregate?.tool_calls ?? []
-      if (toolCalls.length > 1) throw new ServerAssistantProtocolError()
-      if (toolCalls.length === 1) {
-        if (emittedText || toolCalls[0].name !== EDIT_PROPOSAL_FORM_TOOL) {
-          throw new ServerAssistantProtocolError()
-        }
-        const parsed = proposalFormPatchSchema.safeParse(toolCalls[0].args)
-        if (!parsed.success || !toolCalls[0].id) {
-          throw new ServerAssistantProtocolError()
-        }
-        yield {
-          type: 'tool_call',
-          toolCallId: toolCalls[0].id,
-          arguments: parsed.data,
-        }
-      } else if (sawToolCall) {
-        throw new ServerAssistantProtocolError()
-      }
+      yield* normalizeOpenRouterStream(response)
     } catch (error) {
       if (
         error instanceof ServerAssistantProtocolError ||
@@ -96,6 +60,47 @@ export class OpenRouterAssistantAdapter implements AssistantAdapter {
       }
       throw new ServerAssistantCommunicationError(error)
     }
+  }
+}
+
+export async function* normalizeOpenRouterStream(
+  response: AsyncIterable<AIMessageChunk>,
+): AsyncIterable<AssistantOutputChunk> {
+  let aggregate: AIMessageChunk | undefined
+  let sawToolCall = false
+
+  for await (const chunk of response) {
+    aggregate = aggregate ? aggregate.concat(chunk) : chunk
+    const delta = getTextContent(chunk.content)
+    if (delta) {
+      if (sawToolCall) throw new ServerAssistantProtocolError()
+      yield { type: 'text_delta', delta }
+    }
+
+    if ((chunk.tool_call_chunks?.length ?? 0) > 0) {
+      sawToolCall = true
+    }
+  }
+
+  const toolCalls = aggregate?.tool_calls ?? []
+  if (toolCalls.length > 1 || (aggregate?.invalid_tool_calls?.length ?? 0) > 0) {
+    throw new ServerAssistantProtocolError()
+  }
+  if (toolCalls.length === 1) {
+    if (toolCalls[0].name !== EDIT_PROPOSAL_FORM_TOOL) {
+      throw new ServerAssistantProtocolError()
+    }
+    const parsed = proposalFormPatchSchema.safeParse(toolCalls[0].args)
+    if (!parsed.success || !toolCalls[0].id) {
+      throw new ServerAssistantProtocolError()
+    }
+    yield {
+      type: 'tool_call',
+      toolCallId: toolCalls[0].id,
+      arguments: parsed.data,
+    }
+  } else if (sawToolCall) {
+    throw new ServerAssistantProtocolError()
   }
 }
 

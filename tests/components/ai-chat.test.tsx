@@ -164,6 +164,75 @@ describe('chat persistence and transport behavior', () => {
     expect(screen.queryByText('Streamed ')).not.toBeInTheDocument()
   })
 
+  it('keeps a streamed tool preamble and sends the completed status in later history', async () => {
+    const requests: Array<{
+      runId: string
+      messages: Array<{ content: string }>
+      continuation?: unknown
+    }> = []
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as (typeof requests)[number]
+      requests.push(body)
+      if (requests.length === 1) {
+        return responseFor(body, [
+          { type: 'message_start', messageId: 'assistant-mixed' },
+          {
+            type: 'message_delta',
+            messageId: 'assistant-mixed',
+            delta: 'I will update the client name.',
+          },
+          {
+            type: 'tool_call',
+            messageId: 'assistant-mixed',
+            toolCallId: 'tool-mixed',
+            name: 'edit_proposal_form',
+            arguments: { clientName: 'Vasya Pupkin' },
+          },
+          {
+            type: 'message_end',
+            messageId: 'assistant-mixed',
+            finishReason: 'tool_call',
+          },
+        ])
+      }
+      if (requests.length === 2) return textResponse(body, 'The form is updated.')
+      return textResponse(body, 'The stored result is available.')
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    renderChat('PRO-MIXED')
+    fireEvent.click(screen.getByRole('button', { name: 'Chat with assistant' }))
+    fireEvent.change(screen.getByLabelText('Message'), {
+      target: { value: 'Update the client name' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Send message' }))
+
+    expect(await screen.findByText('I will update the client name.')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Form completed, fields changed: Client name'),
+    ).toBeInTheDocument()
+    expect(await screen.findByText('The form is updated.')).toBeInTheDocument()
+    expect(requests[1].continuation).toBeDefined()
+    expect(requests[1].messages.map(({ content }) => content)).toContain(
+      'I will update the client name.',
+    )
+    expect(requests[1].messages.map(({ content }) => content)).not.toContain(
+      'Form completed, fields changed: Client name',
+    )
+
+    fireEvent.change(screen.getByLabelText('Message'), {
+      target: { value: 'What was changed?' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Send message' }))
+    expect(await screen.findByText('The stored result is available.')).toBeInTheDocument()
+    expect(requests[2].messages.map(({ content }) => content)).toContain(
+      'Form completed, fields changed: Client name',
+    )
+    expect(window.localStorage.getItem(getChatStorageKey('PRO-MIXED'))).toContain(
+      'Form completed, fields changed: Client name',
+    )
+  })
+
   it('retries a failed whole turn with a new run ID and no duplicate user message', async () => {
     const runIds: string[] = []
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {

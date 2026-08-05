@@ -27,21 +27,30 @@ If a form tool result reports validation errors, explain every reported field er
 
 export function buildModelMessages(context: AssistantContext): BaseMessage[] {
   const history = context.request.messages.slice(-50)
+  const continuation = context.request.continuation
+  const toolPreamble = continuation
+    ? history.find(
+        (message) =>
+          message.id === continuation.assistantMessageId && message.role === 'assistant',
+      )
+    : undefined
+  const ordinaryHistory = continuation && toolPreamble
+    ? history.filter((message) => message !== toolPreamble)
+    : history
   const messages: BaseMessage[] = [
     new SystemMessage(WILLOW_SYSTEM_PROMPT),
     new SystemMessage(buildTrustedContext(context)),
-    ...history.map((message) =>
+    ...ordinaryHistory.map((message) =>
       message.role === 'user'
         ? new HumanMessage(message.content)
         : new AIMessage(message.content),
     ),
   ]
 
-  const continuation = context.request.continuation
   if (continuation) {
     messages.push(
       new AIMessage({
-        content: '',
+        content: toolPreamble?.content ?? '',
         tool_calls: [
           {
             id: continuation.toolCallId,

@@ -117,6 +117,34 @@ describe('POST /api/ai/chat', () => {
     expect(events(await finalResponse.text())[1].delta).toContain("I've filled in")
   })
 
+  it('streams an assistant preamble before one form tool call', async () => {
+    const adapter: AssistantAdapter = {
+      mode: 'openrouter',
+      async *stream(): AsyncIterable<AssistantOutputChunk> {
+        yield { type: 'text_delta', delta: 'I will update the client name.' }
+        yield {
+          type: 'tool_call',
+          toolCallId: 'tool-mixed',
+          arguments: { clientName: 'Vasya Pupkin' },
+        }
+      },
+    }
+    const response = await handleChatRequest(request(validRequest()), () => adapter)
+    const output = events(await response.text())
+    expect(output.map(({ type }) => type)).toEqual([
+      'message_start',
+      'message_delta',
+      'tool_call',
+      'message_end',
+    ])
+    expect(output[1]).toMatchObject({ delta: 'I will update the client name.' })
+    expect(output[2]).toMatchObject({
+      toolCallId: 'tool-mixed',
+      arguments: { clientName: 'Vasya Pupkin' },
+    })
+    expect(output[3]).toMatchObject({ finishReason: 'tool_call' })
+  })
+
   it('maps provider failures to the generic message without invoking mock fallback', async () => {
     const adapter: AssistantAdapter = {
       mode: 'openrouter',

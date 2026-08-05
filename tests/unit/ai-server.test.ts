@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { AIMessageChunk } from '@langchain/core/messages'
 import { addOns, getVilla } from '@/lib/data'
 import {
   buildModelMessages,
@@ -11,6 +12,7 @@ import {
   MockAssistantAdapter,
 } from '@/lib/ai/server/mock-adapter'
 import { createAssistantContext, selectProvider } from '@/lib/ai/server/provider'
+import { normalizeOpenRouterStream } from '@/lib/ai/server/openrouter-adapter'
 import type { AssistantOutputChunk } from '@/lib/ai/server/assistant'
 import { baseForm, validRequest } from '@/tests/helpers/ai'
 
@@ -99,6 +101,57 @@ describe('prompt construction', () => {
     expect(trusted).not.toContain('PRO-')
   })
 
+  it('reconstructs a mixed preamble and tool call as one assistant message', () => {
+    const oldForm = baseForm
+    const newForm = { ...oldForm, clientName: 'Vasya Pupkin' }
+    const context = createAssistantContext(
+      validRequest({
+        form: newForm,
+        messages: [
+          {
+            id: 'user-edit',
+            role: 'user',
+            content: 'Update the client name',
+            createdAt: '2026-08-05T00:00:00.000Z',
+          },
+          {
+            id: 'assistant-mixed',
+            role: 'assistant',
+            content: 'I will update the client name.',
+            createdAt: '2026-08-05T00:00:01.000Z',
+          },
+        ],
+        continuation: {
+          assistantMessageId: 'assistant-mixed',
+          toolCallId: 'tool-mixed',
+          toolName: 'edit_proposal_form',
+          arguments: { clientName: 'Vasya Pupkin' },
+          result: {
+            ok: true,
+            oldForm,
+            newForm,
+            changedFields: ['clientName'],
+          },
+        },
+      }),
+    )
+
+    const prompt = buildModelMessages(context)
+    const mixedMessage = prompt.at(-2)
+    expect(mixedMessage?._getType()).toBe('ai')
+    expect(mixedMessage?.content).toBe('I will update the client name.')
+    expect('tool_calls' in mixedMessage! ? mixedMessage.tool_calls : undefined).toEqual([
+      expect.objectContaining({
+        id: 'tool-mixed',
+        name: 'edit_proposal_form',
+        args: { clientName: 'Vasya Pupkin' },
+      }),
+    ])
+    expect(
+      prompt.filter((message) => message.content === 'I will update the client name.'),
+    ).toHaveLength(1)
+  })
+
   it('contains the canonical safety and catalog-grounding rules', () => {
     expect(WILLOW_SYSTEM_PROMPT).toContain('Stay strictly within this scope')
     expect(WILLOW_SYSTEM_PROMPT).toContain(
@@ -110,6 +163,36 @@ describe('prompt construction', () => {
     expect(WILLOW_SYSTEM_PROMPT).toContain('legal or tax advice')
     expect(WILLOW_SYSTEM_PROMPT).toContain('explain every reported field error')
     expect(WILLOW_SYSTEM_PROMPT).toContain('Do not claim that any part')
+  })
+})
+
+describe('OpenRouter stream normalization', () => {
+  it('preserves streamed text before a valid tool call', async () => {
+    async function* response() {
+      yield new AIMessageChunk({ content: 'I will update the client name.' })
+      yield new AIMessageChunk({
+        content: '',
+        tool_call_chunks: [
+          {
+            id: 'tool-mixed',
+            name: 'edit_proposal_form',
+            args: '{"clientName":"Vasya Pupkin"}',
+            index: 0,
+          },
+        ],
+      })
+    }
+
+    const chunks: AssistantOutputChunk[] = []
+    for await (const chunk of normalizeOpenRouterStream(response())) chunks.push(chunk)
+    expect(chunks).toEqual([
+      { type: 'text_delta', delta: 'I will update the client name.' },
+      {
+        type: 'tool_call',
+        toolCallId: 'tool-mixed',
+        arguments: { clientName: 'Vasya Pupkin' },
+      },
+    ])
   })
 })
 
