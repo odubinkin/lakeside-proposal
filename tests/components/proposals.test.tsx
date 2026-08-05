@@ -122,6 +122,9 @@ describe('proposal management and view', () => {
     expect(draftBadge).toBeInTheDocument()
     expect(draftId.parentElement).toContainElement(draftBadge)
     expect(draftId.parentElement).not.toBe(villaTitle.parentElement)
+    expect(draftId).toHaveClass('font-bold')
+    expect(draftBadge).toHaveClass('font-bold')
+    expect(draftId.parentElement).toHaveClass('-ml-2')
     expect(within(draftItem!).queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 

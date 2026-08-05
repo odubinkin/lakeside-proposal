@@ -181,12 +181,12 @@ export function ProposalsList() {
               </div>
 
               <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-xs font-medium text-secondary-foreground">
+                <div className="-ml-2 flex flex-wrap items-center gap-2">
+                  <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-xs font-bold text-secondary-foreground">
                     {proposal.id}
                   </span>
                   {!proposal.completed && (
-                    <Badge className="border-amber-300 bg-amber-100 text-amber-800">
+                    <Badge className="border-amber-300 bg-amber-100 font-bold text-amber-800">
                       Draft
                     </Badge>
                   )}
