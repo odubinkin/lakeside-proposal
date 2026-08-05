@@ -4,7 +4,7 @@ title: "Exclude auto-rendered details from proposal copy"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 10
+revision: 11
 origin:
   system: "manual"
 depends_on: []
@@ -22,6 +22,22 @@ verification:
   updated_by: "CODER"
   note: "Command: npm test -- --run tests/unit/ai-server.test.ts | Result: pass | Evidence: 1 file and 11 tests passed, including full auto-rendered detail assertions | Scope: runtime prompt contract. Command: npx eslint lib/ai/server/prompt.ts tests/unit/ai-server.test.ts | Result: pass | Evidence: exit 0 with no findings | Scope: changed implementation and test. Command: git diff --check plus scoped diff inspection | Result: pass | Evidence: no whitespace errors; prompt and spec match; only approved files changed | Scope: complete product diff."
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T09:00:03.997Z"
+  updated_by: "EVALUATOR"
+  note: "The runtime prompt, canonical specification, and prompt contract test consistently exclude the complete user-provided set of auto-rendered proposal details; all declared and repository checks pass."
+  evaluated_sha: "dab87d22c835d8cc32093fcb3db2006f3324272a"
+  blueprint_digest: "db2a423cebc06fe17707a9ec8bc2c41759579ba4ca5f8462f0e15498ff6a58c7"
+  evidence_refs:
+    - ".agentplane/tasks/202608050856-QE7GWB/README.md"
+    - ".agentplane/tasks/202608050856-QE7GWB/quality/20260805-090003997-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050856-QE7GWB/quality/20260805-090003997-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050856-QE7GWB/quality/20260805-090003997-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050856-QE7GWB/blueprint/resolved-snapshot.json"
+    - "tests/unit/ai-server.test.ts"
+  findings:
+    - "The rule excludes headings, property area, bedroom and bathroom counts, selected add-ons or package components and individual prices, base villa price, and final proposal total from proposalText."
 commit: null
 comments:
   -

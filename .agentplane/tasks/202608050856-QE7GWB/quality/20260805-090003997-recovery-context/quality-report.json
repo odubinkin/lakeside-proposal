@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050856-QE7GWB",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T09:00:03.997Z",
+  "verdict": "pass",
+  "summary": "The runtime prompt, canonical specification, and prompt contract test consistently exclude the complete user-provided set of auto-rendered proposal details; all declared and repository checks pass.",
+  "evaluated_sha": "dab87d22c835d8cc32093fcb3db2006f3324272a",
+  "blueprint_digest": "db2a423cebc06fe17707a9ec8bc2c41759579ba4ca5f8462f0e15498ff6a58c7",
+  "findings": [
+    "The rule excludes headings, property area, bedroom and bathroom counts, selected add-ons or package components and individual prices, base villa price, and final proposal total from proposalText."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050856-QE7GWB/README.md",
+    "tests/unit/ai-server.test.ts"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
