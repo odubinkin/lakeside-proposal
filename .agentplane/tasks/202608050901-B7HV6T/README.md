@@ -4,7 +4,7 @@ title: "Document auto-rendered proposal copy exclusions"
 status: "DOING"
 priority: "med"
 owner: "DOCS"
-revision: 9
+revision: 10
 origin:
   system: "manual"
 depends_on: []
@@ -22,6 +22,22 @@ verification:
   updated_by: "DOCS"
   note: "Command: compare docs/AI_BOT_IMPL.md against lib/ai/server/prompt.ts and docs/AI_BOT_SPEC.md with exact rg matches | Result: pass | Evidence: heading rationale and all seven excluded detail groups agree | Scope: docs/AI_BOT_IMPL.md prompt behavior. Links: lib/ai/server/prompt.ts and docs/AI_BOT_SPEC.md. Command: git diff --check and scoped diff inspection | Result: pass | Evidence: no whitespace errors and only the approved implementation-doc paragraph changed | Scope: docs/AI_BOT_IMPL.md. Command: node .agentplane/policy/check-routing.mjs and ap doctor | Result: pass | Evidence: policy routing OK and doctor OK | Scope: repository documentation policy."
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T09:03:14.597Z"
+  updated_by: "EVALUATOR"
+  note: "AI_BOT_IMPL now accurately documents the shipped proposalText exclusion contract and agrees with both runtime and canonical specification sources."
+  evaluated_sha: "120931775ddc621e195a0dd042f3f2e7abff64db"
+  blueprint_digest: "4cf5ef68a5f919db79eac2990ad64bd1a87a16ecf35ea7f86061ac2eef0ff5e8"
+  evidence_refs:
+    - ".agentplane/tasks/202608050901-B7HV6T/README.md"
+    - ".agentplane/tasks/202608050901-B7HV6T/quality/20260805-090314597-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050901-B7HV6T/quality/20260805-090314597-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050901-B7HV6T/quality/20260805-090314597-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050901-B7HV6T/blueprint/resolved-snapshot.json"
+    - "docs/AI_BOT_IMPL.md"
+  findings:
+    - "The implementation guide lists the heading, area, bedroom and bathroom counts, selected add-ons or package components and individual prices, base villa price, and final total as automatically rendered details omitted from proposalText."
 commit: null
 comments:
   -

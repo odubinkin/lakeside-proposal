@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050901-B7HV6T",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T09:03:14.597Z",
+  "verdict": "pass",
+  "summary": "AI_BOT_IMPL now accurately documents the shipped proposalText exclusion contract and agrees with both runtime and canonical specification sources.",
+  "evaluated_sha": "120931775ddc621e195a0dd042f3f2e7abff64db",
+  "blueprint_digest": "4cf5ef68a5f919db79eac2990ad64bd1a87a16ecf35ea7f86061ac2eef0ff5e8",
+  "findings": [
+    "The implementation guide lists the heading, area, bedroom and bathroom counts, selected add-ons or package components and individual prices, base villa price, and final total as automatically rendered details omitted from proposalText."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050901-B7HV6T/README.md",
+    "docs/AI_BOT_IMPL.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
