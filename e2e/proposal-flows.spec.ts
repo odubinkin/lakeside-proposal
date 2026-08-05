@@ -98,10 +98,48 @@ test('creates, persists, lists, and opens a printable proposal on mobile', async
   await proposalPage.emulateMedia({ media: 'print' })
   await expect(proposalPage.getByRole('button', { name: 'Print proposal' })).toBeHidden()
 
-  const hasHorizontalOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
-  )
-  expect(hasHorizontalOverflow).toBe(false)
+  const printLayout = await proposalPage.evaluate(() => {
+    const shell = document.querySelector<HTMLElement>('.proposal-print-shell')
+    const documentElement = document.querySelector<HTMLElement>('.proposal-document')
+    const keepTogether = document.querySelector<HTMLElement>('.print-keep-together')
+    const groupedSection = document.querySelector<HTMLElement>(
+      'section.print-keep-together',
+    )
+
+    if (!shell || !documentElement || !keepTogether || !groupedSection) {
+      throw new Error('Expected printable proposal elements to exist')
+    }
+
+    const shellStyles = getComputedStyle(shell)
+    const documentStyles = getComputedStyle(documentElement)
+    const keepTogetherStyles = getComputedStyle(keepTogether)
+    const groupedSectionStyles = getComputedStyle(groupedSection)
+
+    return {
+      isPrintMedia: window.matchMedia('print').matches,
+      hasHorizontalOverflow:
+        document.documentElement.scrollWidth > document.documentElement.clientWidth,
+      shellPaddingTop: shellStyles.paddingTop,
+      documentMaxWidth: documentStyles.maxWidth,
+      documentBoxShadow: documentStyles.boxShadow,
+      keepTogetherBreakInside: keepTogetherStyles.breakInside,
+      keepTogetherPageBreakInside: keepTogetherStyles.pageBreakInside,
+      groupedSectionBreakInside: groupedSectionStyles.breakInside,
+      groupedSectionPageBreakInside: groupedSectionStyles.pageBreakInside,
+    }
+  })
+
+  expect(printLayout).toMatchObject({
+    isPrintMedia: true,
+    hasHorizontalOverflow: false,
+    shellPaddingTop: '0px',
+    documentMaxWidth: 'none',
+    documentBoxShadow: 'none',
+    keepTogetherBreakInside: 'avoid',
+    keepTogetherPageBreakInside: 'avoid',
+    groupedSectionBreakInside: 'avoid',
+    groupedSectionPageBreakInside: 'avoid',
+  })
 })
 
 test('edits a proposal without duplicating it and recalculates pricing', async ({ page }) => {

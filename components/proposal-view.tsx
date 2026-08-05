@@ -87,7 +87,7 @@ export function ProposalView() {
   })
 
   return (
-    <div className="min-h-screen bg-muted/40 py-0 print:bg-white print:py-0 sm:py-10">
+    <div className="proposal-print-shell min-h-screen bg-muted/40 py-0 print:bg-white print:py-0 sm:py-10">
       <Button
         onClick={() => window.print()}
         size="lg"
@@ -99,7 +99,7 @@ export function ProposalView() {
 
       <article className="proposal-document mx-auto max-w-3xl bg-card shadow-sm print:shadow-none sm:rounded-2xl sm:border sm:border-border">
         {/* Header */}
-        <header className="flex flex-col gap-6 border-b border-border p-8 sm:p-10">
+        <header className="print-keep-together flex flex-col gap-6 border-b border-border p-8 sm:p-10">
           <div className="flex items-start justify-between gap-4">
             <BrandLogo size={44} />
             <div className="text-right">
@@ -131,7 +131,7 @@ export function ProposalView() {
 
         {/* Villa */}
         <section className="p-8 sm:p-10">
-          <div className="overflow-hidden rounded-xl border border-border">
+          <div className="print-keep-together overflow-hidden rounded-xl border border-border">
             <div className="relative aspect-[21/9]">
               <Image
                 src={villa.image || '/placeholder.svg'}
@@ -174,19 +174,19 @@ export function ProposalView() {
         </section>
 
         {/* Pricing */}
-        <section className="px-8 pb-8 sm:px-10 sm:pb-10">
-          <h3 className="mb-4 text-sm font-medium tracking-wide text-muted-foreground uppercase">
+        <section className="print-keep-together px-8 pb-8 sm:px-10 sm:pb-10">
+          <h3 className="print-avoid-after mb-4 text-sm font-medium tracking-wide text-muted-foreground uppercase">
             Price breakdown
           </h3>
           <div className="overflow-hidden rounded-xl border border-border">
-            <div className="flex items-center justify-between px-5 py-4">
+            <div className="print-keep-together flex items-center justify-between px-5 py-4">
               <span className="text-sm text-foreground">Base villa price</span>
               <span className="text-sm font-medium text-foreground">
                 {formatTHB(villa.price)}
               </span>
             </div>
             {selectedAddOns.length > 0 && (
-              <div className="border-t border-border bg-muted/40 px-5 py-3">
+              <div className="print-keep-together border-t border-border bg-muted/40 px-5 py-3">
                 <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                   Selected options
                 </span>
@@ -195,7 +195,7 @@ export function ProposalView() {
             {selectedAddOns.map((a) => (
               <div
                 key={a.id}
-                className="flex items-center justify-between border-t border-border px-5 py-3"
+                className="print-keep-together flex items-center justify-between border-t border-border px-5 py-3"
               >
                 <span className="inline-flex items-center gap-2 text-sm text-foreground">
                   <Check className="size-4 text-primary" />
@@ -207,14 +207,14 @@ export function ProposalView() {
               </div>
             ))}
             {selectedAddOns.length > 0 && (
-              <div className="flex items-center justify-between border-t border-border px-5 py-3">
+              <div className="print-keep-together flex items-center justify-between border-t border-border px-5 py-3">
                 <span className="text-sm text-muted-foreground">Options subtotal</span>
                 <span className="text-sm font-medium text-foreground">
                   {formatTHB(addOnsTotal)}
                 </span>
               </div>
             )}
-            <div className="flex items-center justify-between border-t border-border bg-primary/5 px-5 py-5">
+            <div className="print-keep-together flex items-center justify-between border-t border-border bg-primary/5 px-5 py-5">
               <span className="text-base font-semibold text-foreground">Total price</span>
               <span className="font-serif text-2xl font-semibold text-primary">
                 {formatTHB(total)}
@@ -224,11 +224,11 @@ export function ProposalView() {
         </section>
 
         {/* Client details */}
-        <section className="px-8 pb-8 sm:px-10 sm:pb-10">
-          <h3 className="mb-4 text-sm font-medium tracking-wide text-muted-foreground uppercase">
+        <section className="print-keep-together px-8 pb-8 sm:px-10 sm:pb-10">
+          <h3 className="print-avoid-after mb-4 text-sm font-medium tracking-wide text-muted-foreground uppercase">
             Client details
           </h3>
-          <dl className="grid grid-cols-1 gap-x-6 gap-y-4 rounded-xl border border-border p-5 sm:grid-cols-2">
+          <dl className="print-keep-together grid grid-cols-1 gap-x-6 gap-y-4 rounded-xl border border-border p-5 sm:grid-cols-2">
             <Detail label="Client name" value={client.name} />
             <Detail label="Sales manager" value={client.manager} />
             <Detail label="Phone" value={client.phone} />
@@ -237,7 +237,7 @@ export function ProposalView() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-border px-8 py-6 text-center text-xs leading-relaxed text-muted-foreground sm:px-10">
+        <footer className="print-keep-together border-t border-border px-8 py-6 text-center text-xs leading-relaxed text-muted-foreground sm:px-10">
           <p>
             This proposal is an indicative commercial offer and is not a binding
             contract. Prices are quoted in Thai Baht (THB) and are valid for 30 days

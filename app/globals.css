@@ -109,15 +109,74 @@
   }
 }
 
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
 @media print {
   .no-print {
     display: none !important;
   }
+
+  html,
+  body {
+    min-height: 0 !important;
+    background: #fff !important;
+  }
+
+  body {
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .proposal-print-shell {
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .proposal-document {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .proposal-document,
+  .proposal-document *,
+  .proposal-document *::before,
+  .proposal-document *::after {
+    box-sizing: border-box;
+  }
+
   .proposal-document section {
-    break-inside: avoid;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .proposal-document img,
+  .proposal-document svg {
+    max-width: 100%;
+  }
+
+  .proposal-document p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .proposal-document .print-keep-together {
+    break-inside: avoid-page;
     page-break-inside: avoid;
   }
-  body {
-    background: #fff !important;
+
+  .proposal-document .print-avoid-after {
+    break-after: avoid-page;
+    page-break-after: avoid;
   }
 }
