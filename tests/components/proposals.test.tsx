@@ -113,7 +113,15 @@ describe('proposal management and view', () => {
     expect(draftItem).not.toBeNull()
     expect(within(completedItem!).getByRole('button', { name: 'View' })).toBeInTheDocument()
     expect(within(completedItem!).queryByText('Draft')).not.toBeInTheDocument()
-    expect(within(draftItem!).getByText('Draft')).toBeInTheDocument()
+    const draftBadge = within(draftItem!).getByText('Draft')
+    const draftId = within(draftItem!).getByText(draftProposal.id)
+    const villaTitle = within(draftItem!).getByRole('heading', {
+      name: 'Lagoon Residence 6',
+    })
+
+    expect(draftBadge).toBeInTheDocument()
+    expect(draftId.parentElement).toContainElement(draftBadge)
+    expect(draftId.parentElement).not.toBe(villaTitle.parentElement)
     expect(within(draftItem!).queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 

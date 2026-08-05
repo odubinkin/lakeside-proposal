@@ -169,7 +169,7 @@ export function ProposalsList() {
                 key={proposal.id}
                 className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:p-5"
               >
-              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-36">
+              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-40">
                 <Image
                   src={villa?.image || '/placeholder.svg'}
                   alt={villa?.name ?? 'Villa'}
@@ -181,7 +181,7 @@ export function ProposalsList() {
               </div>
 
               <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-xs font-medium text-secondary-foreground">
                     {proposal.id}
                   </span>
@@ -190,6 +190,8 @@ export function ProposalsList() {
                       Draft
                     </Badge>
                   )}
+                </div>
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="font-serif text-lg font-semibold tracking-tight text-foreground">
                     {villa?.name ?? 'Villa'}
                   </h3>
