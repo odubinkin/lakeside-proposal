@@ -1,10 +1,11 @@
 ---
 id: "202608051022-C77FG2"
 title: "Add proposal ID search coverage"
-status: "DOING"
+result_summary: "Proposal ID search is explicit and regression-tested"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 11
+revision: 14
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T10:24:29.592Z"
+  updated_at: "2026-08-05T10:24:43.017Z"
   updated_by: "CODER"
   note: "verified-202608051022-C77FG2"
   attempts: 0
@@ -40,11 +41,19 @@ quality_review:
     - "components/proposals-list.tsx"
   findings:
     - "The existing ID matcher is case-insensitive and supports substring matching; the new test confirms matching and non-matching rows."
-commit: null
+commit:
+  hash: "f277a5d7628ef201c63a13a2b58d02c14fac2883"
+  message: "🚧 C77FG2 task: Record quality review"
 comments:
   -
     author: "CODER"
     body: "Start: Update proposal search affordance and add focused regression coverage for proposal ID filtering without touching unrelated task changes."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051022-C77FG2. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    author: "CODER"
+    body: "Verified: Proposal ID search is explicit and regression-tested with all declared checks passing."
 events:
   -
     type: "status"
@@ -65,8 +74,28 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051022-C77FG2"
+  -
+    type: "verify"
+    at: "2026-08-05T10:24:43.017Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051022-C77FG2"
+  -
+    type: "status"
+    at: "2026-08-05T10:24:43.230Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051022-C77FG2. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    type: "status"
+    at: "2026-08-05T10:25:17.048Z"
+    author: "CODER"
+    from: "DONE"
+    to: "DONE"
+    note: "Verified: Proposal ID search is explicit and regression-tested with all declared checks passing."
 doc_version: 3
-doc_updated_at: "2026-08-05T10:24:29.676Z"
+doc_updated_at: "2026-08-05T10:25:17.050Z"
 doc_updated_by: "CODER"
 description: "Make proposal-list search explicitly support and communicate filtering by proposal ID, with regression coverage."
 sections:
@@ -145,12 +174,46 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T10:24:43.017Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051022-C77FG2
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:24:29.676Z, excerpt_hash=sha256:4511a5e184befe38a8ba4a8394157ddab51d0f02dcaaf1f4e26152b43d32c300
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051022-C77FG2/blueprint/resolved-snapshot.json
+    - old_digest: f722a7e71dd513e09203c0f4a488df7d4f741551b4a5f24591180390a6ba23ee
+    - current_digest: f722a7e71dd513e09203c0f4a488df7d4f741551b4a5f24591180390a6ba23ee
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051022-C77FG2
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051022-C77FG2 --result verified-202608051022-C77FG2 --commit f277a5d7628ef201c63a13a2b58d02c14fac2883
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert only the task-specific changes in components/proposals-list.tsx and tests/components/proposals.test.tsx, then rerun the focused component test."
   Findings: |-
     - Observation: Proposal ID matching already existed in the search field array but was not communicated in the input hint or covered by a focused regression test.
       Impact: Users can now see that ID is searchable, and automated coverage protects full, partial, and case-insensitive ID filtering.
       Resolution: Updated the search placeholder and added focused proposal-list component coverage.
+extensions:
+  implementation_commit:
+    hash: "3c3865aca9170a62f3add5ed4c5f027ff9b2fb4b"
+    message: "🚧 C77FG2 task: Add proposal ID search coverage"
 id_source: "generated"
 ---
 ## Summary
@@ -231,6 +294,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051022-C77FG2 --result verified-202608051022-C77FG2 --commit 3c3865aca9170a62f3add5ed4c5f027ff9b2fb4b
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T10:24:43.017Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051022-C77FG2
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:24:29.676Z, excerpt_hash=sha256:4511a5e184befe38a8ba4a8394157ddab51d0f02dcaaf1f4e26152b43d32c300
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051022-C77FG2/blueprint/resolved-snapshot.json
+- old_digest: f722a7e71dd513e09203c0f4a488df7d4f741551b4a5f24591180390a6ba23ee
+- current_digest: f722a7e71dd513e09203c0f4a488df7d4f741551b4a5f24591180390a6ba23ee
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051022-C77FG2
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051022-C77FG2 --result verified-202608051022-C77FG2 --commit f277a5d7628ef201c63a13a2b58d02c14fac2883
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
