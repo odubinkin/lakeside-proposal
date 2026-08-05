@@ -1,10 +1,11 @@
 ---
 id: "202608051217-XJE3EB"
 title: "Stabilize cross-browser proposal printing"
-status: "DOING"
+result_summary: "verified-202608051217-XJE3EB"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 18
+revision: 20
 origin:
   system: "manual"
 depends_on: []
@@ -18,7 +19,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T12:39:24.569Z"
+  updated_at: "2026-08-05T12:39:44.026Z"
   updated_by: "CODER"
   note: "verified-202608051217-XJE3EB"
   attempts: 0
@@ -38,7 +39,9 @@ quality_review:
     - "implementation commit 859dddea94ce; npm run lint; npm run typecheck; npm test; npm run build; focused Chromium print E2E; manual Safari confirmation; ap doctor; routing check"
   findings:
     - "A4 page sizing, targeted fragmentation groups, and legacy page-break fallbacks are scoped to the printable proposal; Chromium automation and user-confirmed Safari output pass."
-commit: null
+commit:
+  hash: "768b925fe3a887567483ea1f90f96aa20a474059"
+  message: "🚧 XJE3EB task: record quality review"
 comments:
   -
     author: "CODER"
@@ -49,6 +52,9 @@ comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051217-XJE3EB. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -89,8 +95,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051217-XJE3EB"
+  -
+    type: "verify"
+    at: "2026-08-05T12:39:44.026Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051217-XJE3EB"
+  -
+    type: "status"
+    at: "2026-08-05T12:39:44.173Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051217-XJE3EB. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T12:39:24.630Z"
+doc_updated_at: "2026-08-05T12:39:44.174Z"
 doc_updated_by: "CODER"
 description: "Make the commercial proposal print layout predictable across Chromium, Firefox, and Safari/WebKit using robust print CSS. Keep Playwright configured for Chromium only. Do not close the task until the user explicitly requests closure."
 sections:
@@ -162,6 +181,36 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T12:39:44.026Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051217-XJE3EB
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T12:39:24.630Z, excerpt_hash=sha256:e81275080079e7e57276953b024d17555aae61b0d9b8214f887d89a56a60848f
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051217-XJE3EB/blueprint/resolved-snapshot.json
+    - old_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+    - current_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051217-XJE3EB
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051217-XJE3EB --result verified-202608051217-XJE3EB --commit 768b925fe3a887567483ea1f90f96aa20a474059
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert only the print-style, proposal-markup, and focused Chromium E2E changes introduced by this task; preserve all pre-existing worktree changes and task records."
   Findings: |-
@@ -172,6 +221,10 @@ sections:
     - Observation: The full Chromium E2E file selected the real OpenRouter provider from the ignored local environment, making the unrelated Willow mock-flow assertion nondeterministic.
       Impact: This failure does not exercise proposal printing and must not gate the print compatibility task.
       Resolution: Per explicit user direction, verification is narrowed to the focused Chromium print scenario plus manual Safari confirmation.
+extensions:
+  implementation_commit:
+    hash: "859dddea94ce35569d9901e4db111adce50a4917"
+    message: "🚧 XJE3EB task: stabilize proposal printing across browsers"
 id_source: "generated"
 ---
 ## Summary
@@ -248,6 +301,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051217-XJE3EB --result verified-202608051217-XJE3EB --commit 859dddea94ce35569d9901e4db111adce50a4917
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T12:39:44.026Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051217-XJE3EB
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T12:39:24.630Z, excerpt_hash=sha256:e81275080079e7e57276953b024d17555aae61b0d9b8214f887d89a56a60848f
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051217-XJE3EB/blueprint/resolved-snapshot.json
+- old_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+- current_digest: 95a4e04827d8717a5970e748270eb12ef365ccaa158c87db086fb13438599526
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051217-XJE3EB
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051217-XJE3EB --result verified-202608051217-XJE3EB --commit 768b925fe3a887567483ea1f90f96aa20a474059
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
