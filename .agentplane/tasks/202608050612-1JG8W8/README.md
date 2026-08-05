@@ -1,10 +1,11 @@
 ---
 id: "202608050612-1JG8W8"
 title: "Implement Willow AI assistant"
-status: "DOING"
+result_summary: "verified-202608050612-1JG8W8"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 13
+revision: 15
 origin:
   system: "manual"
 depends_on: []
@@ -20,7 +21,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T06:38:11.086Z"
+  updated_at: "2026-08-05T06:38:31.051Z"
   updated_by: "CODER"
   note: "verified-202608050612-1JG8W8"
   attempts: 0
@@ -40,11 +41,16 @@ quality_review:
     - "npm run check"
   findings:
     - "Server-only provider selection, correlated NDJSON streaming, client-executed atomic form tools, scoped persistence, retry/cancellation, and deterministic mock compatibility are implemented and covered."
-commit: null
+commit:
+  hash: "a74c36d40d3e65b47dc8948a397d62383737f9dd"
+  message: "🚧 1JG8W8 task: implement Willow AI assistant"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608050612-1JG8W8. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -71,8 +77,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608050612-1JG8W8"
+  -
+    type: "verify"
+    at: "2026-08-05T06:38:31.051Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050612-1JG8W8"
+  -
+    type: "status"
+    at: "2026-08-05T06:38:31.187Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608050612-1JG8W8. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T06:38:11.169Z"
+doc_updated_at: "2026-08-05T06:38:31.188Z"
 doc_updated_by: "CODER"
 description: "Implement docs/AI_BOT_SPEC.md end to end: server-side LangChain/OpenRouter and deterministic mock, NDJSON streaming, client-executed form tool, scoped chat persistence, tests, and implementation documentation."
 sections:
@@ -186,6 +205,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608050612-1JG8W8 --result verified-202608050612-1JG8W8 --commit a74c36d40d3e65b47dc8948a397d62383737f9dd
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T06:38:31.051Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050612-1JG8W8
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T06:38:11.169Z, excerpt_hash=sha256:26f1b3962990cbf27cbab81a92dab6510c26920aa11dcad2e516dea72aafbe7a
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050612-1JG8W8/blueprint/resolved-snapshot.json
+    - old_digest: 5c1440686317d6fe6befa06afa8b521fb9532790be835d0c9aeb3858ff9b5c36
+    - current_digest: 5c1440686317d6fe6befa06afa8b521fb9532790be835d0c9aeb3858ff9b5c36
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050612-1JG8W8
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050612-1JG8W8 --result verified-202608050612-1JG8W8 --commit 97dfad20b89daf416eb3ae14445959d1a6d4dae6
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -320,6 +369,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050612-1JG8W8 --result verified-202608050612-1JG8W8 --commit a74c36d40d3e65b47dc8948a397d62383737f9dd
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T06:38:31.051Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050612-1JG8W8
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T06:38:11.169Z, excerpt_hash=sha256:26f1b3962990cbf27cbab81a92dab6510c26920aa11dcad2e516dea72aafbe7a
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050612-1JG8W8/blueprint/resolved-snapshot.json
+- old_digest: 5c1440686317d6fe6befa06afa8b521fb9532790be835d0c9aeb3858ff9b5c36
+- current_digest: 5c1440686317d6fe6befa06afa8b521fb9532790be835d0c9aeb3858ff9b5c36
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050612-1JG8W8
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050612-1JG8W8 --result verified-202608050612-1JG8W8 --commit 97dfad20b89daf416eb3ae14445959d1a6d4dae6
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
