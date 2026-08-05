@@ -174,6 +174,7 @@ export function ProposalsList() {
                   src={villa?.image || '/placeholder.svg'}
                   alt={villa?.name ?? 'Villa'}
                   fill
+                  loading="eager"
                   sizes="160px"
                   className="object-cover"
                 />

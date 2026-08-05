@@ -47,6 +47,27 @@ describe('proposal management and view', () => {
     expect(screen.getByText('Alice Buyer')).toBeInTheDocument()
   })
 
+  it('eager-loads every proposal villa preview', () => {
+    const secondProposal: Proposal = {
+      ...proposal,
+      id: 'PRO-SECOND',
+    }
+    window.localStorage.setItem(
+      PROPOSALS_STORAGE_KEY,
+      JSON.stringify([proposal, secondProposal]),
+    )
+
+    render(<ProposalsList />)
+
+    const villaPreviews = screen.getAllByRole('img', {
+      name: 'Lagoon Residence 6',
+    })
+    expect(villaPreviews).toHaveLength(2)
+    villaPreviews.forEach((preview) => {
+      expect(preview).toHaveAttribute('loading', 'eager')
+    })
+  })
+
   it('marks incomplete proposals as drafts and hides their View action', () => {
     const draftProposal: Proposal = {
       ...proposal,
