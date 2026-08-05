@@ -230,6 +230,38 @@ describe('proposal management and view', () => {
     expect(print).toHaveBeenCalledOnce()
   })
 
+  it('uses consistent reduced padding for major proposal sections', () => {
+    params = new URLSearchParams(`id=${proposal.id}`)
+    render(<ProposalView />)
+
+    const documentElement = screen
+      .getByText('Prepared for Alice Buyer by Morgan Seller')
+      .closest('article')
+    const header = documentElement?.querySelector('header')
+    const proposalTextSection = screen
+      .getByText('A tailored lakeside offer.')
+      .closest('section')
+    const villaSection = screen.getByText('Lagoon Residence 6').closest('section')
+    const villaDetails = screen.getByText('Lagoon Residence 6').parentElement?.parentElement
+    const pricingSection = screen.getByText('Price breakdown').closest('section')
+    const basePriceRow = screen.getByText('Base villa price').parentElement
+    const clientSection = screen.getByText('Client details').closest('section')
+    const clientDetails = clientSection?.querySelector('dl')
+    const footer = documentElement?.querySelector('footer')
+
+    expect(documentElement?.parentElement).toHaveClass('sm:py-10')
+    expect(header).toHaveClass('gap-6', 'p-6')
+    expect(header).not.toHaveClass('sm:p-6')
+    expect(proposalTextSection).toHaveClass('p-6')
+    expect(villaSection).toHaveClass('p-6')
+    expect(villaDetails).toHaveClass('gap-3', 'p-5')
+    expect(pricingSection).toHaveClass('px-6', 'pb-6')
+    expect(basePriceRow).toHaveClass('px-5', 'py-4')
+    expect(clientSection).toHaveClass('px-6', 'pb-6')
+    expect(clientDetails).toHaveClass('gap-x-6', 'gap-y-4', 'p-5')
+    expect(footer).toHaveClass('px-8', 'py-6', 'sm:px-10')
+  })
+
   it('renders a missing state for absent proposal identifiers', () => {
     params = new URLSearchParams('id=PRO-MISSING')
     render(<ProposalView />)

@@ -99,7 +99,7 @@ export function ProposalView() {
 
       <article className="proposal-document mx-auto max-w-3xl bg-card shadow-sm print:shadow-none sm:rounded-2xl sm:border sm:border-border">
         {/* Header */}
-        <header className="print-keep-together flex flex-col gap-6 border-b border-border p-8 sm:p-10">
+        <header className="print-keep-together flex flex-col gap-6 border-b border-border p-6">
           <div className="flex items-start justify-between gap-4">
             <BrandLogo size={44} />
             <div className="text-right">
@@ -122,7 +122,7 @@ export function ProposalView() {
 
         {/* Proposal text */}
         {proposalText && (
-          <section className="border-b border-border p-8 sm:p-10">
+          <section className="border-b border-border p-6">
             <p className="whitespace-pre-line text-[15px] leading-relaxed text-foreground">
               {proposalText}
             </p>
@@ -130,7 +130,7 @@ export function ProposalView() {
         )}
 
         {/* Villa */}
-        <section className="p-8 sm:p-10">
+        <section className="p-6">
           <div className="print-keep-together overflow-hidden rounded-xl border border-border">
             <div className="relative aspect-[21/9]">
               <Image
@@ -174,7 +174,7 @@ export function ProposalView() {
         </section>
 
         {/* Pricing */}
-        <section className="print-keep-together px-8 pb-8 sm:px-10 sm:pb-10">
+        <section className="print-keep-together px-6 pb-6">
           <h3 className="print-avoid-after mb-4 text-sm font-medium tracking-wide text-muted-foreground uppercase">
             Price breakdown
           </h3>
@@ -224,7 +224,7 @@ export function ProposalView() {
         </section>
 
         {/* Client details */}
-        <section className="print-keep-together px-8 pb-8 sm:px-10 sm:pb-10">
+        <section className="print-keep-together px-6 pb-6">
           <h3 className="print-avoid-after mb-4 text-sm font-medium tracking-wide text-muted-foreground uppercase">
             Client details
           </h3>
