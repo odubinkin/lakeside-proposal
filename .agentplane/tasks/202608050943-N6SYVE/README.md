@@ -1,10 +1,12 @@
 ---
 id: "202608050943-N6SYVE"
 title: "Eager-load proposal list villa previews"
-status: "DOING"
+result_summary: "Eager-loaded every /proposals villa preview with multi-image regression coverage."
+risk_level: "low"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 11
+revision: 12
 origin:
   system: "manual"
 depends_on:
@@ -52,11 +54,16 @@ quality_review:
   findings:
     - "The shared proposal-list Image now sets loading=\"eager\", so the contract applies uniformly regardless of which proposal is visible or selected as LCP."
     - "The regression test renders two proposal previews and asserts both images carry loading=\"eager\"."
-commit: null
+commit:
+  hash: "6df32fc219ee3500c2e5e9ef762ee0b04ee4702e"
+  message: "🚧 N6SYVE task: record quality evaluation"
 comments:
   -
     author: "CODER"
     body: "Start: add eager loading to all proposal-list villa previews with focused regression coverage."
+  -
+    author: "CODER"
+    body: "Verified: all proposal-list villa previews now load eagerly; focused tests, lint, repository health, and routing checks pass."
 events:
   -
     type: "status"
@@ -71,8 +78,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Scoped verification passed: proposal-list preview images are eager-loaded and the focused multi-image regression test passes; lint and diff checks are clean."
+  -
+    type: "status"
+    at: "2026-08-05T09:45:52.986Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: all proposal-list villa previews now load eagerly; focused tests, lint, repository health, and routing checks pass."
 doc_version: 3
-doc_updated_at: "2026-08-05T09:44:53.791Z"
+doc_updated_at: "2026-08-05T09:45:52.987Z"
 doc_updated_by: "CODER"
 description: "Add loading=\"eager\" to villa preview images rendered on /proposals because any visible proposal can become the LCP candidate; preserve all other list behavior and cover the image-loading contract with a component test."
 sections:
@@ -141,6 +155,10 @@ sections:
     - Observation: Commands: git diff --check -- components/proposals-list.tsx tests/components/proposals.test.tsx (pass); pnpm test -- tests/components/proposals.test.tsx (pass: 13 files, 103 tests); pnpm lint (pass); scoped git diff and full status inspected.
       Impact: The /proposals list no longer leaves villa preview images lazy, so any visible proposal image may become LCP without triggering the Next.js lazy-LCP warning.
       Resolution: Added loading="eager" to the shared proposal-list Image and a two-preview component assertion that every rendered villa preview has loading=eager.
+extensions:
+  implementation_commit:
+    hash: "7731fa1c6c99b6eb55821f9b651c34bd91200115"
+    message: "🚧 N6SYVE task: eager-load proposal previews"
 id_source: "generated"
 ---
 ## Summary
