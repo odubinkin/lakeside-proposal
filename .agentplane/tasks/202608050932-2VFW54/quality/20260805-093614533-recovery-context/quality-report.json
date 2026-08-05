@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050932-2VFW54",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T09:36:14.533Z",
+  "verdict": "pass",
+  "summary": "Draft proposals now show a yellow Draft badge and omit View; completed proposals retain View.",
+  "evaluated_sha": "e626e710e40fb8c9664a653570314a26f87c9ef6",
+  "blueprint_digest": "32fb325276dbdd929e4861507b6e5db0e720fb38bd1313afa5cd74e7295fdd77",
+  "findings": [
+    "Targeted component coverage verifies both completed and incomplete proposal states, and all declared static and policy checks passed."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050932-2VFW54/README.md",
+    "tests/components/proposals.test.tsx"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
