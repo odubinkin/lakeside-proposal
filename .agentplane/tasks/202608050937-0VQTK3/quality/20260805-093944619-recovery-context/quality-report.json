@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050937-0VQTK3",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T09:39:44.619Z",
+  "verdict": "pass",
+  "summary": "Empty and whitespace-only user-entered proposal fields are omitted with focused regression coverage; all declared checks pass.",
+  "evaluated_sha": "7ea44508d60918cd31df12e569b056612477cf04",
+  "blueprint_digest": "2d119e1a282bdd35d889d4ca9d929fd7f590e5097bbb0d43fe1ae83f42abdb05",
+  "findings": [
+    "No scope drift or residual correctness issue found."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050937-0VQTK3/README.md",
+    "pnpm vitest run tests/components/proposals.test.tsx; pnpm eslint components/proposals-list.tsx tests/components/proposals.test.tsx; pnpm typecheck; node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
