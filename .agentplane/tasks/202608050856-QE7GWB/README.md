@@ -1,10 +1,11 @@
 ---
 id: "202608050856-QE7GWB"
 title: "Exclude auto-rendered details from proposal copy"
-status: "DOING"
+result_summary: "verified-202608050856-QE7GWB"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 11
+revision: 13
 origin:
   system: "manual"
 depends_on: []
@@ -18,9 +19,9 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T08:59:42.786Z"
+  updated_at: "2026-08-05T09:00:23.436Z"
   updated_by: "CODER"
-  note: "Command: npm test -- --run tests/unit/ai-server.test.ts | Result: pass | Evidence: 1 file and 11 tests passed, including full auto-rendered detail assertions | Scope: runtime prompt contract. Command: npx eslint lib/ai/server/prompt.ts tests/unit/ai-server.test.ts | Result: pass | Evidence: exit 0 with no findings | Scope: changed implementation and test. Command: git diff --check plus scoped diff inspection | Result: pass | Evidence: no whitespace errors; prompt and spec match; only approved files changed | Scope: complete product diff."
+  note: "verified-202608050856-QE7GWB"
   attempts: 0
 quality_review:
   state: "pass"
@@ -38,11 +39,16 @@ quality_review:
     - "tests/unit/ai-server.test.ts"
   findings:
     - "The rule excludes headings, property area, bedroom and bathroom counts, selected add-ons or package components and individual prices, base villa price, and final proposal total from proposalText."
-commit: null
+commit:
+  hash: "08232e3f1dd99e7e0a03b689a121ed6619435a06"
+  message: "🚧 QE7GWB task: record quality evaluation"
 comments:
   -
     author: "CODER"
     body: "Start: refine the approved proposalText exclusions and synchronize the prompt contract artifacts."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608050856-QE7GWB. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -57,8 +63,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "Command: npm test -- --run tests/unit/ai-server.test.ts | Result: pass | Evidence: 1 file and 11 tests passed, including full auto-rendered detail assertions | Scope: runtime prompt contract. Command: npx eslint lib/ai/server/prompt.ts tests/unit/ai-server.test.ts | Result: pass | Evidence: exit 0 with no findings | Scope: changed implementation and test. Command: git diff --check plus scoped diff inspection | Result: pass | Evidence: no whitespace errors; prompt and spec match; only approved files changed | Scope: complete product diff."
+  -
+    type: "verify"
+    at: "2026-08-05T09:00:23.436Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050856-QE7GWB"
+  -
+    type: "status"
+    at: "2026-08-05T09:00:23.657Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608050856-QE7GWB. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T08:59:42.864Z"
+doc_updated_at: "2026-08-05T09:00:23.657Z"
 doc_updated_by: "CODER"
 description: "Extend Willow's proposalText instruction so it omits headings and automatically rendered property features or amenities such as bedroom and bathroom counts, alongside the existing package-content and pricing exclusions; synchronize the canonical spec and prompt contract test."
 sections:
@@ -110,11 +129,45 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T09:00:23.436Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050856-QE7GWB
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:59:42.864Z, excerpt_hash=sha256:f1c18091dd956941c21a75259f9049f4f42fccb30af8ab9237bd3567937ff90c
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050856-QE7GWB/blueprint/resolved-snapshot.json
+    - old_digest: db2a423cebc06fe17707a9ec8bc2c41759579ba4ca5f8462f0e15498ff6a58c7
+    - current_digest: db2a423cebc06fe17707a9ec8bc2c41759579ba4ca5f8462f0e15498ff6a58c7
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050856-QE7GWB
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050856-QE7GWB --result verified-202608050856-QE7GWB --commit 08232e3f1dd99e7e0a03b689a121ed6619435a06
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert the task implementation and closure commits.
     - Re-run the targeted AI server unit test to confirm restoration.
   Findings: ""
+extensions:
+  implementation_commit:
+    hash: "dab87d22c835d8cc32093fcb3db2006f3324272a"
+    message: "🚧 QE7GWB task: exclude auto-rendered proposal details"
 id_source: "generated"
 ---
 ## Summary
@@ -167,6 +220,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608050856-QE7GWB
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T09:00:23.436Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050856-QE7GWB
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:59:42.864Z, excerpt_hash=sha256:f1c18091dd956941c21a75259f9049f4f42fccb30af8ab9237bd3567937ff90c
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050856-QE7GWB/blueprint/resolved-snapshot.json
+- old_digest: db2a423cebc06fe17707a9ec8bc2c41759579ba4ca5f8462f0e15498ff6a58c7
+- current_digest: db2a423cebc06fe17707a9ec8bc2c41759579ba4ca5f8462f0e15498ff6a58c7
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050856-QE7GWB
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050856-QE7GWB --result verified-202608050856-QE7GWB --commit 08232e3f1dd99e7e0a03b689a121ed6619435a06
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
