@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051110-K65271",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T11:17:52.287Z",
+  "verdict": "pass",
+  "summary": "Documentation scope is complete and verified without runtime syntax changes.",
+  "evaluated_sha": "d1f47e6c29cc0b9f7a4c95d6c18917fb014eeed9",
+  "blueprint_digest": "9bdd66ca0db71f463d9521c70b0b8aaa4e4285f095661a1055eb171e8e992ba7",
+  "findings": [
+    "All approved AI/chat runtime files have module and symbol JSDoc; README accurately documents Willow and OpenRouter setup; lint, typecheck, 107 tests, routing validation, doctor, diff checks, link validation, and AST comparison passed."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051110-K65271/README.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
