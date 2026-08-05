@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051152-6SNRED",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T11:56:19.574Z",
+  "verdict": "pass",
+  "summary": "Early form-tool progress is emitted and rendered before complete arguments while execution remains validation-gated.",
+  "evaluated_sha": "37aecfd26a10590fe48cf8df439f397f10deaca4",
+  "blueprint_digest": "6e5b15ff2575abca06f49655d600a281c23954ceddcdb237b0726fe04dd36576",
+  "findings": [
+    "Focused delayed-stream coverage proves the filling status appears before onApplyPatch; full tests, types, lint, build, and diff checks pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051152-6SNRED/README.md",
+    "npm test: 13 files, 110 tests passed; npm run typecheck; npm run lint; npm run build; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}

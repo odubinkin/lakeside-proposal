@@ -4,7 +4,7 @@ title: "Show form tool progress when streaming begins"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 10
+revision: 12
 origin:
   system: "manual"
 depends_on: []
@@ -20,10 +20,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T11:55:35.034Z"
+  updated_at: "2026-08-05T11:56:29.617Z"
   updated_by: "CODER"
-  note: "Focused stream, route, server, and chat UI tests passed (41/41); the complete suite passed (110/110); TypeScript, ESLint, production build, and git diff whitespace checks all passed. The delayed-stream component test confirms the filling indicator appears before form mutation."
+  note: "verified-202608051152-6SNRED"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T11:56:19.574Z"
+  updated_by: "EVALUATOR"
+  note: "Early form-tool progress is emitted and rendered before complete arguments while execution remains validation-gated."
+  evaluated_sha: "37aecfd26a10590fe48cf8df439f397f10deaca4"
+  blueprint_digest: "6e5b15ff2575abca06f49655d600a281c23954ceddcdb237b0726fe04dd36576"
+  evidence_refs:
+    - ".agentplane/tasks/202608051152-6SNRED/README.md"
+    - ".agentplane/tasks/202608051152-6SNRED/quality/20260805-115619574-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051152-6SNRED/quality/20260805-115619574-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051152-6SNRED/quality/20260805-115619574-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051152-6SNRED/blueprint/resolved-snapshot.json"
+    - "npm test: 13 files, 110 tests passed; npm run typecheck; npm run lint; npm run build; git diff --check"
+  findings:
+    - "Focused delayed-stream coverage proves the filling status appears before onApplyPatch; full tests, types, lint, build, and diff checks pass."
 commit: null
 comments:
   -
@@ -43,8 +59,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "Focused stream, route, server, and chat UI tests passed (41/41); the complete suite passed (110/110); TypeScript, ESLint, production build, and git diff whitespace checks all passed. The delayed-stream component test confirms the filling indicator appears before form mutation."
+  -
+    type: "verify"
+    at: "2026-08-05T11:56:29.617Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051152-6SNRED"
 doc_version: 3
-doc_updated_at: "2026-08-05T11:55:35.094Z"
+doc_updated_at: "2026-08-05T11:56:29.726Z"
 doc_updated_by: "CODER"
 description: "Emit and render form-tool progress as soon as the provider starts streaming a tool call, while preserving validated execution, cancellation, transcript recovery, and completion behavior."
 sections:
@@ -77,6 +99,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608051152-6SNRED
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T11:56:29.617Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051152-6SNRED
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:55:35.094Z, excerpt_hash=sha256:833a989572fd1304588ced52e1d2c4b7e0c85f24ba7a2c9e9d70de5d0dcba1fd
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051152-6SNRED/blueprint/resolved-snapshot.json
+    - old_digest: 6e5b15ff2575abca06f49655d600a281c23954ceddcdb237b0726fe04dd36576
+    - current_digest: 6e5b15ff2575abca06f49655d600a281c23954ceddcdb237b0726fe04dd36576
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051152-6SNRED
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051152-6SNRED --result verified-202608051152-6SNRED --commit 37aecfd26a10590fe48cf8df439f397f10deaca4
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -131,6 +183,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608051152-6SNRED
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:56:29.617Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051152-6SNRED
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:55:35.094Z, excerpt_hash=sha256:833a989572fd1304588ced52e1d2c4b7e0c85f24ba7a2c9e9d70de5d0dcba1fd
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051152-6SNRED/blueprint/resolved-snapshot.json
+- old_digest: 6e5b15ff2575abca06f49655d600a281c23954ceddcdb237b0726fe04dd36576
+- current_digest: 6e5b15ff2575abca06f49655d600a281c23954ceddcdb237b0726fe04dd36576
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051152-6SNRED
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051152-6SNRED --result verified-202608051152-6SNRED --commit 37aecfd26a10590fe48cf8df439f397f10deaca4
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
