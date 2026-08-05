@@ -20,6 +20,7 @@ import {
   X,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Modal } from '@/components/ui/modal'
 import { ProposalLoading } from '@/components/proposal-loading'
 import {
@@ -179,6 +180,11 @@ export function ProposalsList() {
                   <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-xs font-medium text-secondary-foreground">
                     {proposal.id}
                   </span>
+                  {!proposal.completed && (
+                    <Badge className="border-amber-300 bg-amber-100 text-amber-800">
+                      Draft
+                    </Badge>
+                  )}
                   <h3 className="font-serif text-lg font-semibold tracking-tight text-foreground">
                     {villa?.name ?? 'Villa'}
                   </h3>
@@ -223,22 +229,24 @@ export function ProposalsList() {
               </div>
 
               <div className="flex shrink-0 items-center gap-2 sm:flex-col sm:items-stretch lg:flex-row">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  nativeButton={false}
-                  className="h-10 flex-1 px-3 sm:h-auto sm:py-1.5 lg:h-10 lg:py-0"
-                  render={
-                    <a
-                      href={`/proposals/view?id=${proposal.id}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <Eye />
-                      View
-                    </a>
-                  }
-                />
+                {proposal.completed && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    nativeButton={false}
+                    className="h-10 flex-1 px-3 sm:h-auto sm:py-1.5 lg:h-10 lg:py-0"
+                    render={
+                      <a
+                        href={`/proposals/view?id=${proposal.id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Eye />
+                        View
+                      </a>
+                    }
+                  />
+                )}
                 <Button
                   variant="secondary"
                   size="lg"

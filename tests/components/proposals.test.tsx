@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ProposalView } from '@/components/proposal-view'
@@ -45,6 +45,31 @@ describe('proposal management and view', () => {
 
     await user.type(screen.getByLabelText('Search proposals'), 'morgan')
     expect(screen.getByText('Alice Buyer')).toBeInTheDocument()
+  })
+
+  it('marks incomplete proposals as drafts and hides their View action', () => {
+    const draftProposal: Proposal = {
+      ...proposal,
+      id: 'PRO-DRAFT',
+      clientName: 'Draft Client',
+      completed: false,
+    }
+    window.localStorage.setItem(
+      PROPOSALS_STORAGE_KEY,
+      JSON.stringify([proposal, draftProposal]),
+    )
+
+    render(<ProposalsList />)
+
+    const completedItem = screen.getByText(proposal.id).closest('li')
+    const draftItem = screen.getByText(draftProposal.id).closest('li')
+
+    expect(completedItem).not.toBeNull()
+    expect(draftItem).not.toBeNull()
+    expect(within(completedItem!).getByRole('button', { name: 'View' })).toBeInTheDocument()
+    expect(within(completedItem!).queryByText('Draft')).not.toBeInTheDocument()
+    expect(within(draftItem!).getByText('Draft')).toBeInTheDocument()
+    expect(within(draftItem!).queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 
   it('traps focus, restores the trigger, and supports every deletion outcome', async () => {
