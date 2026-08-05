@@ -4,7 +4,7 @@ title: "Align proposal badge row"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 13
+revision: 14
 origin:
   system: "manual"
 depends_on: []
@@ -22,6 +22,25 @@ verification:
   updated_by: "CODER"
   note: "Bold badge typography and compensated left alignment verified by component tests, lint, typecheck, local Playwright inspection, Agentplane doctor, and routing validation."
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T10:46:54.278Z"
+  updated_by: "EVALUATOR"
+  note: "Proposal badge typography and alignment satisfy the approved refinement."
+  evaluated_sha: "c41d7e9388bf5c8f70ee26ade096a8c40ee9cbb7"
+  blueprint_digest: "dc857f4385ba5d5b07223d122b2efb231b81877c7e88c99712bed469efda7cde"
+  evidence_refs:
+    - ".agentplane/tasks/202608051044-BADHB7/README.md"
+    - ".agentplane/tasks/202608051044-BADHB7/quality/20260805-104654278-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051044-BADHB7/quality/20260805-104654278-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051044-BADHB7/quality/20260805-104654278-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051044-BADHB7/blueprint/resolved-snapshot.json"
+    - "npm test -- --run tests/components/proposals.test.tsx"
+    - "npm run lint"
+    - "npm run typecheck"
+    - "Playwright 1440x1000 alignment inspection"
+  findings:
+    - "Both badge labels render at font-weight 700, and the metadata row offsets by the first badge padding so its text aligns with the villa title."
 commit: null
 comments:
   -
