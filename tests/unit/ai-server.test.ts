@@ -165,7 +165,13 @@ describe('prompt construction', () => {
       'Do not use the language of the system prompt, catalog context, form values, or previous assistant messages as the response language',
     )
     expect(WILLOW_SYSTEM_PROMPT).toContain('always populate the proposal form in English')
-    expect(WILLOW_SYSTEM_PROMPT).toContain('do not include a heading')
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'write it as a personalized offer for the client identified in the current form',
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'It must not read like a generic villa advertisement or reusable marketing description',
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain('Do not include a heading')
     expect(WILLOW_SYSTEM_PROMPT).toContain(
       'details that are added automatically to the generated proposal document',
     )
