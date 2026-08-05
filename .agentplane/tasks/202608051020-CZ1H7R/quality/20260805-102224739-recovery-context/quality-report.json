@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051020-CZ1H7R",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T10:22:24.739Z",
+  "verdict": "pass",
+  "summary": "Approved language-only prompt change is implemented and verified.",
+  "evaluated_sha": "cd4d6f0587d5f3ec4b0bf6f3ee8f004650eae1bc",
+  "blueprint_digest": "96f866cbd328d3949ff2298cc44f8c83716489725595dfbaaea401b2d2d2985f",
+  "findings": [
+    "The prompt now enforces the predominant language of the latest user message for all visible natural-language response text while preserving English-only form population; tests and implementation docs match."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051020-CZ1H7R/README.md",
+    "npm test -- --run tests/unit/ai-server.test.ts; npm run typecheck; npm run lint; git diff --check"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
