@@ -1,10 +1,11 @@
 ---
 id: "202608051127-R84KX2"
 title: "Restyle proposal identifier"
-status: "DOING"
+result_summary: "verified-202608051127-R84KX2"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 14
+revision: 16
 origin:
   system: "manual"
 depends_on: []
@@ -18,7 +19,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T11:29:11.217Z"
+  updated_at: "2026-08-05T11:29:23.016Z"
   updated_by: "CODER"
   note: "verified-202608051127-R84KX2"
   attempts: 0
@@ -38,11 +39,16 @@ quality_review:
     - "tests/components/proposals.test.tsx"
   findings:
     - "Scoped diff removes ID badge styling and negative margin while preserving the Draft badge; focused test, lint, typecheck, doctor, and policy routing checks pass."
-commit: null
+commit:
+  hash: "18912e76fa03aacdbfe3a86de3d30ecda88db659"
+  message: "🚧 R84KX2 task: restyle proposal identifier"
 comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051127-R84KX2. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -63,8 +69,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051127-R84KX2"
+  -
+    type: "verify"
+    at: "2026-08-05T11:29:23.016Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051127-R84KX2"
+  -
+    type: "status"
+    at: "2026-08-05T11:29:23.161Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051127-R84KX2. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T11:29:11.301Z"
+doc_updated_at: "2026-08-05T11:29:23.162Z"
 doc_updated_by: "CODER"
 description: "Remove the negative left margin from the proposal status row, render the proposal ID as larger bold plain text, and keep the Draft badge unchanged."
 sections:
@@ -145,6 +164,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608051127-R84KX2 --result verified-202608051127-R84KX2 --commit 18912e76fa03aacdbfe3a86de3d30ecda88db659
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T11:29:23.016Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051127-R84KX2
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:29:11.301Z, excerpt_hash=sha256:020db25412bd3b436fab61ace3cb77bbd283e54c270ece8e0ca141d9c5f13c49
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051127-R84KX2/blueprint/resolved-snapshot.json
+    - old_digest: fb994c23e1311b58a84d423eb6b9b358eb21436b70b034a0efa63036155bb08d
+    - current_digest: fb994c23e1311b58a84d423eb6b9b358eb21436b70b034a0efa63036155bb08d
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051127-R84KX2
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051127-R84KX2 --result verified-202608051127-R84KX2 --commit a3cc4cead96d4cab9aa92a81ec1a43c29fb66d11
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -246,6 +295,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051127-R84KX2 --result verified-202608051127-R84KX2 --commit 18912e76fa03aacdbfe3a86de3d30ecda88db659
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:29:23.016Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051127-R84KX2
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:29:11.301Z, excerpt_hash=sha256:020db25412bd3b436fab61ace3cb77bbd283e54c270ece8e0ca141d9c5f13c49
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051127-R84KX2/blueprint/resolved-snapshot.json
+- old_digest: fb994c23e1311b58a84d423eb6b9b358eb21436b70b034a0efa63036155bb08d
+- current_digest: fb994c23e1311b58a84d423eb6b9b358eb21436b70b034a0efa63036155bb08d
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051127-R84KX2
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051127-R84KX2 --result verified-202608051127-R84KX2 --commit a3cc4cead96d4cab9aa92a81ec1a43c29fb66d11
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
