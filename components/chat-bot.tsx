@@ -53,6 +53,12 @@ type ChatBotProps = {
   form: ProposalFormState
   proposalId: string | null
   onApplyPatch: (patch: ProposalFormPatch) => FormToolResult
+  promptRequest?: ChatPromptRequest
+}
+
+export type ChatPromptRequest = {
+  id: number
+  message: string
 }
 
 type PendingToolCall = {
@@ -61,7 +67,12 @@ type PendingToolCall = {
   arguments: ProposalFormPatch
 }
 
-export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
+export function ChatBot({
+  form,
+  proposalId,
+  onApplyPatch,
+  promptRequest,
+}: ChatBotProps) {
   const [open, setOpen] = React.useState(false)
   const [maximized, setMaximized] = React.useState(false)
   const [input, setInput] = React.useState('')
@@ -80,6 +91,7 @@ export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
   const formRef = React.useRef(form)
   const previousConversationIdRef = React.useRef(conversationId)
   const controllerRef = React.useRef<AbortController | null>(null)
+  const handledPromptRequestIdRef = React.useRef<number | null>(null)
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const hasUserMessage = entries.some(
     (entry) => entry.kind === 'text' && entry.role === 'user',
@@ -225,21 +237,39 @@ export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
     [onApplyPatch, replaceEntries],
   )
 
-  function handleSend(raw?: string) {
-    const value = (raw ?? input).trim()
-    if (!value || active) return
-    setInput('')
-    const userEntry: ChatTranscriptEntry = {
-      id: crypto.randomUUID(),
-      kind: 'text',
-      role: 'user',
-      content: value,
-      createdAt: new Date().toISOString(),
-      delivery: 'complete',
+  const handleSend = React.useCallback(
+    (raw?: string) => {
+      const value = (raw ?? input).trim()
+      if (!value || active) return false
+      setInput('')
+      const userEntry: ChatTranscriptEntry = {
+        id: crypto.randomUUID(),
+        kind: 'text',
+        role: 'user',
+        content: value,
+        createdAt: new Date().toISOString(),
+        delivery: 'complete',
+      }
+      replaceEntries((current) => [...current, userEntry])
+      void runTurn(userEntry.id)
+      return true
+    },
+    [active, input, replaceEntries, runTurn],
+  )
+
+  React.useEffect(() => {
+    if (
+      !promptRequest ||
+      handledPromptRequestIdRef.current === promptRequest.id
+    ) {
+      return
     }
-    replaceEntries((current) => [...current, userEntry])
-    void runTurn(userEntry.id)
-  }
+
+    setOpen(true)
+    if (handleSend(promptRequest.message)) {
+      handledPromptRequestIdRef.current = promptRequest.id
+    }
+  }, [handleSend, promptRequest])
 
   function handleRetry() {
     if (!retryableUserId || active) return

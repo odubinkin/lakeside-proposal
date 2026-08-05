@@ -123,6 +123,57 @@ describe('ChatBot', () => {
     }
   })
 
+  it('opens and sends an externally requested prompt exactly once', async () => {
+    const fetchMock = mockAssistantFetch()
+    const { rerender } = render(
+      <ChatBot
+        form={baseForm}
+        proposalId="PRO-PROMPT"
+        onApplyPatch={(patch) => executeFormPatch(baseForm, patch)}
+      />,
+    )
+
+    rerender(
+      <ChatBot
+        form={baseForm}
+        proposalId="PRO-PROMPT"
+        onApplyPatch={(patch) => executeFormPatch(baseForm, patch)}
+        promptRequest={{
+          id: 1,
+          message: 'Fill in the commercial proposal text.',
+        }}
+      />,
+    )
+
+    expect(
+      await screen.findByRole('dialog', { name: 'Willow · AI Assistant' }),
+    ).toBeInTheDocument()
+    expect(
+      await screen.findByText('Fill in the commercial proposal text.'),
+    ).toBeInTheDocument()
+    expect(fetchMock).toHaveBeenCalledOnce()
+    const request = JSON.parse(String(fetchMock.mock.calls[0][1]?.body)) as {
+      messages: Array<{ role: string; content: string }>
+    }
+    expect(request.messages.at(-1)).toMatchObject({
+      role: 'user',
+      content: 'Fill in the commercial proposal text.',
+    })
+
+    rerender(
+      <ChatBot
+        form={baseForm}
+        proposalId="PRO-PROMPT"
+        onApplyPatch={(patch) => executeFormPatch(baseForm, patch)}
+        promptRequest={{
+          id: 1,
+          message: 'Fill in the commercial proposal text.',
+        }}
+      />,
+    )
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+
   it('executes mock autofill through a correlated tool continuation', async () => {
     const fetchMock = mockAssistantFetch()
     const onApplyPatch = vi.fn((patch) => executeFormPatch(baseForm, patch))

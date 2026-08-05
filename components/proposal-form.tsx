@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChatBot } from '@/components/chat-bot'
+import { ChatBot, type ChatPromptRequest } from '@/components/chat-bot'
 import type {
   ProposalFormPatch,
   ProposalFormState,
@@ -41,6 +41,8 @@ import {
   saveProposal,
   subscribeProposals,
 } from '@/lib/proposal-storage'
+
+const PROPOSAL_TEXT_AI_PROMPT = 'Fill in the commercial proposal text.'
 
 /**
  * Resolves URL parameters and browser storage before mounting the proposal editor.
@@ -134,6 +136,8 @@ function ProposalEditor({
   const [errors, setErrors] = React.useState<ProposalFormErrors>({})
   const [saveError, setSaveError] = React.useState('')
   const [isSaving, setIsSaving] = React.useState(false)
+  const [chatPromptRequest, setChatPromptRequest] =
+    React.useState<ChatPromptRequest>()
   const savedProposalId = React.useRef(editId)
   const [proposalId, setProposalId] = React.useState(editId)
   const isEditing = Boolean(proposalId)
@@ -396,6 +400,12 @@ function ProposalEditor({
           <ProposalTextSection
             value={proposalText}
             error={errors.proposalText}
+            onFillWithAI={() =>
+              setChatPromptRequest((current) => ({
+                id: (current?.id ?? 0) + 1,
+                message: PROPOSAL_TEXT_AI_PROMPT,
+              }))
+            }
             onChange={(value) => {
               updateForm({ proposalText: value }, 'debounced')
               setErrors((current) => ({
@@ -422,6 +432,7 @@ function ProposalEditor({
         form={formState}
         proposalId={proposalId}
         onApplyPatch={handleAssistantPatch}
+        promptRequest={chatPromptRequest}
       />
     </div>
   )

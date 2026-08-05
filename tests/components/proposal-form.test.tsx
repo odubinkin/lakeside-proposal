@@ -5,6 +5,7 @@ import { ProposalForm } from '@/components/proposal-form'
 import { PROPOSALS_STORAGE_KEY } from '@/lib/proposal-storage'
 import type { Proposal } from '@/lib/data'
 import type { ProposalFormPatch } from '@/lib/ai/contracts'
+import type { ChatPromptRequest } from '@/components/chat-bot'
 
 let params = new URLSearchParams()
 
@@ -15,15 +16,24 @@ vi.mock('next/navigation', () => ({
 vi.mock('@/components/chat-bot', () => ({
   ChatBot: ({
     onApplyPatch,
+    promptRequest,
   }: {
     onApplyPatch: (patch: ProposalFormPatch) => unknown
+    promptRequest?: ChatPromptRequest
   }) => (
-    <button
-      type="button"
-      onClick={() => onApplyPatch({ clientName: 'AI Client' })}
-    >
-      Apply assistant patch
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => onApplyPatch({ clientName: 'AI Client' })}
+      >
+        Apply assistant patch
+      </button>
+      {promptRequest && (
+        <div data-testid="chat-prompt-request">
+          {promptRequest.id}:{promptRequest.message}
+        </div>
+      )}
+    </>
   ),
 }))
 
@@ -170,6 +180,21 @@ describe('ProposalForm', () => {
       clientName: 'AI Client',
       completed: false,
     })
+  })
+
+  it('requests the proposal text prompt from the assistant', async () => {
+    const user = userEvent.setup()
+    render(<ProposalForm />)
+
+    await user.click(screen.getByRole('button', { name: 'Fill with AI' }))
+    expect(screen.getByTestId('chat-prompt-request')).toHaveTextContent(
+      '1:Fill in the commercial proposal text.',
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Fill with AI' }))
+    expect(screen.getByTestId('chat-prompt-request')).toHaveTextContent(
+      '2:Fill in the commercial proposal text.',
+    )
   })
 
   it('saves and opens a fully valid generated proposal in a protected new tab', async () => {

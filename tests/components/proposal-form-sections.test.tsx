@@ -34,6 +34,7 @@ describe('decomposed proposal form sections', () => {
     const user = userEvent.setup()
     const onVillaChange = vi.fn()
     const onProposalTextChange = vi.fn()
+    const onFillWithAI = vi.fn()
     const onClientChange = vi.fn()
 
     const { rerender } = render(
@@ -53,8 +54,13 @@ describe('decomposed proposal form sections', () => {
         value=""
         error="Enter the proposal text."
         onChange={onProposalTextChange}
+        onFillWithAI={onFillWithAI}
       />,
     )
+    const fillButton = screen.getByRole('button', { name: 'Fill with AI' })
+    expect(fillButton.querySelector('svg')).not.toBeNull()
+    await user.click(fillButton)
+    expect(onFillWithAI).toHaveBeenCalledOnce()
     await user.type(screen.getByLabelText('Proposal text'), 'Offer')
     expect(onProposalTextChange).toHaveBeenLastCalledWith('r')
     expect(screen.getByRole('alert')).toHaveTextContent('Enter the proposal text.')
