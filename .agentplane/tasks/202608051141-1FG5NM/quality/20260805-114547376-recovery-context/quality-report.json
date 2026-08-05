@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051141-1FG5NM",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T11:45:47.376Z",
+  "verdict": "pass",
+  "summary": "Docker deployment scope is implemented and all declared checks passed.",
+  "evaluated_sha": "c79809274ff7bf3d22414097f8414e92ee515d2a",
+  "blueprint_digest": "1df8fac8628a53af4f0a1a9c0254abf44c582d9896f3e71104d4bee19c153505",
+  "findings": [
+    "No blocking quality findings; runtime routing depends on the documented external Traefik network, websecure entrypoint, and letsencrypt resolver."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051141-1FG5NM/README.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
