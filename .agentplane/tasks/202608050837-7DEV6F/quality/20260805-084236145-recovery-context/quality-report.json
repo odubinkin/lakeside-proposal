@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050837-7DEV6F",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T08:42:36.145Z",
+  "verdict": "pass",
+  "summary": "Mixed text-before-tool streaming and user-visible tool-result history are implemented with focused and full regression coverage.",
+  "evaluated_sha": "314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f",
+  "blueprint_digest": "4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196",
+  "findings": [
+    "The adapter and route accept text followed by one validated form tool call; the client retains non-empty preambles, persists terminal form-tool summaries, excludes the active summary from immediate continuation, and includes it in later model history."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050837-7DEV6F/README.md",
+    "npm test -- --run: 13 files, 95 tests passed; npm run lint; npx tsc --noEmit; npm run build; policy routing; ap doctor"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}

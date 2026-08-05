@@ -4,7 +4,7 @@ title: "Support streamed text before form tool calls"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 13
+revision: 16
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T08:41:38.171Z"
+  updated_at: "2026-08-05T08:42:48.876Z"
   updated_by: "CODER"
-  note: "Passed focused and full Vitest suites (23/23 focused; 95/95 full), ESLint, TypeScript no-emit, Next.js production build, routing validation, AgentPlane doctor, and git diff check. Mixed text-before-tool streaming is accepted; the preamble remains visible; terminal form-tool summaries persist and enter only later model history; immediate continuation reconstructs one assistant message with content plus tool_calls."
+  note: "verified-202608050837-7DEV6F"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T08:42:36.145Z"
+  updated_by: "EVALUATOR"
+  note: "Mixed text-before-tool streaming and user-visible tool-result history are implemented with focused and full regression coverage."
+  evaluated_sha: "314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f"
+  blueprint_digest: "4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196"
+  evidence_refs:
+    - ".agentplane/tasks/202608050837-7DEV6F/README.md"
+    - ".agentplane/tasks/202608050837-7DEV6F/quality/20260805-084236145-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608050837-7DEV6F/quality/20260805-084236145-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608050837-7DEV6F/quality/20260805-084236145-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json"
+    - "npm test -- --run: 13 files, 95 tests passed; npm run lint; npx tsc --noEmit; npm run build; policy routing; ap doctor"
+  findings:
+    - "The adapter and route accept text followed by one validated form tool call; the client retains non-empty preambles, persists terminal form-tool summaries, excludes the active summary from immediate continuation, and includes it in later model history."
 commit: null
 comments:
   -
@@ -41,8 +57,20 @@ events:
     author: "CODER"
     state: "ok"
     note: "Passed focused and full Vitest suites (23/23 focused; 95/95 full), ESLint, TypeScript no-emit, Next.js production build, routing validation, AgentPlane doctor, and git diff check. Mixed text-before-tool streaming is accepted; the preamble remains visible; terminal form-tool summaries persist and enter only later model history; immediate continuation reconstructs one assistant message with content plus tool_calls."
+  -
+    type: "verify"
+    at: "2026-08-05T08:42:25.267Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050837-7DEV6F"
+  -
+    type: "verify"
+    at: "2026-08-05T08:42:48.876Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050837-7DEV6F"
 doc_version: 3
-doc_updated_at: "2026-08-05T08:41:38.246Z"
+doc_updated_at: "2026-08-05T08:42:48.957Z"
 doc_updated_by: "CODER"
 description: "Allow OpenRouter responses containing a streamed text preamble followed by edit_proposal_form; preserve the preamble in chat, show and persist the user-visible form-tool result, and include completed form-tool statuses in subsequent model history without durably storing raw tool calls."
 sections:
@@ -77,6 +105,66 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task verify-show 202608050837-7DEV6F
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T08:42:25.267Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050837-7DEV6F
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:41:38.246Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+    - old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit 314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T08:42:48.876Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050837-7DEV6F
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:42:25.349Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+    - old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit 314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -133,6 +221,66 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608050837-7DEV6F
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T08:42:25.267Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050837-7DEV6F
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:41:38.246Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+- old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit 314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T08:42:48.876Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050837-7DEV6F
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:42:25.349Z, excerpt_hash=sha256:e9d9ab8180ec2e28e80624da6fa9a9bdfd5c0331635c035dd0e96234a9f8e863
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050837-7DEV6F/blueprint/resolved-snapshot.json
+- old_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- current_digest: 4c0a05f8530b1c2a0b29f29bdc9c955573c595daf5fb487ad739f68dfa7a6196
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050837-7DEV6F
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050837-7DEV6F --result verified-202608050837-7DEV6F --commit 314f22dc50ceb97e0e8a0fac3e02d48d1409fa7f
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
