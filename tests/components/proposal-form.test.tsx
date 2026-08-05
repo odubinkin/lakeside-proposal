@@ -55,8 +55,11 @@ function readStored(): Proposal[] {
 }
 
 describe('ProposalForm', () => {
+  let replaceState: ReturnType<typeof vi.spyOn>
+
   beforeEach(() => {
     params = new URLSearchParams('villa=lagoon-6')
+    replaceState = vi.spyOn(window.history, 'replaceState')
     vi.spyOn(window.crypto, 'randomUUID').mockReturnValue(
       'abcdef12-1234-4234-8234-123456789abc',
     )
@@ -114,6 +117,8 @@ describe('ProposalForm', () => {
     vi.useFakeTimers()
     render(<ProposalForm />)
 
+    expect(screen.queryByText('PRO-ABCDEF12')).not.toBeInTheDocument()
+
     fireEvent.change(screen.getByLabelText('Proposal text'), {
       target: { value: 'A tailored proposal' },
     })
@@ -134,6 +139,12 @@ describe('ProposalForm', () => {
       clientName: 'New Client',
       completed: true,
     })
+    expect(replaceState).toHaveBeenCalledOnce()
+    expect(replaceState.mock.calls[0]?.[2]).toBe(
+      '/proposals/edit?id=PRO-ABCDEF12',
+    )
+    expect(screen.getByText('PRO-ABCDEF12')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Edit proposal' })).toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText('Client name'), {
       target: { value: 'Updated Client' },
@@ -145,6 +156,7 @@ describe('ProposalForm', () => {
       clientName: 'Updated Client',
       completed: true,
     })
+    expect(replaceState).toHaveBeenCalledOnce()
   })
 
   it('saves assistant changes immediately without waiting for the debounce', () => {
@@ -183,6 +195,7 @@ describe('ProposalForm', () => {
     render(<ProposalForm />)
 
     expect(screen.getByRole('heading', { name: 'Edit proposal' })).toBeInTheDocument()
+    expect(screen.getByText(existing.id)).toBeInTheDocument()
     expect(screen.getByLabelText('Client name')).toHaveValue('Existing Client')
     fireEvent.change(screen.getByLabelText('Client name'), {
       target: { value: 'Edited Client' },
@@ -195,6 +208,7 @@ describe('ProposalForm', () => {
       clientName: 'Edited Client',
       completed: true,
     })
+    expect(replaceState).not.toHaveBeenCalled()
   })
 
   it('shows a missing state for an unknown edit identifier', () => {

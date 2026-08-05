@@ -8,6 +8,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ChatBot } from '@/components/chat-bot'
 import type {
@@ -105,7 +106,6 @@ function ProposalEditor({
   editing: Proposal | undefined
   villaParam: string
 }) {
-  const isEditing = Boolean(editId)
   const [formState, dispatchForm] = React.useReducer(proposalFormReducer, {
     villaId: editing?.villaId ?? villaParam,
     addOnIds: editing?.addOnIds ?? [],
@@ -135,7 +135,8 @@ function ProposalEditor({
   const [saveError, setSaveError] = React.useState('')
   const [isSaving, setIsSaving] = React.useState(false)
   const savedProposalId = React.useRef(editId)
-  const [conversationProposalId, setConversationProposalId] = React.useState(editId)
+  const [proposalId, setProposalId] = React.useState(editId)
+  const isEditing = Boolean(proposalId)
   const isSavingRef = React.useRef(false)
   const autosaveTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastSavedFingerprint = React.useRef(JSON.stringify(formState))
@@ -191,6 +192,7 @@ function ProposalEditor({
     isSavingRef.current = true
     setIsSaving(true)
     try {
+      const isFirstSave = savedProposalId.current === null
       const saved = saveProposal(
         {
           ...snapshot,
@@ -200,7 +202,10 @@ function ProposalEditor({
       )
       savedProposalId.current = saved.id
       lastSavedFingerprint.current = fingerprint
-      setConversationProposalId(saved.id)
+      setProposalId(saved.id)
+      if (isFirstSave) {
+        replaceProposalUrl(saved.id)
+      }
       return saved
     } catch (error) {
       setSaveError(
@@ -327,6 +332,14 @@ function ProposalEditor({
     return result
   }
 
+  function replaceProposalUrl(id: string) {
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `/proposals/edit?id=${encodeURIComponent(id)}`,
+    )
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
@@ -338,9 +351,14 @@ function ProposalEditor({
       </Link>
 
       <div className="mb-8 flex flex-col gap-2">
-        <h1 className="font-serif text-4xl font-semibold tracking-tight text-foreground">
-          {isEditing ? 'Edit proposal' : 'Create proposal'}
-        </h1>
+        <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <h1 className="font-serif text-4xl font-semibold tracking-tight text-foreground">
+            {isEditing ? 'Edit proposal' : 'Create proposal'}
+          </h1>
+          {proposalId && (
+            <Badge className="shrink-0 font-mono">{proposalId}</Badge>
+          )}
+        </div>
         <p className="text-base leading-relaxed text-muted-foreground">
           Configure the residence, add-ons and client details, then generate a
           shareable proposal.
@@ -402,7 +420,7 @@ function ProposalEditor({
 
       <ChatBot
         form={formState}
-        proposalId={conversationProposalId}
+        proposalId={proposalId}
         onApplyPatch={handleAssistantPatch}
       />
     </div>

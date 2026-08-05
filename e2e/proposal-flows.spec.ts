@@ -44,6 +44,11 @@ test('creates, persists, lists, and opens a printable proposal on mobile', async
 
   await page.getByRole('button', { name: 'Create Proposal' }).first().click()
   await expect(page).toHaveURL(/\/proposals\/new\?villa=lagoon-6/)
+  const documentMarker = await page.evaluate(() => {
+    const marker = crypto.randomUUID()
+    ;(window as Window & { proposalEditorMarker?: string }).proposalEditorMarker = marker
+    return marker
+  })
   await page.getByLabel('Proposal text').fill('A tailored commercial proposal.')
   await page.getByLabel('Client name').fill('Mobile Buyer')
   await page.getByLabel('Manager name').fill('Sales Manager')
@@ -59,6 +64,29 @@ test('creates, persists, lists, and opens a printable proposal on mobile', async
       }, storageKey),
     )
     .toMatchObject([{ completed: true }])
+
+  const savedProposal = await page.evaluate((key) => {
+    const proposals = JSON.parse(window.localStorage.getItem(key) ?? '[]')
+    return proposals[0] as { id: string }
+  }, storageKey)
+  await expect(page).toHaveURL(
+    `/proposals/edit?id=${encodeURIComponent(savedProposal.id)}`,
+  )
+  await expect(page.getByText(savedProposal.id, { exact: true })).toBeVisible()
+  expect(
+    await page.evaluate(
+      () =>
+        (window as Window & { proposalEditorMarker?: string })
+          .proposalEditorMarker,
+    ),
+  ).toBe(documentMarker)
+
+  await page.reload()
+  await expect(page).toHaveURL(
+    `/proposals/edit?id=${encodeURIComponent(savedProposal.id)}`,
+  )
+  await expect(page.getByLabel('Client name')).toHaveValue('Mobile Buyer')
+  await expect(page.getByText(savedProposal.id, { exact: true })).toBeVisible()
 
   await page.goto('/proposals')
   await expect(page.getByText('Mobile Buyer')).toBeVisible()
