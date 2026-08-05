@@ -99,13 +99,16 @@ The Docker image builds and runs the optimized standalone Next.js production
 server. The main Compose configuration exposes the application to an existing
 Traefik instance without publishing port 3000 on the host.
 
-Before starting the production stack, make sure that Traefik is connected to an
-external Docker network named `traefik`, has an entrypoint named `websecure`,
-and has a certificate resolver named `letsencrypt`. Set the public domain and,
-optionally, the server-only OpenRouter credentials:
+Before starting the production stack, make sure that Traefik is connected to the
+same external Docker network as the application, has an entrypoint named
+`websecure`, and has a certificate resolver named `letsencrypt`. The network
+name comes from `TRAEFIK_NETWORK` and defaults to `dokploy-network`. Set the
+public domain and, optionally, the network name and server-only OpenRouter
+credentials:
 
 ```bash
 export APP_DOMAIN=proposal.example.com
+export TRAEFIK_NETWORK=dokploy-network
 export OPENROUTER_API_KEY=<your OpenRouter API key>
 export OPENROUTER_MODEL=<OpenRouter model identifier>
 ```
@@ -114,7 +117,7 @@ If the external network does not exist yet, create it once and connect the
 Traefik container to it:
 
 ```bash
-docker network create traefik
+docker network create "${TRAEFIK_NETWORK:-dokploy-network}"
 ```
 
 Build and start the application in the background:

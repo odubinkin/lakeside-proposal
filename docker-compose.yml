@@ -8,13 +8,11 @@ services:
       NODE_ENV: production
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
       OPENROUTER_MODEL: ${OPENROUTER_MODEL:-}
-    expose:
-      - "3000"
     networks:
       - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
+      - "traefik.docker.network=${TRAEFIK_NETWORK:-dokploy-network}"
       - "traefik.http.routers.lakeside-proposal.rule=Host(`${APP_DOMAIN:?Set APP_DOMAIN}`)"
       - "traefik.http.routers.lakeside-proposal.entrypoints=websecure"
       - "traefik.http.routers.lakeside-proposal.tls=true"
@@ -24,4 +22,4 @@ services:
 networks:
   traefik:
     external: true
-    name: traefik
+    name: ${TRAEFIK_NETWORK:-dokploy-network}
