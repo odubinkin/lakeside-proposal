@@ -347,6 +347,12 @@ function ProposalEditor({
             onToggle={toggleAddOn}
           />
 
+          <ClientDetailsSection
+            values={{ clientName, manager, phone, email, comment }}
+            errors={errors}
+            onChange={handleClientDetailsChange}
+          />
+
           <ProposalTextSection
             value={proposalText}
             error={errors.proposalText}
@@ -357,12 +363,6 @@ function ProposalEditor({
                 proposalText: undefined,
               }))
             }}
-          />
-
-          <ClientDetailsSection
-            values={{ clientName, manager, phone, email, comment }}
-            errors={errors}
-            onChange={handleClientDetailsChange}
           />
         </div>
 

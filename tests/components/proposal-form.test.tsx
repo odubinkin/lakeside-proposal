@@ -41,6 +41,21 @@ describe('ProposalForm', () => {
     )
   })
 
+  it('shows client and manager details before the proposal text', () => {
+    render(<ProposalForm />)
+
+    const clientDetailsHeading = screen.getByRole('heading', {
+      name: 'Client & manager details',
+    })
+    const proposalTextHeading = screen.getByRole('heading', {
+      name: 'Proposal text',
+    })
+
+    expect(
+      clientDetailsHeading.compareDocumentPosition(proposalTextHeading),
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+  })
+
   it('shows validation errors without persisting an invalid form', async () => {
     const user = userEvent.setup()
     render(<ProposalForm />)
