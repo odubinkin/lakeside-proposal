@@ -154,8 +154,15 @@ describe('prompt construction', () => {
 
   it('contains the canonical safety and catalog-grounding rules', () => {
     expect(WILLOW_SYSTEM_PROMPT).toContain('Stay strictly within this scope')
+    expect(WILLOW_SYSTEM_PROMPT).toContain('LANGUAGE REQUIREMENT — HIGHEST PRIORITY')
     expect(WILLOW_SYSTEM_PROMPT).toContain(
-      "Always reply in the same language as the user's current message",
+      "determine the predominant language of the user's latest message",
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'All user-visible natural-language text in your response MUST be written exclusively in that language',
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'Do not use the language of the system prompt, catalog context, form values, or previous assistant messages as the response language',
     )
     expect(WILLOW_SYSTEM_PROMPT).toContain('always populate the proposal form in English')
     expect(WILLOW_SYSTEM_PROMPT).toContain('do not include a heading')
