@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050918-NEMWWZ",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T09:31:38.705Z",
+  "verdict": "pass",
+  "summary": "Autosave behavior and completed persistence satisfy the approved acceptance contract.",
+  "evaluated_sha": "28f27e06b55c01e2d925f4c943fdf7c24af64e4c",
+  "blueprint_digest": "cc4fa288662b05c1b2056d1f9e21adb25341379e65ffca010398f74c2ce36b0f",
+  "findings": [
+    "Manual save UI is removed; human text edits debounce for 500 ms; non-text and AI changes persist immediately; partial drafts save with completed=false; fully valid forms save with completed=true; Generate Proposal remains fully validated."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050918-NEMWWZ/README.md",
+    "npm run test: 100/100 passed; npm run test:e2e: 5/5 proposal flows passed; lint, typecheck, build, routing policy, and doctor passed."
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
