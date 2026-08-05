@@ -158,6 +158,15 @@ describe('prompt construction', () => {
       "Always reply in the same language as the user's current message",
     )
     expect(WILLOW_SYSTEM_PROMPT).toContain('always populate the proposal form in English')
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'do not enumerate what is included in the selected package',
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'prices of individual components or the final proposal total',
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      'added automatically to the generated proposal document',
+    )
     expect(WILLOW_SYSTEM_PROMPT).toContain('Do not invent or infer availability')
     expect(WILLOW_SYSTEM_PROMPT).toContain('return on investment')
     expect(WILLOW_SYSTEM_PROMPT).toContain('legal or tax advice')
