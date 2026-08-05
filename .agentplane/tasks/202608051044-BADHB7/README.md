@@ -1,10 +1,11 @@
 ---
 id: "202608051044-BADHB7"
 title: "Align proposal badge row"
-status: "DOING"
+result_summary: "Aligned bold proposal badges with villa title text"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 14
+revision: 15
 origin:
   system: "manual"
 depends_on: []
@@ -41,11 +42,16 @@ quality_review:
     - "Playwright 1440x1000 alignment inspection"
   findings:
     - "Both badge labels render at font-weight 700, and the metadata row offsets by the first badge padding so its text aligns with the villa title."
-commit: null
+commit:
+  hash: "c41d7e9388bf5c8f70ee26ade096a8c40ee9cbb7"
+  message: "🚧 BADHB7 frontend: Align proposal badges"
 comments:
   -
     author: "CODER"
     body: "Start: adjust proposal badge weight and optical alignment in the current checkout."
+  -
+    author: "CODER"
+    body: "Verified: proposal ID and Draft labels are bold, and their row compensates the ID badge padding for optical alignment with the villa title."
 events:
   -
     type: "status"
@@ -60,8 +66,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Bold badge typography and compensated left alignment verified by component tests, lint, typecheck, local Playwright inspection, Agentplane doctor, and routing validation."
+  -
+    type: "status"
+    at: "2026-08-05T10:47:15.824Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: proposal ID and Draft labels are bold, and their row compensates the ID badge padding for optical alignment with the villa title."
 doc_version: 3
-doc_updated_at: "2026-08-05T10:46:42.196Z"
+doc_updated_at: "2026-08-05T10:47:15.826Z"
 doc_updated_by: "CODER"
 description: "Make the proposal ID and Draft badge labels bold and offset their shared row left by the first badge horizontal padding so badge text aligns with the villa title."
 sections:
