@@ -1,10 +1,11 @@
 ---
 id: "202608050901-B7HV6T"
 title: "Document auto-rendered proposal copy exclusions"
-status: "DOING"
+result_summary: "verified-202608050901-B7HV6T"
+status: "DONE"
 priority: "med"
 owner: "DOCS"
-revision: 10
+revision: 12
 origin:
   system: "manual"
 depends_on: []
@@ -18,9 +19,9 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T09:03:00.856Z"
-  updated_by: "DOCS"
-  note: "Command: compare docs/AI_BOT_IMPL.md against lib/ai/server/prompt.ts and docs/AI_BOT_SPEC.md with exact rg matches | Result: pass | Evidence: heading rationale and all seven excluded detail groups agree | Scope: docs/AI_BOT_IMPL.md prompt behavior. Links: lib/ai/server/prompt.ts and docs/AI_BOT_SPEC.md. Command: git diff --check and scoped diff inspection | Result: pass | Evidence: no whitespace errors and only the approved implementation-doc paragraph changed | Scope: docs/AI_BOT_IMPL.md. Command: node .agentplane/policy/check-routing.mjs and ap doctor | Result: pass | Evidence: policy routing OK and doctor OK | Scope: repository documentation policy."
+  updated_at: "2026-08-05T09:03:35.584Z"
+  updated_by: "CODER"
+  note: "verified-202608050901-B7HV6T"
   attempts: 0
 quality_review:
   state: "pass"
@@ -38,11 +39,16 @@ quality_review:
     - "docs/AI_BOT_IMPL.md"
   findings:
     - "The implementation guide lists the heading, area, bedroom and bathroom counts, selected add-ons or package components and individual prices, base villa price, and final total as automatically rendered details omitted from proposalText."
-commit: null
+commit:
+  hash: "4113ccc356e53cf3b4c6e7b042b74f9d34e25033"
+  message: "🚧 B7HV6T task: record documentation quality"
 comments:
   -
     author: "DOCS"
     body: "Start: document the shipped proposalText exclusions from the runtime prompt and canonical specification."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608050901-B7HV6T. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -57,9 +63,22 @@ events:
     author: "DOCS"
     state: "ok"
     note: "Command: compare docs/AI_BOT_IMPL.md against lib/ai/server/prompt.ts and docs/AI_BOT_SPEC.md with exact rg matches | Result: pass | Evidence: heading rationale and all seven excluded detail groups agree | Scope: docs/AI_BOT_IMPL.md prompt behavior. Links: lib/ai/server/prompt.ts and docs/AI_BOT_SPEC.md. Command: git diff --check and scoped diff inspection | Result: pass | Evidence: no whitespace errors and only the approved implementation-doc paragraph changed | Scope: docs/AI_BOT_IMPL.md. Command: node .agentplane/policy/check-routing.mjs and ap doctor | Result: pass | Evidence: policy routing OK and doctor OK | Scope: repository documentation policy."
+  -
+    type: "verify"
+    at: "2026-08-05T09:03:35.584Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608050901-B7HV6T"
+  -
+    type: "status"
+    at: "2026-08-05T09:03:35.802Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608050901-B7HV6T. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T09:03:00.947Z"
-doc_updated_by: "DOCS"
+doc_updated_at: "2026-08-05T09:03:35.803Z"
+doc_updated_by: "CODER"
 description: "Update docs/AI_BOT_IMPL.md so the implemented prompt behavior explicitly documents every detail excluded from proposalText because the final proposal document renders it automatically."
 sections:
   Summary: |-
@@ -111,11 +130,45 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T09:03:35.584Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608050901-B7HV6T
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T09:03:00.947Z, excerpt_hash=sha256:386f7c7cbbe34704ffa00d9174b009a6ede26ce0449fdde99ef6fd6930396b6d
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050901-B7HV6T/blueprint/resolved-snapshot.json
+    - old_digest: 4cf5ef68a5f919db79eac2990ad64bd1a87a16ecf35ea7f86061ac2eef0ff5e8
+    - current_digest: 4cf5ef68a5f919db79eac2990ad64bd1a87a16ecf35ea7f86061ac2eef0ff5e8
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050901-B7HV6T
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050901-B7HV6T --result verified-202608050901-B7HV6T --commit 4113ccc356e53cf3b4c6e7b042b74f9d34e25033
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: |-
     - Revert the documentation implementation and closure commits.
     - Re-run the documentation policy checks.
   Findings: ""
+extensions:
+  implementation_commit:
+    hash: "120931775ddc621e195a0dd042f3f2e7abff64db"
+    message: "🚧 B7HV6T task: document proposal copy exclusions"
 id_source: "generated"
 ---
 ## Summary
@@ -169,6 +222,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task verify-show 202608050901-B7HV6T
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T09:03:35.584Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608050901-B7HV6T
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T09:03:00.947Z, excerpt_hash=sha256:386f7c7cbbe34704ffa00d9174b009a6ede26ce0449fdde99ef6fd6930396b6d
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050901-B7HV6T/blueprint/resolved-snapshot.json
+- old_digest: 4cf5ef68a5f919db79eac2990ad64bd1a87a16ecf35ea7f86061ac2eef0ff5e8
+- current_digest: 4cf5ef68a5f919db79eac2990ad64bd1a87a16ecf35ea7f86061ac2eef0ff5e8
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050901-B7HV6T
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050901-B7HV6T --result verified-202608050901-B7HV6T --commit 4113ccc356e53cf3b4c6e7b042b74f9d34e25033
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
