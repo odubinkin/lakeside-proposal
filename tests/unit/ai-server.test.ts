@@ -101,6 +101,10 @@ describe('prompt construction', () => {
 
   it('contains the canonical safety and catalog-grounding rules', () => {
     expect(WILLOW_SYSTEM_PROMPT).toContain('Stay strictly within this scope')
+    expect(WILLOW_SYSTEM_PROMPT).toContain(
+      "Always reply in the same language as the user's current message",
+    )
+    expect(WILLOW_SYSTEM_PROMPT).toContain('always populate the proposal form in English')
     expect(WILLOW_SYSTEM_PROMPT).toContain('Do not invent or infer availability')
     expect(WILLOW_SYSTEM_PROMPT).toContain('return on investment')
     expect(WILLOW_SYSTEM_PROMPT).toContain('legal or tax advice')

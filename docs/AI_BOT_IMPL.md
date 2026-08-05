@@ -66,7 +66,7 @@ Every real-model invocation is assembled in this order:
 3. the latest 50 validated user/assistant messages; and
 4. for a continuation, reconstructed LangChain assistant-tool-call and tool-result messages.
 
-The prompt identifies form, catalog, conversation, and tool-result strings as untrusted data. It restricts Willow to Redwood Lakeside sales and proposal preparation, requires catalog grounding, prohibits unsupported commercial/financial/legal claims, and requires every returned field-validation error to be explained without claiming partial success.
+The prompt identifies form, catalog, conversation, and tool-result strings as untrusted data. It restricts Willow to Redwood Lakeside sales and proposal preparation, requires conversational replies to follow the language of the user's current message while keeping form values in English, requires catalog grounding, prohibits unsupported commercial/financial/legal claims, and requires every returned field-validation error to be explained without claiming partial success.
 
 The deterministic mock receives the same trusted context object but does not serialize an LLM prompt or contact a network service.
 
