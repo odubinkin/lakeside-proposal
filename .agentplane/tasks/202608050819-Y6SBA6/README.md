@@ -1,10 +1,11 @@
 ---
 id: "202608050819-Y6SBA6"
 title: "Keep replies in the user's language"
-status: "DOING"
+result_summary: "Willow now replies in the user's language while keeping proposal form values in English"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 8
+revision: 10
 origin:
   system: "manual"
 depends_on: []
@@ -18,7 +19,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T08:22:42.775Z"
+  updated_at: "2026-08-05T08:23:16.033Z"
   updated_by: "CODER"
   note: "Willow now replies in the user's language while keeping proposal form values in English"
   attempts: 0
@@ -42,11 +43,16 @@ quality_review:
     - "node .agentplane/policy/check-routing.mjs and ap doctor: passed"
   findings:
     - "Willow now replies in the language of the user's current message while translating or transliterating form content into English and preserving language-neutral identifiers."
-commit: null
+commit:
+  hash: "22ed66664ffe8540a01336ea5af0a91f44fe91dd"
+  message: "🚧 Y6SBA6 task: implement Willow language rules"
 comments:
   -
     author: "CODER"
     body: "Start: update Willow language behavior, canonical documentation, and prompt tests in the approved direct-mode scope."
+  -
+    author: "CODER"
+    body: "Verified: Willow now replies in the user's language while keeping proposal form values in English. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -67,8 +73,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "Willow now replies in the user's language while keeping proposal form values in English"
+  -
+    type: "verify"
+    at: "2026-08-05T08:23:16.033Z"
+    author: "CODER"
+    state: "ok"
+    note: "Willow now replies in the user's language while keeping proposal form values in English"
+  -
+    type: "status"
+    at: "2026-08-05T08:23:16.175Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Willow now replies in the user's language while keeping proposal form values in English. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T08:22:42.860Z"
+doc_updated_at: "2026-08-05T08:23:16.176Z"
 doc_updated_by: "CODER"
 description: "Update Willow's system prompt so conversational replies follow the language of the user's current message while all values written to the proposal form remain in English; synchronize canonical documentation and prompt tests."
 sections:
@@ -142,6 +161,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608050819-Y6SBA6 --result verified-202608050819-Y6SBA6 --commit 22ed66664ffe8540a01336ea5af0a91f44fe91dd
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T08:23:16.033Z — VERIFY — ok
+
+    By: CODER
+
+    Note: Willow now replies in the user's language while keeping proposal form values in English
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:22:42.860Z, excerpt_hash=sha256:62d87f85d0311ac477b4ea6c803c39e6f8bb6ff5419e83300abf0b175c58f8ab
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050819-Y6SBA6/blueprint/resolved-snapshot.json
+    - old_digest: 16beec5c0949e2cd4c887e26af836591a03ec80435ac9413369ef23d6a5f2217
+    - current_digest: 16beec5c0949e2cd4c887e26af836591a03ec80435ac9413369ef23d6a5f2217
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608050819-Y6SBA6
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608050819-Y6SBA6 --result verified-202608050819-Y6SBA6 --commit c43a395d5326f6f3519bd5f00c649182fe9045d8
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -236,6 +285,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608050819-Y6SBA6 --result verified-202608050819-Y6SBA6 --commit 22ed66664ffe8540a01336ea5af0a91f44fe91dd
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T08:23:16.033Z — VERIFY — ok
+
+By: CODER
+
+Note: Willow now replies in the user's language while keeping proposal form values in English
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T08:22:42.860Z, excerpt_hash=sha256:62d87f85d0311ac477b4ea6c803c39e6f8bb6ff5419e83300abf0b175c58f8ab
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608050819-Y6SBA6/blueprint/resolved-snapshot.json
+- old_digest: 16beec5c0949e2cd4c887e26af836591a03ec80435ac9413369ef23d6a5f2217
+- current_digest: 16beec5c0949e2cd4c887e26af836591a03ec80435ac9413369ef23d6a5f2217
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608050819-Y6SBA6
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608050819-Y6SBA6 --result verified-202608050819-Y6SBA6 --commit c43a395d5326f6f3519bd5f00c649182fe9045d8
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
