@@ -4,7 +4,7 @@ title: "Render agent chat messages as Markdown"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 10
+revision: 12
 origin:
   system: "manual"
 depends_on: []
@@ -19,10 +19,26 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T11:35:34.128Z"
+  updated_at: "2026-08-05T11:36:40.537Z"
   updated_by: "CODER"
   note: "verified-202608051132-3XF5GP"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-08-05T11:36:29.274Z"
+  updated_by: "EVALUATOR"
+  note: "Markdown chat rendering is safe, scoped, and fully verified."
+  evaluated_sha: "e35e2e042342593e1a72cb345c426b3d641629d8"
+  blueprint_digest: "fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99"
+  evidence_refs:
+    - ".agentplane/tasks/202608051132-3XF5GP/README.md"
+    - ".agentplane/tasks/202608051132-3XF5GP/quality/20260805-113629274-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051132-3XF5GP/quality/20260805-113629274-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051132-3XF5GP/quality/20260805-113629274-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051132-3XF5GP/blueprint/resolved-snapshot.json"
+  findings:
+    - "react-markdown with remark-gfm replaces plain-text rendering for chat text bubbles while skipHtml prevents raw HTML interpretation."
+    - "Focused and full tests, lint, typecheck, production build, diff check, Agentplane doctor, and policy routing all pass."
 commit: null
 comments:
   -
@@ -77,8 +93,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051132-3XF5GP"
+  -
+    type: "verify"
+    at: "2026-08-05T11:36:40.537Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051132-3XF5GP"
 doc_version: 3
-doc_updated_at: "2026-08-05T11:35:34.192Z"
+doc_updated_at: "2026-08-05T11:36:40.598Z"
 doc_updated_by: "CODER"
 description: "Render chat text entries as safe GitHub-flavored Markdown instead of plain text, with styling and component coverage."
 sections:
@@ -181,6 +203,36 @@ sections:
     - operator_action: run_exact_argv
     - can_execute_now: true
     - safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit 857c8be736ceb32900c68bf374b0ad052a9d8af6
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
+    ### 2026-08-05T11:36:40.537Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051132-3XF5GP
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:35:34.192Z, excerpt_hash=sha256:1cbe72ab09191ff46901e2aceac94075cd3372333585848838f321089c82cb55
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051132-3XF5GP/blueprint/resolved-snapshot.json
+    - old_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+    - current_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051132-3XF5GP
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit e35e2e042342593e1a72cb345c426b3d641629d8
     - diagnostic_command: none
     - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
     - freshness: route=computed_local remote=remote_skipped
@@ -302,6 +354,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit 857c8be736ceb32900c68bf374b0ad052a9d8af6
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:36:40.537Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051132-3XF5GP
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:35:34.192Z, excerpt_hash=sha256:1cbe72ab09191ff46901e2aceac94075cd3372333585848838f321089c82cb55
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051132-3XF5GP/blueprint/resolved-snapshot.json
+- old_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+- current_digest: fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051132-3XF5GP
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051132-3XF5GP --result verified-202608051132-3XF5GP --commit e35e2e042342593e1a72cb345c426b3d641629d8
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped

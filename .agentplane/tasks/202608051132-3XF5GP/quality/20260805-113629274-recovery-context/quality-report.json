@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051132-3XF5GP",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T11:36:29.274Z",
+  "verdict": "pass",
+  "summary": "Markdown chat rendering is safe, scoped, and fully verified.",
+  "evaluated_sha": "e35e2e042342593e1a72cb345c426b3d641629d8",
+  "blueprint_digest": "fe14caa11a7b2821e5eb4535ee958cecd68b63db045000accbce39d915530b99",
+  "findings": [
+    "react-markdown with remark-gfm replaces plain-text rendering for chat text bubbles while skipHtml prevents raw HTML interpretation.",
+    "Focused and full tests, lint, typecheck, production build, diff check, Agentplane doctor, and policy routing all pass."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051132-3XF5GP/README.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
