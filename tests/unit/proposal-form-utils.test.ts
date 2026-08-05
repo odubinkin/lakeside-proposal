@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+  canAutosaveProposalForm,
   scrollToFirstInvalidField,
   validateProposalForm,
   type ProposalFormValues,
@@ -65,6 +66,38 @@ describe('validateProposalForm', () => {
   ])('validates email %s', (email, valid) => {
     const errors = validateProposalForm({ ...validValues, phone: '', email })
     expect(errors.email === undefined).toBe(valid)
+  })
+})
+
+describe('canAutosaveProposalForm', () => {
+  const emptyDraft = {
+    villaId: 'lagoon-6',
+    clientName: '',
+    phone: '',
+    email: '',
+    manager: '',
+    proposalText: '',
+    comment: '',
+    addOnIds: [],
+  }
+
+  it('requires meaningful content beyond the preselected villa', () => {
+    expect(canAutosaveProposalForm(emptyDraft)).toBe(false)
+    expect(
+      canAutosaveProposalForm({ ...emptyDraft, email: 'not-an-email' }),
+    ).toBe(false)
+  })
+
+  it('accepts valid required values and optional draft fields', () => {
+    expect(
+      canAutosaveProposalForm({ ...emptyDraft, clientName: 'Draft Client' }),
+    ).toBe(true)
+    expect(
+      canAutosaveProposalForm({ ...emptyDraft, comment: 'Internal note' }),
+    ).toBe(true)
+    expect(
+      canAutosaveProposalForm({ ...emptyDraft, addOnIds: ['furniture'] }),
+    ).toBe(true)
   })
 })
 

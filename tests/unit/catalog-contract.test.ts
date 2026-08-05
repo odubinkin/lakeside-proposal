@@ -34,6 +34,7 @@ describe('catalog data contract', () => {
     for (const proposal of proposals) {
       expect(villaIds.has(proposal.villaId)).toBe(true)
       expect(proposal.addOnIds.every((id) => addOnIds.has(id))).toBe(true)
+      expect(proposal.completed).toBe(true)
       expect(Number.isNaN(Date.parse(`${proposal.createdAt}T00:00:00Z`))).toBe(false)
     }
   })

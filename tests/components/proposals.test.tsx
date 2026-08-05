@@ -22,6 +22,7 @@ const proposal: Proposal = {
   comment: 'Ready to proceed',
   proposalText: 'A tailored lakeside offer.',
   addOnIds: ['furniture', 'smart-home'],
+  completed: true,
   createdAt: '2026-08-01',
 }
 

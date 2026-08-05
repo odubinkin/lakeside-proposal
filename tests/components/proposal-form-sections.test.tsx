@@ -80,8 +80,6 @@ describe('decomposed proposal form sections', () => {
   })
 
   it('summarizes prices and renders proposal action states', async () => {
-    const user = userEvent.setup()
-    const onSave = vi.fn()
     const furniture = addOns.find(({ id }) => id === 'furniture')!
 
     const { rerender } = render(
@@ -92,30 +90,27 @@ describe('decomposed proposal form sections', () => {
       >
         <ProposalActions
           isSaving={false}
-          isSaved={false}
           saveError=""
-          onSave={onSave}
         />
       </PriceSummary>,
     )
 
     expect(screen.getByText('Add-ons (1)')).toBeInTheDocument()
     expect(screen.getByText(/44,625,000/)).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Save proposal' }))
-    expect(onSave).toHaveBeenCalledOnce()
+    expect(screen.getByRole('button', { name: 'Generate Proposal' })).toBeEnabled()
+    expect(screen.queryByRole('button', { name: /save proposal/i })).not.toBeInTheDocument()
+    expect(screen.getByText(/Changes are saved automatically/)).toBeInTheDocument()
 
     rerender(
       <PriceSummary villaPrice={42_500_000} selectedAddOns={[]} total={42_500_000}>
         <ProposalActions
           isSaving={true}
-          isSaved={true}
           saveError="Storage unavailable"
-          onSave={onSave}
         />
       </PriceSummary>,
     )
     expect(screen.getByText('No add-ons selected.')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Proposal saved' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Generate Proposal' })).toBeDisabled()
     expect(screen.getByRole('alert')).toHaveTextContent('Storage unavailable')
   })
 })

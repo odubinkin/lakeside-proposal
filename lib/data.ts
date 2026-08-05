@@ -36,6 +36,7 @@ export type Proposal = {
   comment: string
   proposalText: string
   addOnIds: string[]
+  completed: boolean
   createdAt: string
 }
 

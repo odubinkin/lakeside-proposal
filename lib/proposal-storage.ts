@@ -13,16 +13,16 @@ const PROPOSALS_CHANGED_EVENT = 'lakeside-proposals-changed'
 export type ProposalInput = Omit<Proposal, 'id' | 'createdAt'>
 
 /**
- * Checks whether an unknown value has the complete persisted proposal shape.
+ * Parses an unknown value with the complete persisted proposal shape.
  *
  * @param value - Parsed value to validate.
- * @returns `true` when the value is a structurally valid proposal.
+ * @returns The proposal when structurally valid, otherwise `undefined`.
  */
-function isProposal(value: unknown): value is Proposal {
-  if (!value || typeof value !== 'object') return false
+function parseProposal(value: unknown): Proposal | undefined {
+  if (!value || typeof value !== 'object') return undefined
 
   const proposal = value as Record<string, unknown>
-  return (
+  const valid =
     typeof proposal.id === 'string' &&
     typeof proposal.villaId === 'string' &&
     typeof proposal.clientName === 'string' &&
@@ -33,8 +33,12 @@ function isProposal(value: unknown): value is Proposal {
     typeof proposal.proposalText === 'string' &&
     Array.isArray(proposal.addOnIds) &&
     proposal.addOnIds.every((id) => typeof id === 'string') &&
+    typeof proposal.completed === 'boolean' &&
     typeof proposal.createdAt === 'string'
-  )
+
+  if (!valid) return undefined
+
+  return proposal as Proposal
 }
 
 /**
@@ -112,7 +116,12 @@ export function parseProposals(serialized: string): Proposal[] {
   if (serialized === PROPOSALS_SERVER_SNAPSHOT) return []
   try {
     const parsed: unknown = JSON.parse(serialized)
-    return Array.isArray(parsed) ? parsed.filter(isProposal) : []
+    return Array.isArray(parsed)
+      ? parsed.flatMap((value) => {
+          const proposal = parseProposal(value)
+          return proposal ? [proposal] : []
+        })
+      : []
   } catch {
     return []
   }

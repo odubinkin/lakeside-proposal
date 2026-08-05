@@ -9,6 +9,7 @@
     "comment": "Client is interested in a full smart-home package and flexible payment terms.",
     "proposalText": "We are delighted to present Canopy Hill Villa as an exceptional opportunity to own a signature hillside residence overlooking the Andaman Sea. This offer includes a curated furniture package, an integrated smart-home system and a rooftop solar array, delivering a fully turnkey, energy-efficient home. Our team will accompany you through every stage of the purchase, from contract to handover, ensuring a seamless and transparent experience.",
     "addOnIds": ["furniture", "smart-home", "solar"],
+    "completed": true,
     "createdAt": "2026-07-28"
   },
   {
@@ -21,6 +22,7 @@
     "comment": "Prefers a turnkey, fully furnished residence before Q1 handover.",
     "proposalText": "It is our pleasure to offer Palm Shore Pavilion, a beachfront residence where open-plan living meets an uninterrupted turquoise horizon. This proposal includes a designer furniture package, a premium kitchen upgrade, an automated smart pool and dual EV charging, so the home is ready to enjoy from day one. We are committed to delivering a fully furnished, move-in-ready residence ahead of your Q1 handover timeline.",
     "addOnIds": ["furniture", "kitchen", "smart-pool", "ev-charger"],
+    "completed": true,
     "createdAt": "2026-07-22"
   },
   {
@@ -33,6 +35,7 @@
     "comment": "Requested a sustainability-focused build with solar and EV charging.",
     "proposalText": "We are pleased to propose Orchid Courtyard, a tranquil home designed around a reflecting pool and lush tropical garden. In line with your sustainability priorities, this offer includes a rooftop solar array with battery storage and a high-speed EV charging station, minimising running costs and environmental impact. We would be glad to tailor the specification further to suit your long-term vision for the residence.",
     "addOnIds": ["solar", "ev-charger"],
+    "completed": true,
     "createdAt": "2026-07-15"
   },
   {
@@ -45,6 +48,7 @@
     "comment": "Holiday home for the family; keen on the kitchen upgrade.",
     "proposalText": "We are excited to present Teak Rainforest Villa as the perfect family holiday retreat, secluded within private rainforest and finished in warm teak. This offer pairs a premium kitchen upgrade with a fully integrated smart-home system, making the home effortless to manage whether in residence or away. Our team is on hand to assist with furnishing, rental management and any bespoke requests to make this a truly carefree second home.",
     "addOnIds": ["kitchen", "smart-home"],
+    "completed": true,
     "createdAt": "2026-07-09"
   }
 ]

@@ -1,16 +1,30 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ProposalForm } from '@/components/proposal-form'
-import {
-  PROPOSALS_STORAGE_KEY,
-} from '@/lib/proposal-storage'
+import { PROPOSALS_STORAGE_KEY } from '@/lib/proposal-storage'
 import type { Proposal } from '@/lib/data'
+import type { ProposalFormPatch } from '@/lib/ai/contracts'
 
 let params = new URLSearchParams()
 
 vi.mock('next/navigation', () => ({
   useSearchParams: () => params,
+}))
+
+vi.mock('@/components/chat-bot', () => ({
+  ChatBot: ({
+    onApplyPatch,
+  }: {
+    onApplyPatch: (patch: ProposalFormPatch) => unknown
+  }) => (
+    <button
+      type="button"
+      onClick={() => onApplyPatch({ clientName: 'AI Client' })}
+    >
+      Apply assistant patch
+    </button>
+  ),
 }))
 
 const existing: Proposal = {
@@ -23,6 +37,7 @@ const existing: Proposal = {
   comment: 'Existing note',
   proposalText: 'Existing offer',
   addOnIds: ['furniture'],
+  completed: true,
   createdAt: '2026-08-01',
 }
 
@@ -31,6 +46,12 @@ async function completeRequiredFields(user: ReturnType<typeof userEvent.setup>) 
   await user.type(screen.getByLabelText('Client name'), 'New Client')
   await user.type(screen.getByLabelText('Manager name'), 'Sales Manager')
   await user.type(screen.getByLabelText('Email'), 'client@example.com')
+}
+
+function readStored(): Proposal[] {
+  return JSON.parse(
+    window.localStorage.getItem(PROPOSALS_STORAGE_KEY) ?? '[]',
+  ) as Proposal[]
 }
 
 describe('ProposalForm', () => {
@@ -56,38 +77,90 @@ describe('ProposalForm', () => {
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
   })
 
-  it('shows validation errors without persisting an invalid form', async () => {
+  it('removes the manual save control and validates only on generate', async () => {
     const user = userEvent.setup()
     render(<ProposalForm />)
 
-    await user.click(screen.getByRole('button', { name: 'Save proposal' }))
+    expect(screen.queryByRole('button', { name: /save proposal/i })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Generate Proposal' }))
 
     expect(screen.getByText('Enter the proposal text.')).toBeInTheDocument()
     expect(screen.getByText('Enter the client name.')).toBeInTheDocument()
     expect(screen.getByText('Enter the manager name.')).toBeInTheDocument()
     expect(screen.getAllByText('Enter a phone number or email address.')).toHaveLength(2)
-    expect(JSON.parse(window.localStorage.getItem(PROPOSALS_STORAGE_KEY) ?? '[]')).toEqual([])
+    expect(readStored()).toEqual([])
   })
 
-  it('creates once and updates the same proposal on repeated saves', async () => {
-    const user = userEvent.setup()
+  it('debounces human text input and saves a partial draft as incomplete', () => {
+    vi.useFakeTimers()
     render(<ProposalForm />)
-    await completeRequiredFields(user)
 
-    await user.click(screen.getByRole('button', { name: 'Save proposal' }))
-    expect(screen.getByRole('button', { name: 'Proposal saved' })).toBeInTheDocument()
-    await user.clear(screen.getByLabelText('Client name'))
-    await user.type(screen.getByLabelText('Client name'), 'Updated Client')
-    await user.click(screen.getByRole('button', { name: 'Proposal saved' }))
+    fireEvent.change(screen.getByLabelText('Client name'), {
+      target: { value: 'Draft Client' },
+    })
+    act(() => vi.advanceTimersByTime(499))
+    expect(readStored()).toEqual([])
 
-    const stored = JSON.parse(
-      window.localStorage.getItem(PROPOSALS_STORAGE_KEY) ?? '[]',
-    ) as Proposal[]
-    expect(stored).toHaveLength(1)
-    expect(stored[0]).toMatchObject({ id: 'PRO-ABCDEF12', clientName: 'Updated Client' })
+    act(() => vi.advanceTimersByTime(1))
+    expect(readStored()).toHaveLength(1)
+    expect(readStored()[0]).toMatchObject({
+      id: 'PRO-ABCDEF12',
+      clientName: 'Draft Client',
+      completed: false,
+    })
   })
 
-  it('saves and opens the generated proposal in a protected new tab', async () => {
+  it('creates once, updates the same proposal, and marks a valid form complete', () => {
+    vi.useFakeTimers()
+    render(<ProposalForm />)
+
+    fireEvent.change(screen.getByLabelText('Proposal text'), {
+      target: { value: 'A tailored proposal' },
+    })
+    fireEvent.change(screen.getByLabelText('Client name'), {
+      target: { value: 'New Client' },
+    })
+    fireEvent.change(screen.getByLabelText('Manager name'), {
+      target: { value: 'Sales Manager' },
+    })
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'client@example.com' },
+    })
+    act(() => vi.advanceTimersByTime(500))
+
+    expect(readStored()).toHaveLength(1)
+    expect(readStored()[0]).toMatchObject({
+      id: 'PRO-ABCDEF12',
+      clientName: 'New Client',
+      completed: true,
+    })
+
+    fireEvent.change(screen.getByLabelText('Client name'), {
+      target: { value: 'Updated Client' },
+    })
+    act(() => vi.advanceTimersByTime(500))
+    expect(readStored()).toHaveLength(1)
+    expect(readStored()[0]).toMatchObject({
+      id: 'PRO-ABCDEF12',
+      clientName: 'Updated Client',
+      completed: true,
+    })
+  })
+
+  it('saves assistant changes immediately without waiting for the debounce', () => {
+    vi.useFakeTimers()
+    render(<ProposalForm />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Apply assistant patch' }))
+
+    expect(readStored()).toHaveLength(1)
+    expect(readStored()[0]).toMatchObject({
+      clientName: 'AI Client',
+      completed: false,
+    })
+  })
+
+  it('saves and opens a fully valid generated proposal in a protected new tab', async () => {
     const user = userEvent.setup()
     const open = vi.spyOn(window, 'open').mockImplementation(() => null)
     render(<ProposalForm />)
@@ -95,6 +168,7 @@ describe('ProposalForm', () => {
 
     await user.click(screen.getByRole('button', { name: 'Generate Proposal' }))
 
+    expect(readStored()[0]).toMatchObject({ completed: true })
     expect(open).toHaveBeenCalledWith(
       '/proposals/view?id=PRO-ABCDEF12',
       '_blank',
@@ -102,25 +176,24 @@ describe('ProposalForm', () => {
     )
   })
 
-  it('loads an existing proposal for editing and preserves identity', async () => {
-    const user = userEvent.setup()
+  it('autosaves an existing proposal without changing its identity', () => {
+    vi.useFakeTimers()
     params = new URLSearchParams(`id=${existing.id}`)
     window.localStorage.setItem(PROPOSALS_STORAGE_KEY, JSON.stringify([existing]))
     render(<ProposalForm />)
 
     expect(screen.getByRole('heading', { name: 'Edit proposal' })).toBeInTheDocument()
     expect(screen.getByLabelText('Client name')).toHaveValue('Existing Client')
-    await user.clear(screen.getByLabelText('Client name'))
-    await user.type(screen.getByLabelText('Client name'), 'Edited Client')
-    await user.click(screen.getByRole('button', { name: 'Save proposal' }))
+    fireEvent.change(screen.getByLabelText('Client name'), {
+      target: { value: 'Edited Client' },
+    })
+    act(() => vi.advanceTimersByTime(500))
 
-    const [stored] = JSON.parse(
-      window.localStorage.getItem(PROPOSALS_STORAGE_KEY) ?? '[]',
-    ) as Proposal[]
-    expect(stored).toMatchObject({
+    expect(readStored()[0]).toMatchObject({
       id: existing.id,
       createdAt: existing.createdAt,
       clientName: 'Edited Client',
+      completed: true,
     })
   })
 
@@ -130,15 +203,18 @@ describe('ProposalForm', () => {
     expect(screen.getByRole('heading', { name: 'Proposal not found' })).toBeInTheDocument()
   })
 
-  it('surfaces browser storage failures', async () => {
-    const user = userEvent.setup()
+  it('surfaces browser storage failures from autosave', () => {
+    vi.useFakeTimers()
     render(<ProposalForm />)
-    await completeRequiredFields(user)
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
       throw new DOMException('Quota exceeded', 'QuotaExceededError')
     })
 
-    fireEvent.click(screen.getByRole('button', { name: 'Save proposal' }))
+    fireEvent.change(screen.getByLabelText('Comment'), {
+      target: { value: 'Save this draft' },
+    })
+    act(() => vi.advanceTimersByTime(500))
+
     expect(screen.getByRole('alert')).toHaveTextContent('Unable to save proposal.')
   })
 })

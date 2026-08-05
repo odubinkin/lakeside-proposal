@@ -13,6 +13,7 @@ const existingProposal = {
   comment: 'Existing note',
   proposalText: 'Existing commercial proposal.',
   addOnIds: ['furniture'],
+  completed: true,
   createdAt: '2026-08-01',
 }
 
@@ -48,14 +49,16 @@ test('creates, persists, lists, and opens a printable proposal on mobile', async
   await page.getByLabel('Manager name').fill('Sales Manager')
   await page.getByLabel('Email').fill('buyer@example.com')
   await page.getByRole('button', { name: /Furniture Package/ }).click()
-  await page.getByRole('button', { name: 'Save proposal' }).click()
-  await expect(page.getByRole('button', { name: 'Proposal saved' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /save proposal/i })).toHaveCount(0)
   await expectNoSeriousA11yViolations(page)
 
-  const saved = await page.evaluate((key) => {
-    return JSON.parse(window.localStorage.getItem(key) ?? '[]')
-  }, storageKey)
-  expect(saved).toHaveLength(1)
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        return JSON.parse(window.localStorage.getItem(key) ?? '[]')
+      }, storageKey),
+    )
+    .toMatchObject([{ completed: true }])
 
   await page.goto('/proposals')
   await expect(page.getByText('Mobile Buyer')).toBeVisible()
@@ -82,11 +85,18 @@ test('edits a proposal without duplicating it and recalculates pricing', async (
   await page.getByRole('button', { name: /Smart Home/ }).click()
   await expect(page.getByText(/63,345,000/)).toBeVisible()
   await page.getByLabel('Client name').fill('Edited Client')
-  await page.getByRole('button', { name: 'Save proposal' }).click()
 
-  const saved = await page.evaluate((key) => {
-    return JSON.parse(window.localStorage.getItem(key) ?? '[]')
-  }, storageKey)
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        return JSON.parse(window.localStorage.getItem(key) ?? '[]')
+      }, storageKey),
+    )
+    .toMatchObject([{ clientName: 'Edited Client', completed: true }])
+  const saved = await page.evaluate(
+    (key) => JSON.parse(window.localStorage.getItem(key) ?? '[]'),
+    storageKey,
+  )
   expect(saved).toHaveLength(1)
   expect(saved[0]).toMatchObject({
     id: existingProposal.id,
@@ -162,11 +172,12 @@ test('uses Willow mock tool flow and keeps transcripts proposal-scoped', async (
   await expect(page.getByText(/I've filled in the client details/)).toBeVisible()
 
   await page.getByRole('button', { name: 'Close' }).click()
-  await page.getByRole('button', { name: 'Save proposal' }).click()
-  const savedId = await page.evaluate((key) => {
+  const savedProposal = await page.evaluate((key) => {
     const proposals = JSON.parse(window.localStorage.getItem(key) ?? '[]')
-    return proposals[0].id as string
+    return proposals[0] as { id: string; completed: boolean }
   }, storageKey)
+  expect(savedProposal.completed).toBe(true)
+  const savedId = savedProposal.id
   await page.goto(`/proposals/edit?id=${encodeURIComponent(savedId)}`)
   await page.getByRole('button', { name: 'Chat with assistant' }).click()
   await expect(page.getByText(/I've filled in the client details/)).toBeVisible()

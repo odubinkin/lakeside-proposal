@@ -23,6 +23,7 @@ const proposal: Proposal = {
   comment: 'Comment',
   proposalText: 'Proposal copy',
   addOnIds: ['furniture'],
+  completed: true,
   createdAt: '2026-08-01',
 }
 
@@ -35,6 +36,7 @@ const input = {
   comment: '',
   proposalText: 'New proposal copy',
   addOnIds: ['smart-home'],
+  completed: true,
 }
 
 describe('proposal storage', () => {
@@ -52,9 +54,13 @@ describe('proposal storage', () => {
     expect(parseProposals(PROPOSALS_SERVER_SNAPSHOT)).toEqual([])
     expect(parseProposals('{broken')).toEqual([])
     expect(parseProposals('{}')).toEqual([])
-    expect(parseProposals(JSON.stringify([proposal, { ...proposal, id: 123 }]))).toEqual([
-      proposal,
-    ])
+    const legacyProposal: Partial<Proposal> = { ...proposal }
+    delete legacyProposal.completed
+    expect(
+      parseProposals(
+        JSON.stringify([proposal, legacyProposal, { ...proposal, id: 123 }]),
+      ),
+    ).toEqual([proposal])
   })
 
   it('reads one proposal by identifier', () => {
@@ -75,7 +81,11 @@ describe('proposal storage', () => {
 
     const created = saveProposal(input)
 
-    expect(created).toMatchObject({ id: 'PRO-12345678', createdAt: '2026-08-04' })
+    expect(created).toMatchObject({
+      id: 'PRO-12345678',
+      completed: true,
+      createdAt: '2026-08-04',
+    })
     expect(getProposals()).toEqual([created, proposal])
     expect(subscriber).toHaveBeenCalledTimes(1)
     unsubscribe()

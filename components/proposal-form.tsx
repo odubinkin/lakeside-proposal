@@ -24,6 +24,7 @@ import {
 import { PriceSummary } from '@/components/proposal-form/price-summary'
 import { ProposalActions } from '@/components/proposal-form/proposal-actions'
 import {
+  canAutosaveProposalForm,
   scrollToFirstInvalidField,
   validateProposalForm,
   type ProposalFormErrors,
@@ -133,16 +134,16 @@ function ProposalEditor({
   const [errors, setErrors] = React.useState<ProposalFormErrors>({})
   const [saveError, setSaveError] = React.useState('')
   const [isSaving, setIsSaving] = React.useState(false)
-  const [isSaved, setIsSaved] = React.useState(false)
   const savedProposalId = React.useRef(editId)
   const [conversationProposalId, setConversationProposalId] = React.useState(editId)
   const isSavingRef = React.useRef(false)
-  const savedStateTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const autosaveTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastSavedFingerprint = React.useRef(JSON.stringify(formState))
 
   React.useEffect(() => {
     return () => {
-      if (savedStateTimeout.current) {
-        clearTimeout(savedStateTimeout.current)
+      if (autosaveTimeout.current) {
+        clearTimeout(autosaveTimeout.current)
       }
     }
   }, [])
@@ -154,7 +155,11 @@ function ProposalEditor({
    * @returns Nothing.
    */
   function toggleAddOn(id: string) {
-    dispatchForm({ type: 'toggleAddOn', id })
+    const current = formStateRef.current.addOnIds
+    const addOnIds = current.includes(id)
+      ? current.filter((addOnId) => addOnId !== id)
+      : [...current, id]
+    updateForm({ addOnIds }, 'immediate')
   }
 
   const selected = new Set(addOnIds)
@@ -170,47 +175,31 @@ function ProposalEditor({
    *
    * @returns The saved proposal on success, otherwise `undefined`.
    */
-  function persistProposal() {
+  function persistProposal(
+    snapshot: ProposalFormState,
+    options: { force?: boolean } = {},
+  ) {
     if (isSavingRef.current) return
+    if (!options.force && !canAutosaveProposalForm(snapshot)) return
 
-    if (savedStateTimeout.current) {
-      clearTimeout(savedStateTimeout.current)
-      savedStateTimeout.current = null
-    }
-    setIsSaved(false)
+    const fingerprint = JSON.stringify(snapshot)
+    if (!options.force && fingerprint === lastSavedFingerprint.current) return
+
     setSaveError('')
-
-    const validationErrors = validateProposalForm({
-      villaId,
-      clientName,
-      phone,
-      email,
-      manager,
-      proposalText,
-    })
-    setErrors(validationErrors)
-    if (Object.keys(validationErrors).length > 0) {
-      scrollToFirstInvalidField(validationErrors)
-      return
-    }
+    const completed = Object.keys(validateProposalForm(snapshot)).length === 0
 
     isSavingRef.current = true
     setIsSaving(true)
     try {
       const saved = saveProposal(
         {
-          villaId,
-          clientName,
-          phone,
-          email,
-          manager,
-          comment,
-          proposalText,
-          addOnIds,
+          ...snapshot,
+          completed,
         },
         savedProposalId.current ?? undefined,
       )
       savedProposalId.current = saved.id
+      lastSavedFingerprint.current = fingerprint
       setConversationProposalId(saved.id)
       return saved
     } catch (error) {
@@ -223,6 +212,42 @@ function ProposalEditor({
     }
   }
 
+  function cancelScheduledAutosave() {
+    if (!autosaveTimeout.current) return
+    clearTimeout(autosaveTimeout.current)
+    autosaveTimeout.current = null
+  }
+
+  function scheduleAutosave(snapshot: ProposalFormState) {
+    cancelScheduledAutosave()
+    autosaveTimeout.current = setTimeout(() => {
+      autosaveTimeout.current = null
+      persistProposal(snapshot)
+    }, 500)
+  }
+
+  function updateForm(
+    patch: Partial<ProposalFormState>,
+    autosave: 'debounced' | 'immediate',
+  ) {
+    const next = {
+      ...formStateRef.current,
+      ...patch,
+      addOnIds: patch.addOnIds
+        ? [...patch.addOnIds]
+        : [...formStateRef.current.addOnIds],
+    }
+    formStateRef.current = next
+    dispatchForm({ type: 'replace', form: next })
+
+    if (autosave === 'debounced') {
+      scheduleAutosave(next)
+    } else {
+      cancelScheduledAutosave()
+      persistProposal(next)
+    }
+  }
+
   /**
    * Saves the proposal and opens its print-friendly view in a new browser tab.
    *
@@ -231,7 +256,18 @@ function ProposalEditor({
    */
   function handleGenerate(e: React.FormEvent) {
     e.preventDefault()
-    const saved = persistProposal()
+    cancelScheduledAutosave()
+    setSaveError('')
+
+    const snapshot = formStateRef.current
+    const validationErrors = validateProposalForm(snapshot)
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) {
+      scrollToFirstInvalidField(validationErrors)
+      return
+    }
+
+    const saved = persistProposal(snapshot, { force: true })
     if (!saved) return
 
     window.open(
@@ -241,34 +277,18 @@ function ProposalEditor({
     )
   }
 
-  /**
-   * Saves the proposal in place and temporarily displays save confirmation.
-   *
-   * @returns Nothing.
-   */
-  function handleSave() {
-    const saved = persistProposal()
-    if (!saved) return
-
-    setIsSaved(true)
-    savedStateTimeout.current = setTimeout(() => {
-      setIsSaved(false)
-      savedStateTimeout.current = null
-    }, 2200)
-  }
-
   function handleClientDetailsChange(field: ClientDetailsField, value: string) {
     switch (field) {
       case 'clientName':
-        dispatchForm({ type: 'patch', patch: { clientName: value } })
+        updateForm({ clientName: value }, 'debounced')
         setErrors((current) => ({ ...current, clientName: undefined }))
         break
       case 'manager':
-        dispatchForm({ type: 'patch', patch: { manager: value } })
+        updateForm({ manager: value }, 'debounced')
         setErrors((current) => ({ ...current, manager: undefined }))
         break
       case 'phone':
-        dispatchForm({ type: 'patch', patch: { phone: value } })
+        updateForm({ phone: value }, 'debounced')
         setErrors((current) => ({
           ...current,
           phone: undefined,
@@ -276,7 +296,7 @@ function ProposalEditor({
         }))
         break
       case 'email':
-        dispatchForm({ type: 'patch', patch: { email: value } })
+        updateForm({ email: value }, 'debounced')
         setErrors((current) => ({
           ...current,
           phone: undefined,
@@ -284,7 +304,7 @@ function ProposalEditor({
         }))
         break
       case 'comment':
-        dispatchForm({ type: 'patch', patch: { comment: value } })
+        updateForm({ comment: value }, 'debounced')
         break
     }
   }
@@ -302,6 +322,8 @@ function ProposalEditor({
       }
       return next
     })
+    cancelScheduledAutosave()
+    persistProposal(result.newForm)
     return result
   }
 
@@ -336,7 +358,7 @@ function ProposalEditor({
             villaId={villaId}
             error={errors.villaId}
             onVillaChange={(nextVillaId) => {
-              dispatchForm({ type: 'patch', patch: { villaId: nextVillaId } })
+              updateForm({ villaId: nextVillaId }, 'immediate')
               setErrors((current) => ({ ...current, villaId: undefined }))
             }}
           />
@@ -357,7 +379,7 @@ function ProposalEditor({
             value={proposalText}
             error={errors.proposalText}
             onChange={(value) => {
-              dispatchForm({ type: 'patch', patch: { proposalText: value } })
+              updateForm({ proposalText: value }, 'debounced')
               setErrors((current) => ({
                 ...current,
                 proposalText: undefined,
@@ -373,9 +395,7 @@ function ProposalEditor({
         >
           <ProposalActions
             isSaving={isSaving}
-            isSaved={isSaved}
             saveError={saveError}
-            onSave={handleSave}
           />
         </PriceSummary>
       </form>
@@ -392,7 +412,6 @@ function ProposalEditor({
 type ProposalFormAction =
   | { type: 'patch'; patch: Partial<ProposalFormState> }
   | { type: 'replace'; form: ProposalFormState }
-  | { type: 'toggleAddOn'; id: string }
 
 function proposalFormReducer(
   state: ProposalFormState,
@@ -403,12 +422,5 @@ function proposalFormReducer(
       return { ...action.form, addOnIds: [...action.form.addOnIds] }
     case 'patch':
       return { ...state, ...action.patch }
-    case 'toggleAddOn':
-      return {
-        ...state,
-        addOnIds: state.addOnIds.includes(action.id)
-          ? state.addOnIds.filter((id) => id !== action.id)
-          : [...state.addOnIds, action.id],
-      }
   }
 }

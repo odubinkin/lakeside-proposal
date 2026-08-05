@@ -16,6 +16,11 @@ export type ProposalFormValues = {
   proposalText: string
 }
 
+export type AutosaveProposalFormValues = ProposalFormValues & {
+  addOnIds: string[]
+  comment: string
+}
+
 const errorFieldsInPageOrder: Array<
   [keyof ProposalFormErrors, string]
 > = [
@@ -66,6 +71,30 @@ export function validateProposalForm({
   }
 
   return errors
+}
+
+/** Returns whether the form contains at least one meaningful, valid draft field. */
+export function canAutosaveProposalForm(
+  values: AutosaveProposalFormValues,
+): boolean {
+  const errors = validateProposalForm(values)
+  const validatedTextFields: Array<
+    [keyof ProposalFormErrors, string]
+  > = [
+    ['proposalText', values.proposalText],
+    ['clientName', values.clientName],
+    ['manager', values.manager],
+    ['phone', values.phone],
+    ['email', values.email],
+  ]
+
+  return (
+    values.addOnIds.length > 0 ||
+    Boolean(values.comment.trim()) ||
+    validatedTextFields.some(
+      ([field, value]) => Boolean(value.trim()) && !errors[field],
+    )
+  )
 }
 
 /** Scrolls the first invalid proposal field into view when needed. */
