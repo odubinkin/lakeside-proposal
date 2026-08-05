@@ -2,7 +2,7 @@
 
 Villa Sales Configurator is a browser-based prototype for sales managers at a villa development. It supports the core meeting workflow: browse available villas, configure optional upgrades, capture client details, save proposals, and open a print-friendly commercial offer.
 
-The project is intentionally frontend-only. Villa and add-on catalogs are stored as local JSON files, while saved proposals are persisted in the current browser with `localStorage`. No backend, database, authentication, payment integration, or external AI service is required.
+Villa and add-on catalogs are stored as local JSON files, while saved proposals and Willow chat transcripts are persisted in the current browser with `localStorage`. The application includes a server-side chat route for its AI assistant but does not require a database, authentication, payment integration, or external AI service when running in mock mode.
 
 ## Features
 
@@ -13,9 +13,21 @@ The project is intentionally frontend-only. Villa and add-on catalogs are stored
 - Capture client and sales-manager details with form validation.
 - Create, edit, view, and delete proposals stored in the browser.
 - Open a polished proposal view suitable for browser printing.
-- Use development mock proposals and a demo autofill flow.
+- Ask Willow to explain catalog options, recommend add-ons, and update proposal fields.
+- Use deterministic mock assistant responses locally or connect an OpenRouter model.
 
-The proposal copy is currently entered or filled with predefined demo text. A real AI-powered copy-generation or recommendation feature has not been implemented.
+## Willow AI assistant
+
+Willow is available from the proposal editor. Chat messages are sent to `POST /api/ai/chat`, which streams assistant text and validated form-tool requests back to the browser. Form changes are validated and applied atomically by the client, and each proposal keeps a separate browser-local transcript.
+
+The assistant uses deterministic mock responses by default, so no credentials are needed for local development. To enable a real model, create `.env.local` and set both server-only OpenRouter variables:
+
+```text
+OPENROUTER_API_KEY=<your OpenRouter API key>
+OPENROUTER_MODEL=<OpenRouter model identifier>
+```
+
+Restart the development server after changing these values. Willow selects OpenRouter only when both values are non-empty; otherwise it remains in mock mode. Do not expose the API key through a `NEXT_PUBLIC_` variable. See [Willow AI Assistant Implementation](docs/AI_BOT_IMPL.md) for the protocol, prompt, tool execution, persistence, verification, and operational caveats.
 
 ## Technology stack
 
@@ -24,6 +36,8 @@ The proposal copy is currently entered or filled with predefined demo text. A re
 - Tailwind CSS 4
 - Base UI and reusable local UI components
 - Lucide React icons
+- LangChain with OpenRouter-compatible chat models
+- Zod runtime validation for the assistant protocol and form tool
 - ESLint with the Next.js configuration
 - Vitest, jsdom, and Testing Library for unit and component tests
 - Playwright and axe-core for browser and accessibility checks

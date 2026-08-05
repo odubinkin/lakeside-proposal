@@ -1,3 +1,7 @@
+/**
+ * @file Builds Willow's canonical system prompt, trusted context, and LangChain history.
+ */
+
 import 'server-only'
 
 import {
@@ -33,6 +37,12 @@ For factual statements about villas, add-ons, prices and included features, use 
 
 If a form tool result reports validation errors, explain every reported field error to the user and ask for corrected values as needed. Do not claim that any part of a rejected atomic patch was applied.`
 
+/**
+ * Builds the ordered LangChain messages for a model invocation or tool continuation.
+ *
+ * @param context - Validated request plus server-resolved villa and add-on data.
+ * @returns System instructions, trusted context, bounded history, and continuation messages.
+ */
 export function buildModelMessages(context: AssistantContext): BaseMessage[] {
   const history = context.request.messages.slice(-50)
   const continuation = context.request.continuation
@@ -79,6 +89,12 @@ export function buildModelMessages(context: AssistantContext): BaseMessage[] {
   return messages
 }
 
+/**
+ * Serializes server-authored form and catalog data inside explicit trust delimiters.
+ *
+ * @param context - Validated request plus trusted catalog records.
+ * @returns A delimited context message that distinguishes trusted structure from untrusted values.
+ */
 export function buildTrustedContext(context: AssistantContext): string {
   return [
     'SERVER_AUTHORED_TRUSTED_CONTEXT',

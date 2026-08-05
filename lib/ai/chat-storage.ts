@@ -1,3 +1,7 @@
+/**
+ * @file Persists proposal-scoped Willow transcripts and recovers interrupted entries.
+ */
+
 import { z } from 'zod'
 
 export const CHAT_STORAGE_PREFIX = 'lakeside.ai-chat.v1:'
@@ -37,10 +41,22 @@ const transcriptEnvelopeSchema = z
   })
   .strict()
 
+/**
+ * Builds the versioned localStorage key for a chat conversation.
+ *
+ * @param conversationId - Proposal ID or temporary draft conversation ID.
+ * @returns Namespaced browser-storage key for the transcript.
+ */
 export function getChatStorageKey(conversationId: string): string {
   return `${CHAT_STORAGE_PREFIX}${conversationId}`
 }
 
+/**
+ * Loads, validates, and recovers a stored chat transcript.
+ *
+ * @param conversationId - Proposal ID or draft ID whose transcript should be read.
+ * @returns Restorable transcript entries, or an empty list for missing or malformed data.
+ */
 export function readChatTranscript(conversationId: string): ChatTranscriptEntry[] {
   const stored = window.localStorage.getItem(getChatStorageKey(conversationId))
   if (!stored) return []
@@ -54,6 +70,13 @@ export function readChatTranscript(conversationId: string): ChatTranscriptEntry[
   }
 }
 
+/**
+ * Writes the complete versioned transcript envelope to browser storage.
+ *
+ * @param conversationId - Proposal ID or draft ID that owns the transcript.
+ * @param entries - Complete transcript entries to persist.
+ * @returns Nothing.
+ */
 export function writeChatTranscript(
   conversationId: string,
   entries: ChatTranscriptEntry[],
@@ -64,6 +87,13 @@ export function writeChatTranscript(
   )
 }
 
+/**
+ * Moves a transcript from a draft namespace to a persisted proposal namespace.
+ *
+ * @param fromId - Existing conversation identifier.
+ * @param toId - Destination conversation identifier.
+ * @returns Nothing.
+ */
 export function migrateChatTranscript(fromId: string, toId: string): void {
   if (fromId === toId) return
   const oldKey = getChatStorageKey(fromId)
@@ -73,10 +103,22 @@ export function migrateChatTranscript(fromId: string, toId: string): void {
   window.localStorage.removeItem(oldKey)
 }
 
+/**
+ * Removes a proposal-scoped or draft chat transcript from browser storage.
+ *
+ * @param conversationId - Conversation identifier whose transcript should be deleted.
+ * @returns Nothing.
+ */
 export function deleteChatTranscript(conversationId: string): void {
   window.localStorage.removeItem(getChatStorageKey(conversationId))
 }
 
+/**
+ * Converts entries left active by a reload into recoverable interrupted states.
+ *
+ * @param entry - Validated stored transcript entry.
+ * @returns The original entry or an interrupted replacement.
+ */
 function recoverEntry(entry: ChatTranscriptEntry): ChatTranscriptEntry {
   if (entry.kind === 'status' && entry.state === 'filling') {
     return {
@@ -91,6 +133,12 @@ function recoverEntry(entry: ChatTranscriptEntry): ChatTranscriptEntry {
   return entry
 }
 
+/**
+ * Determines whether a recovered entry should be restored to the visible transcript.
+ *
+ * @param entry - Recovered transcript entry to evaluate.
+ * @returns `true` when the entry is meaningful after restoration.
+ */
 function shouldRestoreEntry(entry: ChatTranscriptEntry): boolean {
   return (
     entry.kind === 'text' ||

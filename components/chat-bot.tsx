@@ -67,6 +67,16 @@ type PendingToolCall = {
   arguments: ProposalFormPatch
 }
 
+/**
+ * Renders Willow and coordinates chat turns, form tools, retries, and transcript storage.
+ *
+ * @param props - Assistant state and proposal-form integration callbacks.
+ * @param props.form - Latest complete proposal form snapshot.
+ * @param props.proposalId - Persisted proposal ID, or `null` while editing a draft.
+ * @param props.onApplyPatch - Client-side callback that validates and applies a tool patch.
+ * @param props.promptRequest - Optional externally triggered message to send once.
+ * @returns The floating assistant launcher and chat modal.
+ */
 export function ChatBot({
   form,
   proposalId,
@@ -101,6 +111,12 @@ export function ChatBot({
     formRef.current = form
   }, [form])
 
+  /**
+   * Applies a transcript update synchronously to both the ref and React state.
+   *
+   * @param updater - Function that derives the next transcript from the current entries.
+   * @returns The updated transcript entries.
+   */
   const replaceEntries = React.useCallback(
     (updater: (current: ChatTranscriptEntry[]) => ChatTranscriptEntry[]) => {
       const next = updater(entriesRef.current)
@@ -146,6 +162,12 @@ export function ChatBot({
     return () => controllerRef.current?.abort()
   }, [])
 
+  /**
+   * Runs an assistant turn, including any client-side form tool and continuation exchange.
+   *
+   * @param userMessageId - Existing user entry used as the retry anchor for this turn.
+   * @returns A promise that resolves after the full assistant turn stops, fails, or is cancelled.
+   */
   const runTurn = React.useCallback(
     async (userMessageId: string) => {
       setActive(true)
@@ -237,6 +259,12 @@ export function ChatBot({
     [onApplyPatch, replaceEntries],
   )
 
+  /**
+   * Adds a user message and starts its assistant turn when the chat is idle.
+   *
+   * @param raw - Optional suggested or externally supplied message; defaults to the input value.
+   * @returns `true` when a message was accepted and sent, otherwise `false`.
+   */
   const handleSend = React.useCallback(
     (raw?: string) => {
       const value = (raw ?? input).trim()
@@ -271,6 +299,11 @@ export function ChatBot({
     }
   }, [handleSend, promptRequest])
 
+  /**
+   * Repeats the most recent retryable assistant turn without duplicating its user entry.
+   *
+   * @returns Nothing.
+   */
   function handleRetry() {
     if (!retryableUserId || active) return
     replaceEntries((current) =>
@@ -419,6 +452,16 @@ export function ChatBot({
   )
 }
 
+/**
+ * Runs one HTTP exchange and applies its incremental events to the visible transcript.
+ *
+ * @param options - Exchange state and transcript update function.
+ * @param options.currentForm - Form snapshot sent with this exchange.
+ * @param options.continuation - Optional result of the preceding client-executed tool call.
+ * @param options.signal - Abort signal for the request and stream.
+ * @param options.replaceEntries - Synchronous transcript state updater.
+ * @returns The pending form-tool call, or `undefined` after a text-only response.
+ */
 async function runExchange({
   currentForm,
   continuation,
@@ -509,6 +552,12 @@ async function runExchange({
   return pendingToolCall
 }
 
+/**
+ * Reads the latest transcript snapshot through the component's synchronous updater.
+ *
+ * @param replaceEntries - Transcript updater that returns the resulting entry list.
+ * @returns The current transcript entries without modifying them.
+ */
 function entriesForHistory(
   replaceEntries: (
     updater: (current: ChatTranscriptEntry[]) => ChatTranscriptEntry[],
@@ -517,6 +566,13 @@ function entriesForHistory(
   return replaceEntries((current) => current)
 }
 
+/**
+ * Converts visible completed entries into bounded model-visible conversation history.
+ *
+ * @param entries - Complete local transcript, including UI-only statuses.
+ * @param excludedStatusId - Current tool status to omit from its own continuation.
+ * @returns Up to 50 chronological text and completed tool-status messages.
+ */
 function getModelHistory(
   entries: ChatTranscriptEntry[],
   excludedStatusId?: string,
@@ -545,6 +601,11 @@ function getModelHistory(
     .slice(-50)
 }
 
+/**
+ * Creates the default Willow greeting for an empty conversation.
+ *
+ * @returns A completed assistant transcript entry.
+ */
 function createWelcomeEntry(): ChatTranscriptEntry {
   return {
     id: crypto.randomUUID(),
@@ -556,6 +617,12 @@ function createWelcomeEntry(): ChatTranscriptEntry {
   }
 }
 
+/**
+ * Restores a proposal-scoped transcript or creates a new welcome conversation.
+ *
+ * @param conversationId - Proposal ID or temporary draft conversation ID.
+ * @returns Initial entries and an optional non-blocking storage warning.
+ */
 function loadInitialTranscript(conversationId: string): {
   entries: ChatTranscriptEntry[]
   warning: string
@@ -577,6 +644,13 @@ function loadInitialTranscript(conversationId: string): {
   }
 }
 
+/**
+ * Replaces an in-progress tool status with its success or failure summary.
+ *
+ * @param entry - Existing `filling` status entry.
+ * @param result - Complete client-side form-tool result.
+ * @returns Updated terminal status entry for the transcript.
+ */
 function getCompletedStatus(
   entry: Extract<ChatTranscriptEntry, { kind: 'status' }>,
   result: FormToolResult,
@@ -602,6 +676,13 @@ function getCompletedStatus(
   }
 }
 
+/**
+ * Marks streaming text and in-progress tool entries as interrupted.
+ *
+ * @param replaceEntries - Synchronous transcript state updater.
+ * @param statusText - Message used for an interrupted form-tool status.
+ * @returns Nothing.
+ */
 function markActiveEntriesInterrupted(
   replaceEntries: (
     updater: (current: ChatTranscriptEntry[]) => ChatTranscriptEntry[],
@@ -621,6 +702,12 @@ function markActiveEntriesInterrupted(
   )
 }
 
+/**
+ * Converts unknown stream failures into the chat UI's normalized client error.
+ *
+ * @param error - Unknown error raised by transport, parsing, or event handling.
+ * @returns Existing or newly normalized assistant client error.
+ */
 function normalizeClientError(error: unknown): AssistantClientError {
   if (error instanceof AssistantClientError) return error
   if (error instanceof AssistantProtocolError) {
@@ -633,6 +720,12 @@ function normalizeClientError(error: unknown): AssistantClientError {
   )
 }
 
+/**
+ * Keeps form-tool progress visible briefly while remaining abortable.
+ *
+ * @param signal - Abort signal that cancels the presentation delay.
+ * @returns A promise that resolves after the minimum progress interval.
+ */
 async function waitForProgressPresentation(signal: AbortSignal): Promise<void> {
   await new Promise<void>((resolve, reject) => {
     const timeout = window.setTimeout(resolve, 350)
@@ -647,6 +740,13 @@ async function waitForProgressPresentation(signal: AbortSignal): Promise<void> {
   })
 }
 
+/**
+ * Renders one user or assistant text entry with delivery-state feedback.
+ *
+ * @param props - Text bubble properties.
+ * @param props.entry - User or assistant transcript entry to display.
+ * @returns A role-aligned text bubble.
+ */
 function TextBubble({
   entry,
 }: {
@@ -678,6 +778,13 @@ function TextBubble({
   )
 }
 
+/**
+ * Renders form-tool progress, success, failure, or interruption feedback.
+ *
+ * @param props - Status bubble properties.
+ * @param props.entry - Tool-status transcript entry to display.
+ * @returns A status bubble with the appropriate icon and color treatment.
+ */
 function StatusBubble({
   entry,
 }: {

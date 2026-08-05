@@ -1,3 +1,7 @@
+/**
+ * @file Exposes Willow's validated, abortable, non-cacheable NDJSON chat endpoint.
+ */
+
 import {
   AI_PROTOCOL_VERSION,
   GENERIC_COMMUNICATION_ERROR,
@@ -27,6 +31,13 @@ type StreamEventPayload = ChatStreamEvent extends infer Event
     : never
   : never
 
+/**
+ * Validates a public chat request and starts a response with the selected adapter.
+ *
+ * @param request - Incoming HTTP request containing a versioned Willow payload.
+ * @param adapterFactory - Factory used to select the production adapter or inject a test adapter.
+ * @returns A JSON validation/provider error or a streaming NDJSON response.
+ */
 export async function handleChatRequest(
   request: Request,
   adapterFactory: AdapterFactory = createAssistantAdapter,
@@ -58,10 +69,24 @@ export async function handleChatRequest(
   return streamAssistantResponse(parsed.data, adapter, request.signal)
 }
 
+/**
+ * Handles POST requests for the Willow chat endpoint.
+ *
+ * @param request - Incoming Next.js route request.
+ * @returns The validated JSON error or assistant event-stream response.
+ */
 export async function POST(request: Request): Promise<Response> {
   return handleChatRequest(request)
 }
 
+/**
+ * Converts normalized adapter output into a correlated public event stream.
+ *
+ * @param request - Validated assistant request and run identifier.
+ * @param adapter - Selected server-side assistant implementation.
+ * @param requestSignal - Signal that aborts work when the client disconnects.
+ * @returns A non-cacheable NDJSON response containing one assistant message lifecycle.
+ */
 function streamAssistantResponse(
   request: ChatRequest,
   adapter: AssistantAdapter,
@@ -72,8 +97,21 @@ function streamAssistantResponse(
   let sequence = 0
 
   const stream = new ReadableStream<Uint8Array>({
+    /**
+     * Pulls normalized adapter chunks and emits one complete public message lifecycle.
+     *
+     * @param controller - Byte-stream controller used to enqueue events and close the response.
+     * @returns A promise that resolves after the stream closes or is aborted.
+     */
     async start(controller) {
       const messageId = crypto.randomUUID()
+
+      /**
+       * Correlates and writes one event payload to the response stream.
+       *
+       * @param event - Event-specific payload without the shared envelope fields.
+       * @returns Nothing.
+       */
       const send = (event: StreamEventPayload) => {
         const envelope = {
           protocolVersion: AI_PROTOCOL_VERSION,
@@ -129,6 +167,12 @@ function streamAssistantResponse(
         controller.close()
       }
     },
+
+    /**
+     * Propagates consumer cancellation to the active assistant adapter.
+     *
+     * @returns Nothing.
+     */
     cancel() {
       abortController.abort()
     },
@@ -144,6 +188,13 @@ function streamAssistantResponse(
   })
 }
 
+/**
+ * Maps internal adapter failures to safe public stream errors.
+ *
+ * @param error - Unknown failure raised while producing assistant output.
+ * @param mode - Active adapter mode used to sanitize real-provider failures.
+ * @returns Public error code, safe message, and retryability flag.
+ */
 function mapStreamError(
   error: unknown,
   mode: AssistantAdapter['mode'],
@@ -169,6 +220,15 @@ function mapStreamError(
   }
 }
 
+/**
+ * Creates a non-cacheable JSON error response before streaming begins.
+ *
+ * @param status - HTTP status code for the failed request.
+ * @param code - Public assistant error category.
+ * @param message - Safe user-facing error message.
+ * @param retryable - Whether retrying the request may succeed.
+ * @returns JSON response containing the normalized error envelope.
+ */
 function jsonError(
   status: number,
   code: ChatErrorCode,

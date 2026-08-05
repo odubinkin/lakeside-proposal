@@ -1,3 +1,7 @@
+/**
+ * @file Provides deterministic Willow behavior for local development and automated tests.
+ */
+
 import 'server-only'
 
 import {
@@ -25,9 +29,19 @@ export const MOCK_AUTOFILL_PATCH: ProposalFormPatch = {
 const COMPLETION_REPLY =
   "I've filled in the client details and selected a recommended add-on package. Review the form and press Generate Proposal when you're ready."
 
+/**
+ * Produces deterministic text or form-tool output without contacting an AI provider.
+ */
 export class MockAssistantAdapter implements AssistantAdapter {
   readonly mode = 'mock' as const
 
+  /**
+   * Selects the mock compatibility response for a validated assistant request.
+   *
+   * @param context - Trusted assistant request and catalog context.
+   * @param signal - Abort signal used to suppress output after cancellation.
+   * @returns An asynchronous sequence containing one deterministic text delta or tool call.
+   */
   async *stream(
     context: AssistantContext,
     signal: AbortSignal,

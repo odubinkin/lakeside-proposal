@@ -1,3 +1,7 @@
+/**
+ * @file Defines the shared Willow request, streaming, form-tool, and transcript contracts.
+ */
+
 import { z } from 'zod'
 import { addOns, villas } from '@/lib/data'
 
@@ -227,6 +231,13 @@ export const chatStreamEventSchema = z.discriminatedUnion('type', [
 
 export type ChatStreamEvent = z.infer<typeof chatStreamEventSchema>
 
+/**
+ * Compares two complete proposal form snapshots in canonical field order.
+ *
+ * @param left - First form snapshot to compare.
+ * @param right - Second form snapshot to compare.
+ * @returns `true` when every editable field has the same value and array order.
+ */
 export function formsEqual(left: ProposalFormState, right: ProposalFormState): boolean {
   return proposalFormFieldNames.every((field) => {
     if (field === 'addOnIds') {
@@ -239,6 +250,13 @@ export function formsEqual(left: ProposalFormState, right: ProposalFormState): b
   })
 }
 
+/**
+ * Finds editable fields whose values differ between two form snapshots.
+ *
+ * @param oldForm - Form snapshot before an attempted update.
+ * @param newForm - Form snapshot after an attempted update.
+ * @returns Changed field names in the canonical proposal-form order.
+ */
 export function getChangedFormFields(
   oldForm: ProposalFormState,
   newForm: ProposalFormState,
@@ -254,6 +272,13 @@ export function getChangedFormFields(
   })
 }
 
+/**
+ * Compares two canonical changed-field lists, including their order.
+ *
+ * @param left - First field list to compare.
+ * @param right - Second field list to compare.
+ * @returns `true` when both lists contain the same fields in the same order.
+ */
 function fieldListsEqual(left: ProposalFormField[], right: ProposalFormField[]): boolean {
   return left.length === right.length && left.every((field, index) => field === right[index])
 }

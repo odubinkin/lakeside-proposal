@@ -1,3 +1,7 @@
+/**
+ * @file Implements Willow's OpenRouter-backed LangChain adapter and stream normalization.
+ */
+
 import 'server-only'
 
 import { AIMessageChunk } from '@langchain/core/messages'
@@ -16,6 +20,9 @@ import {
 } from '@/lib/ai/server/assistant'
 import { buildModelMessages } from '@/lib/ai/server/prompt'
 
+/**
+ * Strict LangChain tool definition that lets the model request a client-side form patch.
+ */
 const editProposalFormTool = tool(
   async () => 'The client executes this tool and returns its result in a continuation.',
   {
@@ -26,10 +33,19 @@ const editProposalFormTool = tool(
   },
 )
 
+/**
+ * Streams Willow responses from an OpenRouter model through the shared adapter contract.
+ */
 export class OpenRouterAssistantAdapter implements AssistantAdapter {
   readonly mode = 'openrouter' as const
   private readonly model: ChatOpenAI
 
+  /**
+   * Configures the server-only OpenRouter chat model.
+   *
+   * @param apiKey - OpenRouter credential read from the server environment.
+   * @param modelName - OpenRouter model identifier read from the server environment.
+   */
   constructor(apiKey: string, modelName: string) {
     this.model = new ChatOpenAI({
       apiKey,
@@ -41,6 +57,15 @@ export class OpenRouterAssistantAdapter implements AssistantAdapter {
     })
   }
 
+  /**
+   * Streams normalized text or form-tool output for one assistant request.
+   *
+   * @param context - Trusted assistant request and catalog context.
+   * @param signal - Abort signal propagated from the API route.
+   * @returns An asynchronous sequence of normalized assistant output chunks.
+   * @throws {ServerAssistantCommunicationError} When OpenRouter communication fails.
+   * @throws {ServerAssistantProtocolError} When the model returns unsupported output.
+   */
   async *stream(
     context: AssistantContext,
     signal: AbortSignal,
@@ -63,6 +88,13 @@ export class OpenRouterAssistantAdapter implements AssistantAdapter {
   }
 }
 
+/**
+ * Converts LangChain message chunks into the adapter's single-output protocol.
+ *
+ * @param response - Streaming message chunks returned by the configured model.
+ * @returns An asynchronous sequence of text deltas followed by at most one valid tool call.
+ * @throws {ServerAssistantProtocolError} When tool calls are mixed, invalid, or unsupported.
+ */
 export async function* normalizeOpenRouterStream(
   response: AsyncIterable<AIMessageChunk>,
 ): AsyncIterable<AssistantOutputChunk> {
@@ -104,6 +136,12 @@ export async function* normalizeOpenRouterStream(
   }
 }
 
+/**
+ * Extracts user-visible text from a LangChain message chunk.
+ *
+ * @param content - String or structured content from an AI message chunk.
+ * @returns Concatenated text blocks, or an empty string when none are present.
+ */
 function getTextContent(content: AIMessageChunk['content']): string {
   if (typeof content === 'string') return content
   return content

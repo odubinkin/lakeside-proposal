@@ -178,6 +178,9 @@ function ProposalEditor({
   /**
    * Validates and persists the current proposal while preventing concurrent saves.
    *
+   * @param snapshot - Complete proposal form snapshot to save.
+   * @param options - Persistence controls.
+   * @param options.force - Whether to bypass autosave completeness and deduplication guards.
    * @returns The saved proposal on success, otherwise `undefined`.
    */
   function persistProposal(
@@ -221,12 +224,23 @@ function ProposalEditor({
     }
   }
 
+  /**
+   * Cancels the pending debounced autosave, if one exists.
+   *
+   * @returns Nothing.
+   */
   function cancelScheduledAutosave() {
     if (!autosaveTimeout.current) return
     clearTimeout(autosaveTimeout.current)
     autosaveTimeout.current = null
   }
 
+  /**
+   * Replaces the pending autosave with a debounce for the latest form snapshot.
+   *
+   * @param snapshot - Complete form state to persist after the debounce interval.
+   * @returns Nothing.
+   */
   function scheduleAutosave(snapshot: ProposalFormState) {
     cancelScheduledAutosave()
     autosaveTimeout.current = setTimeout(() => {
@@ -235,6 +249,13 @@ function ProposalEditor({
     }, 500)
   }
 
+  /**
+   * Applies a local form patch and schedules the requested persistence behavior.
+   *
+   * @param patch - Partial trusted form update from the editor UI.
+   * @param autosave - Whether to debounce or immediately persist the new snapshot.
+   * @returns Nothing.
+   */
   function updateForm(
     patch: Partial<ProposalFormState>,
     autosave: 'debounced' | 'immediate',
@@ -286,6 +307,13 @@ function ProposalEditor({
     )
   }
 
+  /**
+   * Updates one client-details field and clears its relevant validation errors.
+   *
+   * @param field - Client-details field changed by the user.
+   * @param value - New field value from the editor.
+   * @returns Nothing.
+   */
   function handleClientDetailsChange(field: ClientDetailsField, value: string) {
     switch (field) {
       case 'clientName':
@@ -318,6 +346,12 @@ function ProposalEditor({
     }
   }
 
+  /**
+   * Validates and atomically applies a Willow form-tool patch to the editor state.
+   *
+   * @param patch - Model-requested editable-field patch.
+   * @returns Complete tool result sent back to the assistant continuation.
+   */
   function handleAssistantPatch(patch: ProposalFormPatch): FormToolResult {
     const result = executeFormPatch(formStateRef.current, patch)
     if (!result.ok) return result
@@ -336,6 +370,12 @@ function ProposalEditor({
     return result
   }
 
+  /**
+   * Updates the editor URL after a draft receives its first persisted proposal ID.
+   *
+   * @param id - Newly persisted proposal identifier.
+   * @returns Nothing.
+   */
   function replaceProposalUrl(id: string) {
     window.history.replaceState(
       window.history.state,
@@ -442,6 +482,13 @@ type ProposalFormAction =
   | { type: 'patch'; patch: Partial<ProposalFormState> }
   | { type: 'replace'; form: ProposalFormState }
 
+/**
+ * Applies patch or replacement actions to the reducer-backed proposal form state.
+ *
+ * @param state - Current complete proposal form state.
+ * @param action - Partial patch or complete replacement action.
+ * @returns The next proposal form state with an isolated add-on array on replacement.
+ */
 function proposalFormReducer(
   state: ProposalFormState,
   action: ProposalFormAction,

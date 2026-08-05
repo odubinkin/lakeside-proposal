@@ -1,3 +1,7 @@
+/**
+ * @file Validates and atomically applies Willow form-tool patches in the browser.
+ */
+
 import {
   getChangedFormFields,
   proposalFormFieldNames,
@@ -11,6 +15,13 @@ import { validateProposalForm } from '@/components/proposal-form/proposal-form.u
 
 export type FormToolResult = ToolContinuation['result']
 
+/**
+ * Validates a model-supplied patch and applies it atomically to a form snapshot.
+ *
+ * @param oldForm - Current trusted proposal form snapshot.
+ * @param input - Untrusted form-tool arguments received from the assistant.
+ * @returns A complete success or failure result with old/new snapshots and changed fields.
+ */
 export function executeFormPatch(
   oldForm: ProposalFormState,
   input: unknown,
@@ -44,6 +55,13 @@ export function executeFormPatch(
   }
 }
 
+/**
+ * Applies a validated partial patch without retaining mutable array references.
+ *
+ * @param form - Form snapshot to update.
+ * @param patch - Validated non-empty editable-field patch.
+ * @returns A new complete proposal form snapshot.
+ */
 function applyPatch(
   form: ProposalFormState,
   patch: ProposalFormPatch,
@@ -55,6 +73,14 @@ function applyPatch(
   }
 }
 
+/**
+ * Builds an atomic failure result that leaves the form unchanged.
+ *
+ * @param form - Original form snapshot retained by the failed update.
+ * @param message - Summary of why the patch failed.
+ * @param fieldErrors - Optional validation errors keyed by editable field.
+ * @returns A failed form-tool result with identical old and new snapshots.
+ */
 function failedResult(
   form: ProposalFormState,
   message: string,
@@ -73,6 +99,12 @@ function failedResult(
   }
 }
 
+/**
+ * Converts Zod issues into editable-field validation messages.
+ *
+ * @param issues - Schema issues produced while parsing tool arguments.
+ * @returns Validation messages for recognized proposal form fields.
+ */
 function collectSchemaFieldErrors(
   issues: Array<{ path: PropertyKey[]; message: string }>,
 ): Partial<Record<ProposalFormField, string>> {

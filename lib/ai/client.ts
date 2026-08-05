@@ -1,3 +1,7 @@
+/**
+ * @file Sends Willow requests from the browser and converts transport failures into client errors.
+ */
+
 import {
   GENERIC_COMMUNICATION_ERROR,
   type ChatErrorCode,
@@ -6,7 +10,17 @@ import {
 } from '@/lib/ai/contracts'
 import { readChatEventStream } from '@/lib/ai/stream'
 
+/**
+ * Represents a normalized assistant error that the chat UI can present or retry.
+ */
 export class AssistantClientError extends Error {
+  /**
+   * Creates a client-facing assistant error.
+   *
+   * @param message - Safe message that may be shown to the user.
+   * @param code - Protocol or network error category.
+   * @param retryable - Whether retrying the assistant turn may succeed.
+   */
   constructor(
     message: string,
     readonly code: ChatErrorCode | 'NETWORK_ERROR',
@@ -17,6 +31,15 @@ export class AssistantClientError extends Error {
   }
 }
 
+/**
+ * Posts a validated chat request and forwards each correlated stream event.
+ *
+ * @param request - Complete assistant request, including form and conversation context.
+ * @param onEvent - Handler invoked for each validated non-error stream event.
+ * @param signal - Abort signal used to cancel the HTTP request and response stream.
+ * @returns A promise that resolves after the terminal stream event is processed.
+ * @throws {AssistantClientError} When the request, response, or assistant stream fails.
+ */
 export async function sendChatRequest(
   request: ChatRequest,
   onEvent: (event: ChatStreamEvent) => void | Promise<void>,
