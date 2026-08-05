@@ -334,7 +334,14 @@ export function ProposalsList() {
                   {pendingDelete?.id}
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {pendingDelete ? `for ${pendingDelete.clientName}` : ''}
+                  {pendingDelete && (
+                    <>
+                      for{' '}
+                      <strong className="font-bold text-foreground">
+                        {pendingDelete.clientName.trim() || 'unknown client'}
+                      </strong>
+                    </>
+                  )}
                 </span>
               </div>
             </div>

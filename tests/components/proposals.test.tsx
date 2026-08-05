@@ -142,7 +142,8 @@ describe('proposal management and view', () => {
     expect(within(draftItem!).queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 
-  it('does not render empty proposal fields or their icons and labels', () => {
+  it('does not render empty proposal fields and uses the unknown client fallback', async () => {
+    const user = userEvent.setup()
     const emptyFieldsProposal: Proposal = {
       ...proposal,
       id: 'PRO-EMPTY-FIELDS',
@@ -172,6 +173,13 @@ describe('proposal management and view', () => {
         (element) => element.textContent === emptyFieldsProposal.clientName,
       ),
     ).toBe(false)
+
+    await user.click(within(item!).getByRole('button', { name: 'Delete' }))
+    const dialog = screen.getByRole('dialog', { name: 'Delete proposal?' })
+    const fallbackClientName = within(dialog).getByText('unknown client')
+
+    expect(fallbackClientName.tagName).toBe('STRONG')
+    expect(fallbackClientName).toHaveClass('font-bold')
   })
 
   it('traps focus, restores the trigger, and supports every deletion outcome', async () => {
@@ -180,7 +188,11 @@ describe('proposal management and view', () => {
 
     const deleteTrigger = screen.getByRole('button', { name: 'Delete' })
     await user.click(deleteTrigger)
-    expect(screen.getByRole('dialog', { name: 'Delete proposal?' })).toBeInTheDocument()
+    const dialog = screen.getByRole('dialog', { name: 'Delete proposal?' })
+    const clientName = within(dialog).getByText('Alice Buyer')
+
+    expect(clientName.tagName).toBe('STRONG')
+    expect(clientName).toHaveClass('font-bold')
     const cancelButton = screen.getByRole('button', { name: 'Cancel' })
     const confirmButton = screen.getByRole('button', { name: 'Delete proposal' })
 
