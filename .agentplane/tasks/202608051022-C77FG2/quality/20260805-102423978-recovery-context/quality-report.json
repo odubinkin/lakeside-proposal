@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "task_id": "202608051022-C77FG2",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T10:24:23.978Z",
+  "verdict": "pass",
+  "summary": "Proposal ID search behavior is explicit and regression-tested; all declared and required checks passed.",
+  "evaluated_sha": "3c3865aca9170a62f3add5ed4c5f027ff9b2fb4b",
+  "blueprint_digest": "f722a7e71dd513e09203c0f4a488df7d4f741551b4a5f24591180390a6ba23ee",
+  "findings": [
+    "The existing ID matcher is case-insensitive and supports substring matching; the new test confirms matching and non-matching rows."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608051022-C77FG2/README.md",
+    "tests/components/proposals.test.tsx",
+    "components/proposals-list.tsx"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
