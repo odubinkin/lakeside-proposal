@@ -5,7 +5,7 @@ result_summary: "verified-202608051141-1FG5NM"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 24
+revision: 25
 origin:
   system: "manual"
 depends_on: []
@@ -25,19 +25,19 @@ verification:
   attempts: 0
 quality_review:
   state: "pass"
-  updated_at: "2026-08-05T11:45:47.376Z"
+  updated_at: "2026-08-05T11:51:05.121Z"
   updated_by: "EVALUATOR"
-  note: "Docker deployment scope is implemented and all declared checks passed."
-  evaluated_sha: "c79809274ff7bf3d22414097f8414e92ee515d2a"
+  note: "Corrected Docker deployment configuration satisfies the revised network and port-isolation requirements."
+  evaluated_sha: "4589e893a55a850b94ec81120d8975f5acb2912a"
   blueprint_digest: "1df8fac8628a53af4f0a1a9c0254abf44c582d9896f3e71104d4bee19c153505"
   evidence_refs:
     - ".agentplane/tasks/202608051141-1FG5NM/README.md"
-    - ".agentplane/tasks/202608051141-1FG5NM/quality/20260805-114547376-recovery-context/quality-report.json"
-    - ".agentplane/tasks/202608051141-1FG5NM/quality/20260805-114547376-recovery-context/evaluator-prompt.md"
-    - ".agentplane/tasks/202608051141-1FG5NM/quality/20260805-114547376-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202608051141-1FG5NM/quality/20260805-115105121-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202608051141-1FG5NM/quality/20260805-115105121-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202608051141-1FG5NM/quality/20260805-115105121-recovery-context/evaluator-opinion.md"
     - ".agentplane/tasks/202608051141-1FG5NM/blueprint/resolved-snapshot.json"
   findings:
-    - "No blocking quality findings; runtime routing depends on the documented external Traefik network, websecure entrypoint, and letsencrypt resolver."
+    - "Main Compose has no expose or ports entry; TRAEFIK_NETWORK resolves to a caller-supplied network or dokploy-network by default, while the local overlay alone publishes port 3000."
 commit:
   hash: "815cc21bebdec9e85860499edfbe0204adf76f54"
   message: "🚧 1FG5NM task: record evaluator quality review"
