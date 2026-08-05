@@ -1,10 +1,11 @@
 ---
 id: "202608051057-H7TV5C"
 title: "Add AI fill action to proposal text"
-status: "DOING"
+result_summary: "verified-202608051057-H7TV5C"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 24
+revision: 26
 origin:
   system: "manual"
 depends_on: []
@@ -19,7 +20,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T11:04:12.834Z"
+  updated_at: "2026-08-05T11:04:34.308Z"
   updated_by: "CODER"
   note: "verified-202608051057-H7TV5C"
   attempts: 0
@@ -43,11 +44,16 @@ quality_review:
     - "npm run lint; npm run typecheck; npm run build; git diff --check; ap doctor; node .agentplane/policy/check-routing.mjs: all passed"
   findings:
     - "The prompt now requires client-specific proposal copy based on available needs and preferences and explicitly rejects generic villa-advertising or reusable marketing language; the documentation mirrors that contract and focused tests lock both clauses."
-commit: null
+commit:
+  hash: "591ec5fc11c0877ba2eb299d1d1ab816f85053b2"
+  message: "🚧 H7TV5C task: record evaluator quality review"
 comments:
   -
     author: "CODER"
     body: "Start: implement the approved proposal-text Fill with AI action through the existing Willow send path, then run focused and repository verification checks."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051057-H7TV5C. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 events:
   -
     type: "status"
@@ -86,8 +92,21 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051057-H7TV5C"
+  -
+    type: "verify"
+    at: "2026-08-05T11:04:34.308Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051057-H7TV5C"
+  -
+    type: "status"
+    at: "2026-08-05T11:04:34.521Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051057-H7TV5C. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
 doc_version: 3
-doc_updated_at: "2026-08-05T11:04:12.922Z"
+doc_updated_at: "2026-08-05T11:04:34.522Z"
 doc_updated_by: "CODER"
 description: "Add a Fill with AI robot-icon button to the Proposal text section on proposal create/edit pages. Clicking it opens the existing Willow chat and automatically sends the English user message: Fill in the commercial proposal text."
 sections:
@@ -205,9 +224,43 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T11:04:34.308Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051057-H7TV5C
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:04:12.922Z, excerpt_hash=sha256:7478bdfcded1b3a5f07729cf3d5e7c93cc5d9b358a86485ccba00f3ad746f118
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json
+    - old_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+    - current_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051057-H7TV5C
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 591ec5fc11c0877ba2eb299d1d1ab816f85053b2
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert only the task-scoped proposal text, proposal form, chat API, canonical prompt, prompt documentation, focused test changes, and task lifecycle artifacts; preserve unrelated repository history and user work."
   Findings: "No findings yet."
+extensions:
+  implementation_commit:
+    hash: "6c251750a6f5a21a2351a9f7efa18910db1ee32e"
+    message: "🚧 H7TV5C task: personalize AI proposal text"
 id_source: "generated"
 ---
 ## Summary
@@ -330,6 +383,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 6c251750a6f5a21a2351a9f7efa18910db1ee32e
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T11:04:34.308Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051057-H7TV5C
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T11:04:12.922Z, excerpt_hash=sha256:7478bdfcded1b3a5f07729cf3d5e7c93cc5d9b358a86485ccba00f3ad746f118
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051057-H7TV5C/blueprint/resolved-snapshot.json
+- old_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+- current_digest: 40330ad7f576175b4c7882fa9c94b957c839978fe24dab75c20030f0efa4839b
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051057-H7TV5C
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051057-H7TV5C --result verified-202608051057-H7TV5C --commit 591ec5fc11c0877ba2eb299d1d1ab816f85053b2
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
