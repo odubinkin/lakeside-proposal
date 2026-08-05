@@ -181,8 +181,8 @@ export function ProposalsList() {
               </div>
 
               <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <div className="-ml-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-xs font-bold text-secondary-foreground">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-base font-bold text-foreground">
                     {proposal.id}
                   </span>
                   {!proposal.completed && (

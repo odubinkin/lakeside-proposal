@@ -122,9 +122,23 @@ describe('proposal management and view', () => {
     expect(draftBadge).toBeInTheDocument()
     expect(draftId.parentElement).toContainElement(draftBadge)
     expect(draftId.parentElement).not.toBe(villaTitle.parentElement)
-    expect(draftId).toHaveClass('font-bold')
-    expect(draftBadge).toHaveClass('font-bold')
-    expect(draftId.parentElement).toHaveClass('-ml-2')
+    expect(draftId).toHaveClass('text-base', 'font-bold', 'text-foreground')
+    expect(draftId).not.toHaveClass(
+      'rounded-md',
+      'bg-secondary',
+      'px-2',
+      'py-0.5',
+      'font-mono',
+      'text-xs',
+      'text-secondary-foreground',
+    )
+    expect(draftBadge).toHaveClass(
+      'border-amber-300',
+      'bg-amber-100',
+      'font-bold',
+      'text-amber-800',
+    )
+    expect(draftId.parentElement).not.toHaveClass('-ml-2')
     expect(within(draftItem!).queryByRole('button', { name: 'View' })).not.toBeInTheDocument()
   })
 
