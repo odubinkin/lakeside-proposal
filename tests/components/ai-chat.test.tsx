@@ -82,6 +82,9 @@ describe('chat persistence and transport behavior', () => {
     expect(screen.getByText('Stored question')).toBeInTheDocument()
     expect(screen.getByText(/restored assistant/)).toBeInTheDocument()
     expect(screen.queryByText(/complete this proposal/)).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Fill the form with a sample client' }),
+    ).not.toBeInTheDocument()
   })
 
   it('migrates a draft transcript when the proposal receives its first ID', async () => {
@@ -130,6 +133,9 @@ describe('chat persistence and transport behavior', () => {
     const user = userEvent.setup()
     await user.type(screen.getByLabelText('Message'), 'Newest message')
     await user.click(screen.getByRole('button', { name: 'Send message' }))
+    expect(
+      screen.queryByRole('button', { name: 'Fill the form with a sample client' }),
+    ).not.toBeInTheDocument()
     expect(await screen.findByText('Done')).toBeInTheDocument()
     const request = JSON.parse(String(fetchMock.mock.calls[0][1]?.body)) as {
       messages: Array<{ content: string }>

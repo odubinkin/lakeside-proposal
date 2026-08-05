@@ -10,10 +10,13 @@ import {
   CheckCircle2,
   CircleAlert,
   Loader2,
+  Maximize2,
+  Minimize2,
   RotateCcw,
   Send,
   Sparkles,
   Square,
+  X,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
@@ -60,6 +63,7 @@ type PendingToolCall = {
 
 export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
   const [open, setOpen] = React.useState(false)
+  const [maximized, setMaximized] = React.useState(false)
   const [input, setInput] = React.useState('')
   const [draftConversationId] = React.useState(() => `draft:${crypto.randomUUID()}`)
   const conversationId = proposalId ?? draftConversationId
@@ -77,6 +81,9 @@ export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
   const previousConversationIdRef = React.useRef(conversationId)
   const controllerRef = React.useRef<AbortController | null>(null)
   const scrollRef = React.useRef<HTMLDivElement>(null)
+  const hasUserMessage = entries.some(
+    (entry) => entry.kind === 'text' && entry.role === 'user',
+  )
 
   React.useEffect(() => {
     formRef.current = form
@@ -259,7 +266,12 @@ export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        className="flex h-[600px] max-h-[85vh] max-w-md flex-col overflow-hidden p-0"
+        className={cn(
+          'flex min-h-[min(24rem,calc(100vh-2rem))] min-w-[min(20rem,calc(100vw-2rem))] flex-col overflow-hidden p-0',
+          maximized
+            ? 'h-[calc(100vh-2rem)]! w-[calc(100vw-2rem)]! max-h-none max-w-none resize-none'
+            : 'h-[600px] w-[28rem] max-h-[85vh] max-w-[calc(100vw-2rem)] resize',
+        )}
         labelledBy="chat-title"
         showClose={false}
       >
@@ -276,9 +288,25 @@ export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
               {active ? 'Working…' : 'Online'}
             </span>
           </div>
-          <Button variant="ghost" size="sm" className="ml-auto" onClick={() => setOpen(false)}>
-            Close
-          </Button>
+          <div className="ml-auto flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMaximized((current) => !current)}
+              aria-label={maximized ? 'Restore chat window' : 'Maximize chat window'}
+              aria-pressed={maximized}
+            >
+              {maximized ? <Minimize2 /> : <Maximize2 />}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setOpen(false)}
+              aria-label="Close chat"
+            >
+              <X />
+            </Button>
+          </div>
         </header>
 
         <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-5 py-5">
@@ -303,20 +331,22 @@ export function ChatBot({ form, proposalId, onApplyPatch }: ChatBotProps) {
         </div>
 
         <div className="border-t border-border px-4 pb-4 pt-3">
-          <div className="mb-2.5 flex flex-wrap gap-2">
-            {suggestions.map((suggestion) => (
-              <button
-                key={suggestion}
-                type="button"
-                onClick={() => handleSend(suggestion)}
-                disabled={active}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
-              >
-                <Sparkles className="size-3 text-primary" />
-                {suggestion}
-              </button>
-            ))}
-          </div>
+          {!hasUserMessage && (
+            <div className="mb-2.5 flex flex-wrap gap-2">
+              {suggestions.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  onClick={() => handleSend(suggestion)}
+                  disabled={active}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+                >
+                  <Sparkles className="size-3 text-primary" />
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          )}
           <form
             className="flex items-center gap-2"
             onSubmit={(event) => {

@@ -61,7 +61,36 @@ describe('Modal', () => {
 })
 
 describe('ChatBot', () => {
-  it('sends suggestions and typed prompts through the server endpoint', async () => {
+  it('provides icon controls plus resize and maximize behavior', async () => {
+    const user = userEvent.setup()
+    render(
+      <ChatBot
+        form={baseForm}
+        proposalId="PRO-CONTROLS"
+        onApplyPatch={(patch) => executeFormPatch(baseForm, patch)}
+      />,
+    )
+    await user.click(screen.getByRole('button', { name: 'Chat with assistant' }))
+
+    const dialog = screen.getByRole('dialog', { name: 'Willow · AI Assistant' })
+    expect(dialog).toHaveClass('resize')
+    expect(screen.getByRole('button', { name: 'Close chat' })).toBeInTheDocument()
+    expect(screen.queryByText('Close')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Maximize chat window' }))
+    expect(dialog).toHaveClass('resize-none', 'max-w-none')
+    expect(
+      screen.getByRole('button', { name: 'Restore chat window' }),
+    ).toHaveAttribute('aria-pressed', 'true')
+
+    await user.click(screen.getByRole('button', { name: 'Restore chat window' }))
+    expect(dialog).toHaveClass('resize')
+    expect(
+      screen.getByRole('button', { name: 'Maximize chat window' }),
+    ).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  it('sends a suggestion and typed prompt through the server endpoint', async () => {
     const fetchMock = mockAssistantFetch()
     render(
       <ChatBot
@@ -76,18 +105,16 @@ describe('ChatBot', () => {
       screen.getByRole('button', { name: 'Recommend add-ons for a family buyer' }),
     )
     expect(
+      screen.queryByRole('button', { name: 'Recommend add-ons for a family buyer' }),
+    ).not.toBeInTheDocument()
+    expect(
       await screen.findByText(/Furniture Package, Smart Home and Kitchen Upgrade/),
     ).toBeInTheDocument()
-
-    fireEvent.click(
-      screen.getByRole('button', { name: 'What is included in the Smart Home package?' }),
-    )
-    expect(await screen.findByText(/integrated lighting, climate control/)).toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'Hello' } })
     fireEvent.submit(screen.getByLabelText('Message').closest('form')!)
     expect(await screen.findByText(/Happy to help with that/)).toBeInTheDocument()
-    expect(fetchMock).toHaveBeenCalledTimes(3)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
     for (const call of fetchMock.mock.calls) {
       expect(call[0]).toBe('/api/ai/chat')
       const request = JSON.parse(String(call[1]?.body)) as Record<string, unknown>
