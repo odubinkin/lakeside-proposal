@@ -3,6 +3,9 @@ import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { afterEach, vi } from 'vitest'
 
+delete process.env.OPENROUTER_API_KEY
+delete process.env.OPENROUTER_MODEL
+
 afterEach(() => {
   cleanup()
   window.localStorage.clear()

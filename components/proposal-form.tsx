@@ -10,6 +10,11 @@ import { useSearchParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ChatBot } from '@/components/chat-bot'
+import type {
+  ProposalFormPatch,
+  ProposalFormState,
+} from '@/lib/ai/contracts'
+import { executeFormPatch, type FormToolResult } from '@/lib/ai/form-tool'
 import { ProposalLoading } from '@/components/proposal-loading'
 import { AddOnsSelector } from '@/components/proposal-form/add-ons-selector'
 import {
@@ -100,26 +105,37 @@ function ProposalEditor({
   villaParam: string
 }) {
   const isEditing = Boolean(editId)
-
-  const [villaId, setVillaId] = React.useState(editing?.villaId ?? villaParam)
+  const [formState, dispatchForm] = React.useReducer(proposalFormReducer, {
+    villaId: editing?.villaId ?? villaParam,
+    addOnIds: editing?.addOnIds ?? [],
+    proposalText: editing?.proposalText ?? '',
+    clientName: editing?.clientName ?? '',
+    manager: editing?.manager ?? '',
+    phone: editing?.phone ?? '',
+    email: editing?.email ?? '',
+    comment: editing?.comment ?? '',
+  })
+  const formStateRef = React.useRef(formState)
+  React.useEffect(() => {
+    formStateRef.current = formState
+  }, [formState])
+  const {
+    villaId,
+    addOnIds,
+    clientName,
+    phone,
+    email,
+    manager,
+    comment,
+    proposalText,
+  } = formState
   const villa = getVilla(villaId) ?? villas[0]
-
-  const [selected, setSelected] = React.useState<Set<string>>(
-    new Set(editing?.addOnIds ?? []),
-  )
-  const [clientName, setClientName] = React.useState(editing?.clientName ?? '')
-  const [phone, setPhone] = React.useState(editing?.phone ?? '')
-  const [email, setEmail] = React.useState(editing?.email ?? '')
-  const [manager, setManager] = React.useState(editing?.manager ?? '')
-  const [comment, setComment] = React.useState(editing?.comment ?? '')
-  const [proposalText, setProposalText] = React.useState(
-    editing?.proposalText ?? '',
-  )
   const [errors, setErrors] = React.useState<ProposalFormErrors>({})
   const [saveError, setSaveError] = React.useState('')
   const [isSaving, setIsSaving] = React.useState(false)
   const [isSaved, setIsSaved] = React.useState(false)
   const savedProposalId = React.useRef(editId)
+  const [conversationProposalId, setConversationProposalId] = React.useState(editId)
   const isSavingRef = React.useRef(false)
   const savedStateTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -138,40 +154,16 @@ function ProposalEditor({
    * @returns Nothing.
    */
   function toggleAddOn(id: string) {
-    setSelected((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
+    dispatchForm({ type: 'toggleAddOn', id })
   }
 
+  const selected = new Set(addOnIds)
   const selectedAddOns = addOns.filter((addOn) => selected.has(addOn.id))
   const addOnsTotal = selectedAddOns.reduce(
     (sum, addOn) => sum + getAddOnPrice(addOn, villa.price),
     0,
   )
   const total = villa.price + addOnsTotal
-
-  /**
-   * Populates the editor with the predefined demo client, copy, and add-on package.
-   *
-   * @returns Nothing.
-   */
-  function handleAutofill() {
-    setClientName('Oliver Bennett')
-    setPhone('+44 7911 123456')
-    setEmail('oliver.bennett@example.com')
-    setManager('Anna Petrova')
-    setComment(
-      'Client is relocating with family and prefers a fully turnkey, energy-efficient residence.',
-    )
-    setProposalText(
-      'We are delighted to present this residence as a fully turnkey, energy-efficient home tailored to your family’s relocation. This offer includes a curated furniture package, an integrated smart-home system and a premium kitchen upgrade, ensuring the villa is ready to enjoy from the moment you arrive. Our team will guide you through every step of the purchase to make the transition effortless.',
-    )
-    setSelected(new Set(['furniture', 'smart-home', 'kitchen']))
-    setErrors({})
-  }
 
   /**
    * Validates and persists the current proposal while preventing concurrent saves.
@@ -188,7 +180,6 @@ function ProposalEditor({
     setIsSaved(false)
     setSaveError('')
 
-    const addOnIds = Array.from(selected)
     const validationErrors = validateProposalForm({
       villaId,
       clientName,
@@ -220,6 +211,7 @@ function ProposalEditor({
         savedProposalId.current ?? undefined,
       )
       savedProposalId.current = saved.id
+      setConversationProposalId(saved.id)
       return saved
     } catch (error) {
       setSaveError(
@@ -268,15 +260,15 @@ function ProposalEditor({
   function handleClientDetailsChange(field: ClientDetailsField, value: string) {
     switch (field) {
       case 'clientName':
-        setClientName(value)
+        dispatchForm({ type: 'patch', patch: { clientName: value } })
         setErrors((current) => ({ ...current, clientName: undefined }))
         break
       case 'manager':
-        setManager(value)
+        dispatchForm({ type: 'patch', patch: { manager: value } })
         setErrors((current) => ({ ...current, manager: undefined }))
         break
       case 'phone':
-        setPhone(value)
+        dispatchForm({ type: 'patch', patch: { phone: value } })
         setErrors((current) => ({
           ...current,
           phone: undefined,
@@ -284,7 +276,7 @@ function ProposalEditor({
         }))
         break
       case 'email':
-        setEmail(value)
+        dispatchForm({ type: 'patch', patch: { email: value } })
         setErrors((current) => ({
           ...current,
           phone: undefined,
@@ -292,9 +284,25 @@ function ProposalEditor({
         }))
         break
       case 'comment':
-        setComment(value)
+        dispatchForm({ type: 'patch', patch: { comment: value } })
         break
     }
+  }
+
+  function handleAssistantPatch(patch: ProposalFormPatch): FormToolResult {
+    const result = executeFormPatch(formStateRef.current, patch)
+    if (!result.ok) return result
+
+    formStateRef.current = result.newForm
+    dispatchForm({ type: 'replace', form: result.newForm })
+    setErrors((current) => {
+      const next = { ...current }
+      for (const field of result.changedFields) {
+        if (field in next) delete next[field as keyof ProposalFormErrors]
+      }
+      return next
+    })
+    return result
   }
 
   return (
@@ -328,7 +336,7 @@ function ProposalEditor({
             villaId={villaId}
             error={errors.villaId}
             onVillaChange={(nextVillaId) => {
-              setVillaId(nextVillaId)
+              dispatchForm({ type: 'patch', patch: { villaId: nextVillaId } })
               setErrors((current) => ({ ...current, villaId: undefined }))
             }}
           />
@@ -343,7 +351,7 @@ function ProposalEditor({
             value={proposalText}
             error={errors.proposalText}
             onChange={(value) => {
-              setProposalText(value)
+              dispatchForm({ type: 'patch', patch: { proposalText: value } })
               setErrors((current) => ({
                 ...current,
                 proposalText: undefined,
@@ -372,7 +380,35 @@ function ProposalEditor({
         </PriceSummary>
       </form>
 
-      <ChatBot onAutofill={handleAutofill} />
+      <ChatBot
+        form={formState}
+        proposalId={conversationProposalId}
+        onApplyPatch={handleAssistantPatch}
+      />
     </div>
   )
+}
+
+type ProposalFormAction =
+  | { type: 'patch'; patch: Partial<ProposalFormState> }
+  | { type: 'replace'; form: ProposalFormState }
+  | { type: 'toggleAddOn'; id: string }
+
+function proposalFormReducer(
+  state: ProposalFormState,
+  action: ProposalFormAction,
+): ProposalFormState {
+  switch (action.type) {
+    case 'replace':
+      return { ...action.form, addOnIds: [...action.form.addOnIds] }
+    case 'patch':
+      return { ...state, ...action.patch }
+    case 'toggleAddOn':
+      return {
+        ...state,
+        addOnIds: state.addOnIds.includes(action.id)
+          ? state.addOnIds.filter((id) => id !== action.id)
+          : [...state.addOnIds, action.id],
+      }
+  }
 }

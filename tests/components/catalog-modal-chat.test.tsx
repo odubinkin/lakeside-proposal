@@ -1,10 +1,14 @@
 import * as React from 'react'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ChatBot } from '@/components/chat-bot'
 import { Modal } from '@/components/ui/modal'
 import { VillasCatalog } from '@/components/villas-catalog'
+import { handleChatRequest } from '@/app/api/ai/chat/route'
+import { executeFormPatch } from '@/lib/ai/form-tool'
+import { MockAssistantAdapter } from '@/lib/ai/server/mock-adapter'
+import { baseForm } from '@/tests/helpers/ai'
 
 describe('VillasCatalog', () => {
   it('filters by name and location, shows an empty state, and clears search', async () => {
@@ -57,36 +61,86 @@ describe('Modal', () => {
 })
 
 describe('ChatBot', () => {
-  it('handles recommendation, package, fallback, and autofill branches', () => {
-    vi.useFakeTimers()
-    const onAutofill = vi.fn()
-    render(<ChatBot onAutofill={onAutofill} />)
+  it('sends suggestions and typed prompts through the server endpoint', async () => {
+    const fetchMock = mockAssistantFetch()
+    render(
+      <ChatBot
+        form={baseForm}
+        proposalId="PRO-CHAT"
+        onApplyPatch={(patch) => executeFormPatch(baseForm, patch)}
+      />,
+    )
     fireEvent.click(screen.getByRole('button', { name: 'Chat with assistant' }))
 
     fireEvent.click(
       screen.getByRole('button', { name: 'Recommend add-ons for a family buyer' }),
     )
-    act(() => vi.advanceTimersByTime(700))
-    expect(screen.getByText(/Furniture Package, Smart Home and Kitchen Upgrade/)).toBeInTheDocument()
+    expect(
+      await screen.findByText(/Furniture Package, Smart Home and Kitchen Upgrade/),
+    ).toBeInTheDocument()
 
     fireEvent.click(
       screen.getByRole('button', { name: 'What is included in the Smart Home package?' }),
     )
-    act(() => vi.advanceTimersByTime(700))
-    expect(screen.getByText(/integrated lighting, climate control/)).toBeInTheDocument()
+    expect(await screen.findByText(/integrated lighting, climate control/)).toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'Hello' } })
     fireEvent.submit(screen.getByLabelText('Message').closest('form')!)
-    act(() => vi.advanceTimersByTime(700))
-    expect(screen.getByText(/Happy to help with that/)).toBeInTheDocument()
+    expect(await screen.findByText(/Happy to help with that/)).toBeInTheDocument()
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+    for (const call of fetchMock.mock.calls) {
+      expect(call[0]).toBe('/api/ai/chat')
+      const request = JSON.parse(String(call[1]?.body)) as Record<string, unknown>
+      expect(request).not.toHaveProperty('proposalId')
+      expect(JSON.stringify(request)).not.toContain('PRO-CHAT')
+    }
+  })
+
+  it('executes mock autofill through a correlated tool continuation', async () => {
+    const fetchMock = mockAssistantFetch()
+    const onApplyPatch = vi.fn((patch) => executeFormPatch(baseForm, patch))
+    render(
+      <ChatBot form={baseForm} proposalId="PRO-CHAT" onApplyPatch={onApplyPatch} />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Chat with assistant' }))
 
     fireEvent.click(
       screen.getByRole('button', { name: 'Fill the form with a sample client' }),
     )
-    act(() => vi.advanceTimersByTime(500))
-    expect(screen.getByText('Filling in the form…')).toBeInTheDocument()
-    act(() => vi.advanceTimersByTime(1400))
-    expect(onAutofill).toHaveBeenCalledOnce()
-    expect(screen.getByText('Form completed')).toBeInTheDocument()
+    expect(await screen.findByText('Filling in the form…')).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        'Form completed, fields changed: Add-ons, Proposal text, Client name, Manager, Phone, Email, Comment',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.queryByText('Filling in the form…')).not.toBeInTheDocument()
+    expect(onApplyPatch).toHaveBeenCalledOnce()
+    expect(await screen.findByText(/I've filled in the client details/)).toBeInTheDocument()
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    const continuationRequest = JSON.parse(String(fetchMock.mock.calls[1][1]?.body))
+    expect(continuationRequest).toMatchObject({
+      protocolVersion: 1,
+      continuation: {
+        toolName: 'edit_proposal_form',
+        result: { ok: true },
+      },
+    })
+    expect(continuationRequest.runId).not.toBe(
+      JSON.parse(String(fetchMock.mock.calls[0][1]?.body)).runId,
+    )
   })
 })
+
+function mockAssistantFetch() {
+  const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+    const request = new Request('http://localhost/api/ai/chat', {
+      method: 'POST',
+      headers: init?.headers,
+      body: init?.body,
+      signal: init?.signal ?? undefined,
+    })
+    return handleChatRequest(request, () => new MockAssistantAdapter())
+  })
+  vi.stubGlobal('fetch', fetchMock)
+  return fetchMock
+}

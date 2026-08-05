@@ -5,6 +5,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname),
+      'server-only': path.resolve(
+        import.meta.dirname,
+        'node_modules/next/dist/compiled/server-only/empty.js',
+      ),
     },
   },
   test: {
@@ -19,6 +23,9 @@ export default defineConfig({
       include: [
         'lib/data.ts',
         'lib/proposal-storage.ts',
+        'lib/ai/contracts.ts',
+        'lib/ai/form-tool.ts',
+        'lib/ai/stream.ts',
         'components/proposal-form/proposal-form.utils.ts',
       ],
       thresholds: {

@@ -4,6 +4,7 @@
 
 import devProposals from '@/data/proposals.dev.json'
 import type { Proposal } from '@/lib/data'
+import { deleteChatTranscript } from '@/lib/ai/chat-storage'
 
 export const PROPOSALS_STORAGE_KEY = 'lakeside.proposals.v1'
 export const PROPOSALS_SERVER_SNAPSHOT = '__server__'
@@ -180,4 +181,9 @@ export function saveProposal(input: ProposalInput, id?: string): Proposal {
  */
 export function deleteProposal(id: string): void {
   writeProposals(getProposals().filter((proposal) => proposal.id !== id))
+  try {
+    deleteChatTranscript(id)
+  } catch {
+    // Proposal deletion remains successful if chat cleanup is unavailable.
+  }
 }

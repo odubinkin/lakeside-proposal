@@ -102,12 +102,12 @@ test('requires confirmation before deleting a proposal', async ({ page }) => {
   await page.goto('/proposals')
 
   await page.getByRole('button', { name: 'Delete' }).click()
-  await expect(page.getByRole('dialog', { name: 'Delete this proposal?' })).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Delete proposal?' })).toBeVisible()
   await page.getByRole('button', { name: 'Cancel' }).click()
   await expect(page.getByText('Existing Client')).toBeVisible()
 
   await page.getByRole('button', { name: 'Delete' }).click()
-  await page.getByRole('button', { name: 'Confirm' }).click()
+  await page.getByRole('button', { name: 'Delete proposal' }).click()
   await expect(page.getByText('No proposals yet')).toBeVisible()
   expect(
     await page.evaluate((key) => JSON.parse(window.localStorage.getItem(key) ?? '[]'), storageKey),
@@ -130,4 +130,56 @@ test('handles validation, corrupt storage, and missing deep links safely', async
   await expect(page.getByRole('heading', { name: 'Proposal not found' })).toBeVisible()
   await page.goto('/proposals/view?id=PRO-MISSING')
   await expect(page.getByRole('heading', { name: 'Proposal not found' })).toBeVisible()
+})
+
+test('uses Willow mock tool flow and keeps transcripts proposal-scoped', async ({ page }) => {
+  await seedProposals(page, [])
+  await page.goto('/proposals/new?villa=lagoon-6')
+  await page.getByRole('button', { name: 'Chat with assistant' }).click()
+  await page.getByRole('button', { name: 'Fill the form with a sample client' }).click()
+
+  await expect(page.getByText('Filling in the form…')).toBeVisible()
+  await expect(
+    page.getByText(
+      'Form completed, fields changed: Add-ons, Proposal text, Client name, Manager, Phone, Email, Comment',
+    ),
+  ).toBeVisible()
+  await expect(page.getByText('Filling in the form…')).toHaveCount(0)
+  await expect(page.getByLabel('Client name')).toHaveValue('Oliver Bennett')
+  await expect(page.getByLabel('Email')).toHaveValue('oliver.bennett@example.com')
+  await expect(page.getByRole('button', { name: /Furniture Package/ })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await expect(page.getByRole('button', { name: /Smart Home Integrated/ })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await expect(page.getByRole('button', { name: /Kitchen Upgrade/ })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await expect(page.getByText(/I've filled in the client details/)).toBeVisible()
+
+  await page.getByRole('button', { name: 'Close' }).click()
+  await page.getByRole('button', { name: 'Save proposal' }).click()
+  const savedId = await page.evaluate((key) => {
+    const proposals = JSON.parse(window.localStorage.getItem(key) ?? '[]')
+    return proposals[0].id as string
+  }, storageKey)
+  await page.goto(`/proposals/edit?id=${encodeURIComponent(savedId)}`)
+  await page.getByRole('button', { name: 'Chat with assistant' }).click()
+  await expect(page.getByText(/I've filled in the client details/)).toBeVisible()
+
+  await page.evaluate(
+    ({ key, proposal }) => {
+      const current = JSON.parse(window.localStorage.getItem(key) ?? '[]')
+      window.localStorage.setItem(key, JSON.stringify([...current, proposal]))
+    },
+    { key: storageKey, proposal: existingProposal },
+  )
+  await page.goto(`/proposals/edit?id=${existingProposal.id}`)
+  await page.getByRole('button', { name: 'Chat with assistant' }).click()
+  await expect(page.getByText(/I've filled in the client details/)).toHaveCount(0)
+  await expect(page.getByText(/Hi, I'm Willow/)).toBeVisible()
 })
