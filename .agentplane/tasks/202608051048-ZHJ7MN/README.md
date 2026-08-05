@@ -1,10 +1,11 @@
 ---
 id: "202608051048-ZHJ7MN"
 title: "Improve assistant chat window controls"
-status: "DOING"
+result_summary: "Improved assistant chat window controls with resize, maximize, and first-message suggestion hiding"
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 15
+revision: 18
 origin:
   system: "manual"
 depends_on: []
@@ -18,7 +19,7 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-08-05T10:55:25.617Z"
+  updated_at: "2026-08-05T10:55:44.562Z"
   updated_by: "CODER"
   note: "verified-202608051048-ZHJ7MN"
   attempts: 0
@@ -38,11 +39,19 @@ quality_review:
     - "commit 465d39213403; npm test -- --run tests/components/catalog-modal-chat.test.tsx tests/components/ai-chat.test.tsx; npm run lint; npm run typecheck; npm run build; Playwright CLI local Chromium inspection"
   findings:
     - "Accessible icon controls, real resize/maximize/restore behavior including post-resize maximization, responsive viewport constraints, and suggestion hiding after the first user message are covered by tests and browser evidence."
-commit: null
+commit:
+  hash: "04a43a6862e3c03ab2f8aa03a3980dc688402174"
+  message: "🚧 ZHJ7MN task: record evaluator quality review"
 comments:
   -
     author: "CODER"
     body: "Start: implement the approved assistant chat window controls and suggestion visibility changes with focused tests."
+  -
+    author: "CODER"
+    body: "Verified: verified-202608051048-ZHJ7MN. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    author: "CODER"
+    body: "Verified: all declared checks and the independent evaluator passed; Chromium confirmed resize, maximize/restore, and responsive bounds."
 events:
   -
     type: "status"
@@ -69,8 +78,28 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202608051048-ZHJ7MN"
+  -
+    type: "verify"
+    at: "2026-08-05T10:55:44.562Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202608051048-ZHJ7MN"
+  -
+    type: "status"
+    at: "2026-08-05T10:55:44.771Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: verified-202608051048-ZHJ7MN. Guided shortcut recorded verification and is closing the direct task with traceable commit metadata."
+  -
+    type: "status"
+    at: "2026-08-05T10:56:22.818Z"
+    author: "CODER"
+    from: "DONE"
+    to: "DONE"
+    note: "Verified: all declared checks and the independent evaluator passed; Chromium confirmed resize, maximize/restore, and responsive bounds."
 doc_version: 3
-doc_updated_at: "2026-08-05T10:55:25.722Z"
+doc_updated_at: "2026-08-05T10:56:22.821Z"
 doc_updated_by: "CODER"
 description: "Replace the textual Close control with an accessible icon, add window resize and maximize/restore behavior, and hide action suggestions after the first user message."
 sections:
@@ -186,9 +215,43 @@ sections:
     - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
+    ### 2026-08-05T10:55:44.562Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202608051048-ZHJ7MN
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:55:25.722Z, excerpt_hash=sha256:25fcc1b48376a9196778b52b957b0de3a8b2327a99b2f7fe1a2c8eac1a8eddc9
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051048-ZHJ7MN/blueprint/resolved-snapshot.json
+    - old_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+    - current_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202608051048-ZHJ7MN
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 04a43a6862e3c03ab2f8aa03a3980dc688402174
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+    - risks: none
+
     <!-- END VERIFICATION RESULTS -->
   Rollback Plan: "Revert only the task-scoped changes in components/chat-bot.tsx and the focused chat tests; leave unrelated repository history and artifacts untouched."
   Findings: "None at planning time."
+extensions:
+  implementation_commit:
+    hash: "465d392134033876772b227bc0d00540b0cff375"
+    message: "🚧 ZHJ7MN task: implement assistant chat window controls"
 id_source: "generated"
 ---
 ## Summary
@@ -309,6 +372,36 @@ DecisionContextRef:
 - operator_action: run_exact_argv
 - can_execute_now: true
 - safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 465d392134033876772b227bc0d00540b0cff375
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
+- risks: none
+
+### 2026-08-05T10:55:44.562Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202608051048-ZHJ7MN
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-08-05T10:55:25.722Z, excerpt_hash=sha256:25fcc1b48376a9196778b52b957b0de3a8b2327a99b2f7fe1a2c8eac1a8eddc9
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202608051048-ZHJ7MN/blueprint/resolved-snapshot.json
+- old_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+- current_digest: 15c2a1da43206e2d5bd4880db49e62d797926320d1e557c53f86188a8940ee13
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202608051048-ZHJ7MN
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202608051048-ZHJ7MN --result verified-202608051048-ZHJ7MN --commit 04a43a6862e3c03ab2f8aa03a3980dc688402174
 - diagnostic_command: none
 - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
 - freshness: route=computed_local remote=remote_skipped
