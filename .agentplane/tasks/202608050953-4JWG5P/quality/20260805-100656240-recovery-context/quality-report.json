@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task_id": "202608050953-4JWG5P",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-08-05T10:06:56.240Z",
+  "verdict": "pass",
+  "summary": "First-save URL replacement and responsive proposal ID badge are implemented and verified.",
+  "evaluated_sha": "12213dfde689debdaa3c3913d7c85ae0e5a4aac7",
+  "blueprint_digest": "7c25c76d26fdbb1e72959447caf14ca61a9954eaad6a8c6a484baccfaa64c656",
+  "findings": [
+    "The browser address changes to the saved edit route without a document reload; refresh restores the same proposal, and the badge shows only the proposal identifier after assignment."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202608050953-4JWG5P/README.md",
+    "npm test -- --run; npm run lint; npm run typecheck; npm run build; isolated Playwright proposal-flows.spec.ts: 5 passed; node .agentplane/policy/check-routing.mjs"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
