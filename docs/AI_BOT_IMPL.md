@@ -68,6 +68,8 @@ Every real-model invocation is assembled in this order:
 
 The prompt identifies form, catalog, conversation, and tool-result strings as untrusted data. It restricts Willow to Redwood Lakeside sales and proposal preparation, requires conversational replies to follow the language of the user's current message while keeping form values in English, requires catalog grounding, prohibits unsupported commercial/financial/legal claims, and requires every returned field-validation error to be explained without claiming partial success.
 
+When Willow populates `proposalText`, it omits a heading and every detail rendered automatically by the generated proposal document: property area, bedroom count, bathroom count, selected add-ons or package components and their individual prices, the base villa price, and the final proposal total.
+
 The deterministic mock receives the same trusted context object but does not serialize an LLM prompt or contact a network service.
 
 ## Client-executed form tool
