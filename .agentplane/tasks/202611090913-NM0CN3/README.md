@@ -4,7 +4,7 @@ title: "Upgrade runtime and dependencies and resolve security advisories"
 status: "DOING"
 priority: "med"
 owner: "CODER"
-revision: 16
+revision: 18
 origin:
   system: "manual"
 depends_on: []
@@ -18,10 +18,33 @@ plan_approval:
   note: null
 verification:
   state: "ok"
-  updated_at: "2026-11-09T09:29:25.724Z"
+  updated_at: "2026-11-09T09:29:49.497Z"
   updated_by: "CODER"
-  note: "Verified clean npm ci, zero npm and pnpm audit vulnerabilities, Node LTS selectors, TypeScript 7.0.2 compiler, Next.js 16.4.5, lint, typecheck, 111 unit/component tests with coverage, 5 Chromium E2E tests, production and Docker builds, frozen pnpm lockfile, routing and doctor checks."
+  note: "verified-202611090913-NM0CN3"
   attempts: 0
+quality_review:
+  state: "pass"
+  updated_at: "2026-11-09T09:29:40.742Z"
+  updated_by: "EVALUATOR"
+  note: "Approved runtime, compiler, framework and vulnerability remediation is complete and all acceptance checks pass on implementation commit 0a7046b04ce5."
+  evaluated_sha: "0a7046b04ce59719b808014a89f6dcc23e7140f5"
+  blueprint_digest: "c86cf696edc033ed779bce8178bcf8ab695af4976e1e477cffdfe3e153ef4a69"
+  evidence_refs:
+    - ".agentplane/tasks/202611090913-NM0CN3/README.md"
+    - ".agentplane/tasks/202611090913-NM0CN3/quality/20261109-092940742-recovery-context/quality-report.json"
+    - ".agentplane/tasks/202611090913-NM0CN3/quality/20261109-092940742-recovery-context/evaluator-prompt.md"
+    - ".agentplane/tasks/202611090913-NM0CN3/quality/20261109-092940742-recovery-context/evaluator-opinion.md"
+    - ".agentplane/tasks/202611090913-NM0CN3/blueprint/resolved-snapshot.json"
+    - ".agentplane/cache/audit-final.json"
+    - ".agentplane/cache/pnpm-audit.json"
+    - ".agentplane/cache/coverage-final.log"
+    - ".agentplane/cache/e2e-clock.log"
+    - ".agentplane/cache/docker-build-final.log"
+  findings:
+    - "Both npm and pnpm audit complete dependency graphs with zero findings; Docker clean npm ci also reports zero vulnerabilities."
+    - "Latest stable Next.js 16.4.5 and native TypeScript 7.0.2 are installed; TypeScript 6 is limited to the official tooling compatibility API. Node uses moving LTS selectors with a minimum engine version, matching user steering."
+    - "All 111 unit/component tests, coverage gates, 5 E2E scenarios, lint, typecheck, production build, Docker build and frozen pnpm lockfile check pass. Test clock fix preserves transient progress assertions without changing production behavior."
+    - "Generated Next.js agent-policy additions were removed; implementation diff contains only task-scoped files and preserved CSS license. Doctor reports an unrelated pre-existing managed hook shim warning."
 commit: null
 comments:
   -
@@ -41,8 +64,14 @@ events:
     author: "CODER"
     state: "ok"
     note: "Verified clean npm ci, zero npm and pnpm audit vulnerabilities, Node LTS selectors, TypeScript 7.0.2 compiler, Next.js 16.4.5, lint, typecheck, 111 unit/component tests with coverage, 5 Chromium E2E tests, production and Docker builds, frozen pnpm lockfile, routing and doctor checks."
+  -
+    type: "verify"
+    at: "2026-11-09T09:29:49.497Z"
+    author: "CODER"
+    state: "ok"
+    note: "verified-202611090913-NM0CN3"
 doc_version: 3
-doc_updated_at: "2026-11-09T09:29:25.798Z"
+doc_updated_at: "2026-11-09T09:29:49.576Z"
 doc_updated_by: "CODER"
 description: "Use latest stable Node.js LTS, TypeScript 7 if published, and latest stable Next.js; resolve dependency vulnerabilities and verify application checks. User approved plan and network access."
 sections:
@@ -82,6 +111,36 @@ sections:
     - freshness: route=computed_local remote=remote_skipped
     - repeat_allowed: false
     - repeat_stop_condition: do not repeat task verify-show; complete the approved semantic work and verification before recomputing the route
+    - risks: none
+
+    ### 2026-11-09T09:29:49.497Z — VERIFY — ok
+
+    By: CODER
+
+    Note: verified-202611090913-NM0CN3
+    Attempts: 0
+
+    VerifyStepsRef: doc_version=3, doc_updated_at=2026-11-09T09:29:25.798Z, excerpt_hash=sha256:ab8e425c22b94439f99f81bc9745c16e6b9e02984752f57a2efc5abd46439592
+
+    Details:
+
+    BlueprintSnapshotRef:
+    - state: current
+    - path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202611090913-NM0CN3/blueprint/resolved-snapshot.json
+    - old_digest: c86cf696edc033ed779bce8178bcf8ab695af4976e1e477cffdfe3e153ef4a69
+    - current_digest: c86cf696edc033ed779bce8178bcf8ab695af4976e1e477cffdfe3e153ef4a69
+    - route_changed: no
+    - safe_command: agentplane blueprint snapshot 202611090913-NM0CN3
+
+    DecisionContextRef:
+    - operator_action: run_exact_argv
+    - can_execute_now: true
+    - safe_command: agentplane task complete 202611090913-NM0CN3 --result verified-202611090913-NM0CN3 --commit 0a7046b04ce59719b808014a89f6dcc23e7140f5
+    - diagnostic_command: none
+    - source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+    - freshness: route=computed_local remote=remote_skipped
+    - repeat_allowed: true
+    - repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
     - risks: none
 
     <!-- END VERIFICATION RESULTS -->
@@ -151,6 +210,36 @@ DecisionContextRef:
 - freshness: route=computed_local remote=remote_skipped
 - repeat_allowed: false
 - repeat_stop_condition: do not repeat task verify-show; complete the approved semantic work and verification before recomputing the route
+- risks: none
+
+### 2026-11-09T09:29:49.497Z — VERIFY — ok
+
+By: CODER
+
+Note: verified-202611090913-NM0CN3
+Attempts: 0
+
+VerifyStepsRef: doc_version=3, doc_updated_at=2026-11-09T09:29:25.798Z, excerpt_hash=sha256:ab8e425c22b94439f99f81bc9745c16e6b9e02984752f57a2efc5abd46439592
+
+Details:
+
+BlueprintSnapshotRef:
+- state: current
+- path: /Users/odubinkin/Projects/lakeside-proposal/.agentplane/tasks/202611090913-NM0CN3/blueprint/resolved-snapshot.json
+- old_digest: c86cf696edc033ed779bce8178bcf8ab695af4976e1e477cffdfe3e153ef4a69
+- current_digest: c86cf696edc033ed779bce8178bcf8ab695af4976e1e477cffdfe3e153ef4a69
+- route_changed: no
+- safe_command: agentplane blueprint snapshot 202611090913-NM0CN3
+
+DecisionContextRef:
+- operator_action: run_exact_argv
+- can_execute_now: true
+- safe_command: agentplane task complete 202611090913-NM0CN3 --result verified-202611090913-NM0CN3 --commit 0a7046b04ce59719b808014a89f6dcc23e7140f5
+- diagnostic_command: none
+- source_of_truth: route=task_next_action diagnostic=task_next_action remote=not_checked
+- freshness: route=computed_local remote=remote_skipped
+- repeat_allowed: true
+- repeat_stop_condition: after any non-zero exit or completed mutation, recompute task next-action before a second step
 - risks: none
 
 <!-- END VERIFICATION RESULTS -->
