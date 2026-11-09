@@ -31,8 +31,8 @@ Restart the development server after changing these values. Willow selects OpenR
 
 ## Technology stack
 
-- Next.js 16 with the App Router
-- React 19 and TypeScript
+- Next.js 16.4.5 with the App Router
+- React 19 and TypeScript 7.0.2
 - Tailwind CSS 4
 - Base UI and reusable local UI components
 - Lucide React icons
@@ -41,6 +41,11 @@ Restart the development server after changing these values. Willow selects OpenR
 - ESLint with the Next.js configuration
 - Vitest, jsdom, and Testing Library for unit and component tests
 - Playwright and axe-core for browser and accessibility checks
+
+Type checking uses the stable TypeScript 7 compiler (`tsc`), installed as
+`@typescript/native`. The `typescript` alias supplies Microsoft's TypeScript 6
+compatibility API for ESLint and Next.js tooling, following the
+[official side-by-side setup](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0).
 
 ## Project structure
 
@@ -56,7 +61,7 @@ tests/        Vitest unit, component, and shared setup files
 
 ## Prerequisites
 
-- Node.js compatible with Next.js 16 (a current LTS release is recommended)
+- Current Node.js LTS (26 or newer); `.nvmrc` uses `lts/*` and Docker uses `node:lts-alpine`
 - npm, included with Node.js
 
 ## Installation
@@ -64,7 +69,9 @@ tests/        Vitest unit, component, and shared setup files
 Clone the repository, open its directory, and install dependencies:
 
 ```bash
-npm install
+nvm install --lts
+nvm use
+npm ci
 ```
 
 ## Development

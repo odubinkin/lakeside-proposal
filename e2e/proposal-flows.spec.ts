@@ -209,12 +209,16 @@ test('handles validation, corrupt storage, and missing deep links safely', async
 })
 
 test('uses Willow mock tool flow and keeps transcripts proposal-scoped', async ({ page }) => {
+  await page.clock.install()
   await seedProposals(page, [])
   await page.goto('/proposals/new?villa=lagoon-6')
   await page.getByRole('button', { name: 'Chat with assistant' }).click()
+  // Hold the brief progress state until the assertion observes it.
+  await page.clock.pauseAt(new Date(Date.now() + 1_000))
   await page.getByRole('button', { name: 'Fill the form with a sample client' }).click()
 
   await expect(page.getByText('Filling in the form…')).toBeVisible()
+  await page.clock.resume()
   await expect(
     page.getByText(
       'Form completed, fields changed: Add-ons, Proposal text, Client name, Manager, Phone, Email, Comment',

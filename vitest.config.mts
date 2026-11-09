@@ -13,6 +13,8 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // Use jsdom storage instead of Node's native storage, which requires a file.
+    execArgv: ['--no-experimental-webstorage'],
     setupFiles: ['./tests/setup.tsx'],
     include: ['tests/unit/**/*.test.ts', 'tests/components/**/*.test.tsx'],
     restoreMocks: true,

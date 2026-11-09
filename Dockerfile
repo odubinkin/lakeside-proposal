@@ -1,11 +1,11 @@
-FROM node:22-alpine AS dependencies
+FROM node:lts-alpine AS dependencies
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:22-alpine AS builder
+FROM node:lts-alpine AS builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:22-alpine AS runner
+FROM node:lts-alpine AS runner
 
 WORKDIR /app
 
