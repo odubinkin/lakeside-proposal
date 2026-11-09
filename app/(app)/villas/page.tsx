@@ -17,7 +17,7 @@ export default function VillasPage() {
           Sustainable luxury villas, ready for your proposal
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-pretty text-muted-foreground">
-          Browse the Redwood Lakeside portfolio and build a tailored commercial
+          Browse the Avelora Lakeside portfolio and build a tailored commercial
           proposal for your client in minutes. Select a residence to begin.
         </p>
       </section>

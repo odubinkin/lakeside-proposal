@@ -244,7 +244,7 @@ export function ProposalView() {
             from the date of issue.
           </p>
           <p className="mt-2 font-medium text-foreground">
-            Redwood Lakeside Development Co., Ltd. · Phuket, Thailand
+            Avelora Lakeside Development Co., Ltd. · Phuket, Thailand
           </p>
         </footer>
       </article>

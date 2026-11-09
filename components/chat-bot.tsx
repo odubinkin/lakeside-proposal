@@ -49,7 +49,7 @@ const suggestions = [
 ]
 
 const welcomeText =
-  "Hi, I'm Willow, your Redwood Lakeside assistant. I can help you complete this proposal, suggest add-ons, or answer questions about the villa."
+  "Hi, I'm Willow, your Avelora Lakeside assistant. I can help you complete this proposal, suggest add-ons, or answer questions about the villa."
 
 const markdownComponents: Components = {
   h1: ({ children }) => <h1 className="mb-2 mt-3 text-lg font-semibold first:mt-0">{children}</h1>,

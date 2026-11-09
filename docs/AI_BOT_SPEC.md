@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document defines the target implementation of Willow, the AI assistant embedded in the Redwood Lakeside commercial proposal form. It is an implementation contract, not a description of functionality that has already shipped.
+This document defines the target implementation of Willow, the AI assistant embedded in the Avelora Lakeside commercial proposal form. It is an implementation contract, not a description of functionality that has already shipped.
 
 The implementation shall preserve the existing chat user experience and deterministic mock scenarios while moving all assistant requests through a Next.js server endpoint. When OpenRouter is configured, the endpoint shall use a real language model through LangChain for TypeScript. When it is not configured, the same endpoint shall use the deterministic mock assistant.
 
@@ -31,7 +31,7 @@ This scope does not include:
 - training, fine-tuning, or evaluating a custom model;
 - allowing the model to write directly to application state, browser storage, or catalogs;
 - changes to the proposal persistence model; or
-- support for topics unrelated to Redwood Lakeside villa sales and proposal preparation.
+- support for topics unrelated to Avelora Lakeside villa sales and proposal preparation.
 
 ## 4. Current baseline
 
@@ -250,7 +250,7 @@ Proposal and draft IDs exist only to namespace browser storage. They shall not b
 
 The existing Willow welcome message shall appear for a conversation with no stored history:
 
-> Hi, I'm Willow, your Redwood Lakeside assistant. I can help you complete this proposal, suggest add-ons, or answer questions about the villa.
+> Hi, I'm Willow, your Avelora Lakeside assistant. I can help you complete this proposal, suggest add-ons, or answer questions about the villa.
 
 It shall not be duplicated when stored history is restored.
 
@@ -463,9 +463,9 @@ The server context shall use explicit delimiters and valid JSON serialization. I
 The initial implementation shall use the following English system prompt. Changes to it are product changes and require prompt tests to be updated.
 
 ```text
-Your name is Willow. You are an assistant that helps prepare commercial proposal forms for clients buying villas from Redwood Lakeside in Phuket.
+Your name is Willow. You are an assistant that helps prepare commercial proposal forms for clients buying villas from Avelora Lakeside in Phuket.
 
-Stay strictly within this scope: Redwood Lakeside villa sales, the selected villa and available add-ons, and completing or editing the current commercial proposal form. Do not answer questions unrelated to this scope. For example, if a user asks for an apple pie recipe, politely explain that you do not specialize in cooking and offer to help prepare the commercial proposal instead.
+Stay strictly within this scope: Avelora Lakeside villa sales, the selected villa and available add-ons, and completing or editing the current commercial proposal form. Do not answer questions unrelated to this scope. For example, if a user asks for an apple pie recipe, politely explain that you do not specialize in cooking and offer to help prepare the commercial proposal instead.
 
 Always reply in the same language as the user's current message. Regardless of the reply language, always populate the proposal form in English when calling the edit_proposal_form tool. Translate natural-language form content into English and transliterate personal names into Latin script when needed. Preserve email addresses, phone numbers, villa IDs, add-on IDs, and other language-neutral identifiers exactly.
 
@@ -486,7 +486,7 @@ If a form tool result reports validation errors, explain every reported field er
 
 For an unrelated request such as `Give me an apple pie recipe`, an acceptable response is:
 
-> Sorry, I don't specialize in cooking, but I can help you prepare a Redwood Lakeside commercial proposal.
+> Sorry, I don't specialize in cooking, but I can help you prepare an Avelora Lakeside commercial proposal.
 
 The precise wording may vary in real-model mode, but the refusal and redirection are mandatory. Mock mode remains limited to the hardcoded branches in section 4.2 and does not need semantic understanding beyond them.
 

@@ -28,7 +28,7 @@ const editProposalFormTool = tool(
   {
     name: EDIT_PROPOSAL_FORM_TOOL,
     description:
-      'Request an atomic change to one or more editable fields in the current Redwood Lakeside commercial proposal form. Include only fields the user asked to change.',
+      'Request an atomic change to one or more editable fields in the current Avelora Lakeside commercial proposal form. Include only fields the user asked to change.',
     schema: proposalFormPatchSchema,
   },
 )

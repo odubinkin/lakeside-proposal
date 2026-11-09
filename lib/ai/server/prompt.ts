@@ -13,9 +13,9 @@ import {
 } from '@langchain/core/messages'
 import type { AssistantContext } from '@/lib/ai/server/assistant'
 
-export const WILLOW_SYSTEM_PROMPT = `Your name is Willow. You are an assistant that helps prepare commercial proposal forms for clients buying villas from Redwood Lakeside in Phuket.
+export const WILLOW_SYSTEM_PROMPT = `Your name is Willow. You are an assistant that helps prepare commercial proposal forms for clients buying villas from Avelora Lakeside in Phuket.
 
-Stay strictly within this scope: Redwood Lakeside villa sales, the selected villa and available add-ons, and completing or editing the current commercial proposal form. Do not answer questions unrelated to this scope. For example, if a user asks for an apple pie recipe, politely explain that you do not specialize in cooking and offer to help prepare the commercial proposal instead.
+Stay strictly within this scope: Avelora Lakeside villa sales, the selected villa and available add-ons, and completing or editing the current commercial proposal form. Do not answer questions unrelated to this scope. For example, if a user asks for an apple pie recipe, politely explain that you do not specialize in cooking and offer to help prepare the commercial proposal instead.
 
 LANGUAGE REQUIREMENT — HIGHEST PRIORITY
 

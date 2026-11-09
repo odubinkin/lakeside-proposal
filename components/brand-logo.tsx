@@ -1,5 +1,5 @@
 /**
- * @file Provides the reusable Redwood Lakeside logo and optional wordmark component.
+ * @file Provides the reusable Avelora Lakeside logo and optional wordmark component.
  */
 
 import Image from 'next/image'
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
  * @param props.wordmarkClassName - Additional classes for the primary wordmark text.
  * @param props.showWordmark - Whether to render the text wordmark beside the image.
  * @param props.size - Width and height of the square logo image in pixels.
- * @returns The configured Redwood Lakeside brand element.
+ * @returns The configured Avelora Lakeside brand element.
  */
 export function BrandLogo({
   className,
@@ -29,8 +29,8 @@ export function BrandLogo({
   return (
     <span className={cn('inline-flex items-center gap-2.5', className)}>
       <Image
-        src="/redwood-lakeside-logo.png"
-        alt="Redwood Lakeside"
+        src="/avelora-lakeside-logo.svg"
+        alt="Avelora Lakeside"
         width={size}
         height={size}
         className="h-auto w-auto"
@@ -45,7 +45,7 @@ export function BrandLogo({
               wordmarkClassName,
             )}
           >
-            Redwood Lakeside
+            Avelora Lakeside
           </span>
           <span className="text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
             Phuket

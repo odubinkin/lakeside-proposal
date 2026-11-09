@@ -28,7 +28,7 @@ export function TopNav() {
         <Link
           href="/villas"
           className="flex h-full shrink-0 items-center"
-          aria-label="Redwood Lakeside home"
+          aria-label="Avelora Lakeside home"
         >
           <BrandLogo
             size={64}

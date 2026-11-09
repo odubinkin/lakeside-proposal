@@ -20,9 +20,9 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: 'Redwood Lakeside — Villa Proposal Studio',
+  title: 'Avelora Lakeside — Villa Proposal Studio',
   description:
-    'Generate premium commercial proposals for luxury villas in Phuket by Redwood Lakeside.',
+    'Generate premium commercial proposals for luxury villas in Phuket by Avelora Lakeside.',
   generator: 'v0.app',
 }
 
