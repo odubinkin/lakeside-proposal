@@ -1,10 +1,11 @@
 ---
 id: "202611090821-N8G0B3"
 title: "Replace company identity with Avelora Lakeside"
-status: "DOING"
+result_summary: "Replaced company identity throughout app and documentation with fictional Avelora Lakeside and matching AL leaf logo and favicon."
+status: "DONE"
 priority: "med"
 owner: "CODER"
-revision: 15
+revision: 16
 origin:
   system: "manual"
 depends_on: []
@@ -42,7 +43,9 @@ quality_review:
     - ".agentplane/tasks/202611090821-N8G0B3/blueprint/resolved-snapshot.json"
   findings:
     - "Reviewed the scoped diff: old company text and assets removed; new shared logo and favicon preserve the visual style; AI prompts and docs use the new name; no layout, storage, lockfile or policy drift. All 111 tests, lint and typecheck pass. Existing doctor hook warning is unrelated."
-commit: null
+commit:
+  hash: "d0d1d2939a4495bbac211c2e0f010f40b953f36d"
+  message: "🎨 N8G0B3 brand: replace company identity with Avelora Lakeside"
 comments:
   -
     author: "CODER"
@@ -53,6 +56,9 @@ comments:
   -
     author: "CODER"
     body: "Start: continue direct-mode task in current checkout."
+  -
+    author: "CODER"
+    body: "Verified: Avelora Lakeside identity replaces prior company text and assets. Logo inspected; lint, typecheck and all 111 tests pass."
 events:
   -
     type: "status"
@@ -99,8 +105,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "verified-202611090821-N8G0B3"
+  -
+    type: "status"
+    at: "2026-11-09T09:05:47.313Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Avelora Lakeside identity replaces prior company text and assets. Logo inspected; lint, typecheck and all 111 tests pass."
 doc_version: 3
-doc_updated_at: "2026-11-09T09:05:36.709Z"
+doc_updated_at: "2026-11-09T09:05:47.315Z"
 doc_updated_by: "CODER"
 description: "Approved by user: replace all existing company name references, logo and favicon with fictional Avelora Lakeside branding while preserving typography, palette, layout and print presentation. Include assistant prompts and documentation. Local work only."
 sections:
