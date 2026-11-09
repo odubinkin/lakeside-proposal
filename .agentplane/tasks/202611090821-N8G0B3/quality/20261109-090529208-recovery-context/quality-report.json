@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "202611090821-N8G0B3",
+  "evaluator_id": "recovery-context",
+  "evaluator_profile": "EVALUATOR",
+  "generated_at": "2026-11-09T09:05:29.208Z",
+  "verdict": "pass",
+  "summary": "Approved identity replacement is complete and verified locally.",
+  "evaluated_sha": "d0d1d2939a4495bbac211c2e0f010f40b953f36d",
+  "blueprint_digest": "8e7fcdbb82cb77b855c43b7adfe3878ef0e99723c4cdb2b40809d3d423072f05",
+  "findings": [
+    "Reviewed the scoped diff: old company text and assets removed; new shared logo and favicon preserve the visual style; AI prompts and docs use the new name; no layout, storage, lockfile or policy drift. All 111 tests, lint and typecheck pass. Existing doctor hook warning is unrelated."
+  ],
+  "evidence_refs": [
+    ".agentplane/tasks/202611090821-N8G0B3/README.md"
+  ],
+  "missing_tests": [],
+  "hidden_assumptions": [],
+  "residual_risks": []
+}
